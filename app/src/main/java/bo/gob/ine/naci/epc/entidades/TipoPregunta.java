@@ -1,0 +1,43 @@
+package bo.gob.ine.naci.epc.entidades;
+
+/**
+ * Created by INE.
+ */
+public enum TipoPregunta {
+    Abierta,
+    Cerrada,
+    Numero,
+    Decimal,
+    Multiple,
+    Autogenerado,
+    Fecha,
+    MesAnio,
+    Gps,
+    Formula,
+    Fotografia,
+    CerradaInformante,
+    Cantidad,
+    CerradaBucle,
+    HoraMinuto,
+    Autocompletar,
+    ValorTipo,
+    Prioridad,
+    Calendario,
+    NumeroVivienda,
+    Memoria,
+    Upm,
+    CerradaInformanteHijos,
+    FechaMes,
+    UpmHijo,
+    Incidencia,
+    Consulta,
+    SeleccionKish,
+    ValorTipo2,
+    CerradaMatriz,
+    ValorTipoMatriz,
+    CerradaOmitida,
+    UsoVivienda,
+    ValorTipoGastos,
+    CerradaConsulta,
+    Tabla,
+}

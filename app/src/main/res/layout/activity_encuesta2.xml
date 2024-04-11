@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/degradado_ine"
+    android:id="@+id/encuesta_navigation_drawer"
+    tools:context=".EncuestaActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+    <LinearLayout
+        android:layout_alignParentTop="true"
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/status_bar_kitkat_height"
+            android:background="?colorPrimary"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/status_bar_lollipop_height"
+            android:background="?colorPrimary"/>
+
+    </LinearLayout>
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_below="@+id/top"
+            android:theme="@style/ToolbarTheme"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/logo"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/logo_ine"
+                    android:transitionName="logo" />
+
+                <TextView
+                    android:id="@+id/textViewEncuesta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:layout_weight="1"
+                    android:text="@string/title_activity_encuesta"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+            <RelativeLayout
+                    android:layout_below="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:elevation="15dp"
+                        android:background="@drawable/main_activity_bg"
+                        >
+                        <!--MARCA DE AGUA-->
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:alpha="0.05"
+                            android:layout_gravity="center"
+                            android:foregroundGravity="center"
+                            android:src="@drawable/logo_ine_a" />
+
+                <FrameLayout
+
+                    android:id="@+id/contenedor_fragments"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></FrameLayout>
+
+                    </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <ExpandableListView
+        android:id="@+id/navigation_view_encuesta"
+        android:layout_gravity="left|start"
+        android:background="@android:color/white"
+        android:dividerHeight="0.5dp"
+        app:headerLayout="@layout/navigation_drawer_encuesta"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:layout_width="235dp"
+        android:layout_height="match_parent"/>
+
+
+<!--    <com.google.android.material.navigation.NavigationView-->
+<!--        android:id="@+id/navigation_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="start"-->
+<!--        android:fitsSystemWindows="@bool/fitsSystemWindows"-->
+<!--        app:headerLayout="@layout/navigation_drawer_encuesta"-->
+<!--        app:menu="@menu/navigation_drawer_encuesta"-->
+<!--        android:theme="@style/NavigationViewTheme" />-->
+
+
+</androidx.drawerlayout.widget.DrawerLayout>
+

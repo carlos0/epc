@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/action_asignacion"
+            android:title="@string/action_asignacion"
+            android:orderInCategory="100"
+            app:showAsAction="collapseActionView"
+            android:icon="@drawable/action_asignacion"/>
+        <item android:id="@+id/action_preguntas"
+            android:title="@string/action_preguntas"
+            android:orderInCategory="200"
+            app:showAsAction="collapseActionView"
+            android:icon="@drawable/action_preguntas"/>
+        <item android:id="@+id/action_apk"
+            android:title="@string/action_apk"
+            android:orderInCategory="300"
+            app:showAsAction="collapseActionView"
+            android:icon="@drawable/action_apk"/>
+        <item android:id="@+id/action_consolida"
+            android:title="@string/action_consolida_sice"
+            android:orderInCategory="400"
+            app:showAsAction="collapseActionView"
+            android:icon="@drawable/action_upload"/>
+        <item android:id="@+id/action_descargar_observaciones"
+            android:title="@string/action_descargar_observaciones"
+            android:orderInCategory="500"
+            app:showAsAction="collapseActionView"
+            android:icon="@drawable/action_descarga_observacion"/>
+        <item android:id="@+id/action_backup"
+            android:title="@string/action_backup"
+            android:orderInCategory="600"
+            app:showAsAction="collapseActionView"
+            android:icon="@drawable/action_backup"/>
+        <item android:id="@+id/action_cartografia"
+            android:title="@string/action_cartografia"
+            android:orderInCategory="700"
+            app:showAsAction="collapseActionView"
+            android:icon="@drawable/action_cartografia"
+            android:visible="false"/>
+        <item android:id="@+id/action_about"
+            android:title="@string/action_about"
+            android:orderInCategory="800"
+            app:showAsAction="collapseActionView"
+            android:icon="@drawable/action_about"/>
+        <item android:id="@+id/action_cerrar"
+            android:title="@string/action_cerrar"
+            android:orderInCategory="900"
+            app:showAsAction="collapseActionView"
+            android:icon="@drawable/action_cerrar"/>
+    </group>
+</menu>

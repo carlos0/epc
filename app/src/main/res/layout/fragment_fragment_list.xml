@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".fragments.FragmentList">
+
+<!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="8"-->
+<!--        android:background="@drawable/main_activity_bg"-->
+<!--        android:elevation="15dp"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="10dp">-->
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardDatosViv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="6dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/corner">
+
+                        <TextView
+                            android:id="@+id/iconDatosViv"
+                            android:layout_width="50dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginBottom="1dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:text="1"
+                            android:textSize="50dp"
+                            android:textStyle="bold"
+                            android:shadowColor="@color/colorPrimary_text"
+                            android:shadowRadius="4"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimaryDark"
+                            tools:ignore="MissingConstraints" />
+
+                        <TextView
+                            android:id="@+id/titleDatosViv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="80dp"
+                            android:text="DATOS DE LA VIVIENDA"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/iconDatosViv"
+                            app:layout_constraintTop_toTopOf="@id/iconDatosViv"
+                            />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:ellipsize="end"
+                            android:text="Llene o edite los datos de la vivienda"
+                            app:layout_constraintStart_toStartOf="@id/titleDatosViv"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/titleDatosViv"
+                            app:layout_constraintTop_toBottomOf="@id/titleDatosViv"
+                            android:textColor="@color/color_list"
+                            />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    >
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardPersonas"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="10dp"
+                        android:layout_weight="2"
+                        app:cardElevation="6dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/corner">
+
+                            <TextView
+                                android:id="@+id/iconPersonas"
+                                android:layout_width="50dp"
+                                android:layout_height="0dp"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginBottom="1dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                android:text="2"
+                                android:textSize="50dp"
+                                android:textStyle="bold"
+                                android:shadowColor="@color/colorPrimary_text"
+                                android:shadowRadius="4"
+                                android:gravity="center"
+                                android:textColor="@color/colorPrimaryDark"
+                                tools:ignore="MissingConstraints" />
+
+                            <TextView
+                                android:id="@+id/titlePersonas"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="80dp"
+                                android:text="PERSONAS"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/iconPersonas"
+                                app:layout_constraintTop_toTopOf="@id/iconPersonas"
+                                />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="12dp"
+                                android:ellipsize="end"
+                                android:text="Adicione o edite personas"
+                                app:layout_constraintStart_toStartOf="@id/titlePersonas"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@id/titlePersonas"
+                                app:layout_constraintTop_toBottomOf="@id/titlePersonas"
+                                android:textColor="@color/color_list"
+                                />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+                    <ImageButton
+                        android:id="@+id/buttonPersonas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/corner2"
+                        android:src="@drawable/ic_add_person"/>
+                </LinearLayout>
+
+                <ScrollView
+                    android:id="@+id/scrollPersona"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:visibility="visible"
+                    >
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/fragment_list_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </ScrollView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardHogar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="6dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/corner">
+
+
+                        <TextView
+                            android:id="@+id/iconHogar"
+                            android:layout_width="50dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginBottom="1dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:text="3"
+                            android:textSize="50dp"
+                            android:textStyle="bold"
+                            android:shadowColor="@color/colorPrimary_text"
+                            android:shadowRadius="4"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimaryDark"
+                            />
+
+                        <TextView
+                            android:id="@+id/titleHogar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="80dp"
+                            android:text="HOGAR"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/iconHogar"
+                            app:layout_constraintTop_toTopOf="@id/iconHogar"
+                            />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:ellipsize="end"
+                            android:text="LLene o edite los datos del hogar"
+                            app:layout_constraintStart_toStartOf="@id/titleHogar"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/titleHogar"
+                            app:layout_constraintTop_toBottomOf="@id/titleHogar"
+                            android:textColor="@color/color_list"
+                            />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardIncidencia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="6dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/corner">
+
+
+                        <TextView
+                            android:id="@+id/iconIncidencia"
+                            android:layout_width="50dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginBottom="1dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:text="4"
+                            android:textSize="50dp"
+                            android:textStyle="bold"
+                            android:shadowColor="@color/colorPrimary_text"
+                            android:shadowRadius="4"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimaryDark"
+                            />
+
+                        <TextView
+                            android:id="@+id/titleIncidencia"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="80dp"
+                            android:text="INCIDENCIA"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/iconIncidencia"
+                            app:layout_constraintTop_toTopOf="@id/iconIncidencia"
+                            />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:ellipsize="end"
+                            android:text="Llene o edite los datos de la Incidencia"
+                            app:layout_constraintStart_toStartOf="@id/titleIncidencia"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/titleIncidencia"
+                            app:layout_constraintTop_toBottomOf="@id/titleIncidencia"
+                            android:textColor="@color/color_list"
+                            />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@android:color/transparent" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            app:fab_addButtonColorNormal="@color/colorPrimaryDark"
+            app:fab_addButtonColorPressed="@color/colorPrimary"
+            android:visibility="gone"
+            app:fab_labelStyle="@style/menu_labels_style">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/botonEncuestaList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/colorPrimary_light"
+                app:fab_colorPressed="@color/colorPrimary"
+                app:fab_icon="@drawable/ic_add_lv"
+                app:fab_labelStyle="@style/menu_labels_style"
+                app:fab_size="mini"
+                app:fab_title="Personas" />
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabHogar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/colorPrimary_light"
+                app:fab_colorPressed="@color/colorPrimary"
+                app:fab_icon="@drawable/ic_home_lv"
+                app:fab_labelStyle="@style/menu_labels_style"
+                app:fab_size="mini"
+                app:fab_title="Hogar" />
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabIncidencia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/colorBackground"
+                app:fab_colorPressed="@color/colorPrimary"
+                app:fab_icon="@drawable/ic_incidencia"
+                app:fab_labelStyle="@style/menu_labels_style"
+                app:fab_size="mini"
+                app:fab_title="Incidencia" />
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+<!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+
+</FrameLayout>

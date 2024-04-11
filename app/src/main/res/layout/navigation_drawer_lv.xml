@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="bottom">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/status_bar_margin_top">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@drawable/logo_ine_login" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:background="@color/colorPrimary"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_vivienda_cabecera"
+                    android:layout_weight="0.2" />
+                <TextView
+                    android:id="@+id/vivienda_cabecera_valor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.8"
+                    android:textColor="@color/color_list" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/vivienda_cabecera_descripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_list" />
+            <TextView
+                android:id="@+id/vivienda_cabecera_datos_actuales"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWarning" />
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/borrarLv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/action_borrar_todo" />
+
+        <Button
+            android:id="@+id/descargaLv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/action_set_observation" />
+
+
+        <Button
+            android:id="@+id/btnSorteo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/action_sortear_voe"
+            android:backgroundTint="@color/colorError"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/btnDeshacerSorteo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="DESHACER SORTEO"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/consolidaLv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/action_consolidar_lv"
+            />
+
+        <Button
+            android:id="@+id/reordenaLv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="REORDENA LV"
+            />
+
+
+
+    </LinearLayout>
+
+</FrameLayout>

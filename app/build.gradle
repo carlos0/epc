@@ -1,0 +1,114 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    // Load values from keystore.properties file
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+    buildToolsVersion "29.0.3"
+    defaultConfig {
+        applicationId "bo.gob.ine.naci.epc"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 20
+        versionName "1.00"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        // Create BuildConfig variables
+        buildConfigField "String", "ACCESS_TOKEN", keystoreProperties["ACCESS_TOKEN"]
+        buildConfigField "String", "SECRET", keystoreProperties["SECRET"]
+        buildConfigField "String", "DB_SECRET", keystoreProperties["DB_SECRET"]
+
+        Properties properties = new Properties()
+        if (rootProject.file("local.properties").exists()) {
+            properties.load(rootProject.file("local.properties").newDataInputStream())
+        }
+
+        // Inject the Maps API key into the manifest
+        manifestPlaceholders = [ mapsApiKey : properties.getProperty("MAPS_API_KEY", "") ]
+    }
+    buildTypes {
+        release {
+            //minifyEnabled false
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            version "21.4.7075529"
+        }
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'org.mozilla:rhino:1.7.7.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.6.0' //EASY HTTP, HTTPS COMUNICATION LIBRARY
+    implementation 'com.google.android.gms:play-services-analytics:16.0.8'
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+    implementation 'com.google.android.gms:play-services-vision:10.2.0' //QR READ LIBRARY
+    implementation 'com.google.zxing:core:3.2.0' //QR GENERATOR LIBRARY
+    implementation 'org.mapsforge:mapsforge-map-android:0.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.navigation:navigation-fragment:2.0.0'
+    implementation 'androidx.navigation:navigation-ui:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'com.github.mreram:showcaseview:1.2.0'
+
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.gms:play-services-plus:16.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.github.f0ris.sweetalert:library:1.6.2'//PARA ALERT DIALOG PERSONALIZADO
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
+    implementation 'com.udojava:EvalEx:2.5'//PARA EVALUAR EXPRESIONES MATEMATICAS
+    implementation 'com.github.HotBitmapGG:RingProgressBar:V1.2.2'//PARA PROGRESS CIRCULAR
+
+    implementation 'nl.bryanderidder:themed-toggle-button-group:1.3.1'
+    implementation 'com.google.android:flexbox:2.0.1'
+
+    implementation 'com.github.ceryle:RadioRealButton:v2.1.1'
+    implementation 'com.github.Ibotta:Supported-Picker-Dialogs:1.0.0'
+
+    //added
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation "com.github.skydoves:expandablelayout:1.0.7"
+    //crypto
+    implementation 'com.github.tozny:java-aes-crypto:1.1.0'
+    implementation 'com.password4j:password4j:1.5.4'
+    //google play services
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
+
+    //TODO:BRP
+    implementation 'com.google.maps.android:android-maps-utils:2.2.2'
+
+    //Encriptacion Base de datos
+    implementation 'net.zetetic:android-database-sqlcipher:4.5.1@aar'
+    implementation "androidx.sqlite:sqlite:2.0.1"
+
+    //Descarga FTP
+    implementation 'commons-net:commons-net:3.6'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    implementation "com.airbnb.android:lottie:3.4.0"
+
+//    implementation 'com.itextpdf:itextg:5.5.10'
+//    implementation 'com.github.barteksc:android-pdf-viewer:2.8.1'
+}

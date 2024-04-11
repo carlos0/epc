@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">EPC</string>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <!--LOGIN-->
+    <string name="usuario">Usuario</string>
+    <string name="password">Password</string>
+    <string name="campo_vacio">Este campo es obligatorio</string>
+    <string name="conexion_error">No se pudo realizar la sincronización de información</string>
+    <!--MAIN MENU-->
+    <string name="action_menu">Menu</string>
+    <string name="action_asignacion">Descargar asignación</string>
+    <string name="action_cartografia">Cartografia</string>
+    <string name="action_preguntas">Actualizar preguntas</string>
+    <string name="action_apk">Actualizar aplicación</string>
+    <string name="action_backup">Copia de seguridad</string>
+    <string name="action_consolida_sice">Consolidar información</string>
+    <string name="action_about">Acerca de…</string>
+    <string name="action_cerrar">Cerrar sesión</string>
+
+    <string name="action_detalles_area_censal">detalles del manzano</string>
+    <string name="action_sortear_voe">3. SELECCIONAR</string>
+    <string name="action_borrar_todo">1. Voes Seleccionadas</string>
+    <string name="action_set_observation">2. Observación UPM</string>
+    <string name="action_consolidar_lv">4. CONSOLIDAR LV</string>
+    <string name="action_checked_nivel1">Nivel 1</string>
+    <string name="action_checked_nivel2">Nivel 2 (Miembros)</string>
+    <string name="action_informante_2">Listado de Miembros</string>
+    <string name="action_marcar">Marcar/Desmarcar seleccionado</string>
+
+    <string name="action_subir">Subir</string>
+    <string name="action_bajar">Bajar</string>
+    <string name="action_detalles">Detalles</string>
+    <string name="orden_manual">Orden Manual</string>
+    <string name="action_eliminar">Eliminar</string>
+    <string name="action_change">Cambiar Manzano</string>
+    <string name="action_descargar_observaciones">Descargar observaciones</string>
+    <string name="iniciar_sesion">INICIAR SESIÓN</string>
+
+    <!--TITULOS ACTIVITIES-->
+    <string name="title_activity_encuesta_inicial_nivel_1">&#160;&#160;Boleta</string>
+    <string name="title_activity_encuesta">&#160;&#160;Boleta</string>
+    <string name="title_activity_map">&#160;&#160;Ubicación del área censal</string>
+    <string name="title_activity_observacion">&#160;&#160;Observaciones</string>
+    <string name="title_activity_informante_nivel0">&#160;&#160;Listado de Viviendas</string>
+    <string name="title_activity_send">&#160;&#160;Consolidar Cartografía</string>
+
+    <!--OTROS MENSAJES-->
+    <string name="title_dicie">"DICIE-Informática"</string>
+    <string name="text_version">"Versión %1$s"</string>
+    <string name="title_main">ENCUESTA DE HOGARES(2023)</string>
+    <string name="title_table_miembros">VARIABLES RELACIONADAS CON MIEMBROS DE HOGAR</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <!-- Strings used for fragments for navigation -->
+
+</resources>

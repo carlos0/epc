@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    <color name="colorPrimary">#1565C0</color>-->
+    <color name="colorPrimary">#14375B</color>
+    <color name="colorPrimaryDark">#F39200</color>
+    <color name="colorPrimary_light">#C5CAE9</color>
+    <color name="colorAccent">#E64949</color>
+
+    <color name="colorPrimaryOpaco">#66F39200</color>
+
+    <color name="colorPrimary_text">#212121</color>
+    <color name="colorSecondary_text">#595858</color>
+    <color name="icons">#FFFFFF</color>
+
+    <color name="color_list">#eef2ff</color>
+    <color name="colorInfo">#2c94c2</color>
+    <color name="colorSucess">#1877AA</color>
+    <color name="colorWaterSucess">#358CB18E</color>
+    <color name="colorWaterError">#20e20017</color>
+    <color name="colorError">#70e20017</color>
+    <color name="colorWarning">#c9b416</color>
+    <color name="colorBackground">#5022A3E8</color>
+    <color name="colorBackgroundInactive">#cfd8dc</color>
+    <color name="colorBackgroundActive">#9042a5f5</color>
+    <color name="colorCheckButton">#E77C49</color>
+
+    <color name="color_observacion">#FCDFA5A2</color>
+    <color name="color_corregido">#8CB18E</color>
+<!--    <color name="color_corregido">#756EB9F6</color>-->
+
+    <color name="colorBackgroundFocus">#351877AA</color>
+    <color name="colorBackgroundFocus2">#101877AA</color>
+    <color name="colorBackgroundNotFocus">#00FFFFFF</color>
+    <color name="color_texto">#000000</color>
+
+<!--TODO:BRP-->
+    <color name="color_transparent">#00000000</color>
+    <color name="color_blanco_transparente">#2DFFFFFF</color>
+    <color name="color_blanco_button">#88FFFFFF</color>
+    <color name="color_seleccion_borde">#005CE6</color>
+    <color name="color_relleno_segmento">#33FB0202</color>
+
+    <color name="color_concluido">#437C2A</color>
+    <color name="color_anulado">#E20017</color>
+
+</resources>

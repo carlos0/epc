@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.FragmentEncuesta">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/seccionButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:layout_gravity="top"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            app:singleSelection="true">
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/textViewDato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="20dp"
+        android:visibility="gone"
+        android:text="Boleta de hogar" />
+
+    <ScrollView
+        android:id="@+id/scroll_encuesta_boleta"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp">
+        <LinearLayout
+            android:id="@+id/layout_encuesta_boleta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonGuardarEncuesta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/colorCheckButton"
+        app:srcCompat="@drawable/ic_check_black_24dp"
+        android:visibility="gone"
+        tools:ignore="VectorDrawableCompat" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonGuardarEncuestaAvance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginEnd="@dimen/fab_avance_end"
+        android:layout_marginTop="@dimen/fab_avance_top"
+        android:backgroundTint="@color/colorPrimary_light"
+        app:srcCompat="@drawable/ic_check_black_24dp"
+        android:visibility="gone"
+        tools:ignore="VectorDrawableCompat" />
+
+</FrameLayout>

@@ -1,0 +1,148 @@
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/degradado_ine"
+    android:id="@+id/lv_navigation_drawer"
+    tools:context=".ListadoViviendasActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/status_bar_kitkat_height"
+            android:background="?colorPrimary"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/status_bar_lollipop_height"
+            android:background="?colorPrimary"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/status_bar_margin_top"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/ToolbarTheme">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/logo"
+                android:transitionName="logo"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo_ine" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/title_activity_informante_nivel0"
+                android:textAlignment="textStart"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="Listado de Viviendas" />
+
+        </LinearLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/layout_main_activity"
+        android:layout_weight="8"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        android:elevation="15dp"
+        android:background="@drawable/main_activity_bg"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/view4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:text="" />
+
+        <ImageView
+            android:id="@+id/boletaVacia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bg_default"
+            android:layout_gravity="center"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lv_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/fabMenuLv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            app:fab_addButtonColorNormal="@color/colorPrimaryDark"
+            app:fab_addButtonColorPressed="@color/colorPrimary"
+            app:fab_labelStyle="@style/menu_labels_style">
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabCabecera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/colorAccent"
+                app:fab_colorPressed="@color/colorPrimary"
+                app:fab_size="mini"
+                app:fab_icon="@drawable/ic_home_lv"
+                app:fab_title="Iniciar cabecera"
+                app:fab_labelStyle="@style/menu_labels_style"/>
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabNuevoLv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/colorAccent"
+                app:fab_colorPressed="@color/colorPrimary"
+                app:fab_size="mini"
+                app:fab_icon="@drawable/ic_add_lv"
+                app:fab_title="Añadir LV"
+                app:fab_labelStyle="@style/menu_labels_style"/>
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
+
+<com.google.android.material.navigation.NavigationView
+android:id="@+id/navigation_view"
+android:layout_width="wrap_content"
+android:layout_height="match_parent"
+android:layout_gravity="start"
+android:fitsSystemWindows="@bool/fitsSystemWindows"
+app:headerLayout="@layout/navigation_drawer_lv"
+android:theme="@style/NavigationViewTheme" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

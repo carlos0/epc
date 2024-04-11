@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="bo.gob.ine.sice.eh2016.ResumenActivity">
+    <item android:id="@+id/action_informante_2"
+        android:title="@string/action_informante_2"
+        android:icon="@mipmap/ic_up"
+        android:orderInCategory="50"
+        app:showAsAction="always" />
+
+    <item
+        android:orderInCategory="100"
+        android:title="@string/action_menu"
+        android:icon="@mipmap/ic_menu"
+        app:showAsAction="always" >
+        <menu>
+            <item android:id="@+id/action_nivel1"
+                android:title="@string/action_checked_nivel1"
+                android:orderInCategory="150"
+                app:showAsAction="never"
+                android:checkable="true"
+                android:checked="true"/>
+            <item android:id="@+id/action_nivel2"
+                android:title="@string/action_checked_nivel2"
+                android:orderInCategory="200"
+                app:showAsAction="never"
+                android:checkable="true"
+                android:checked="true"/>
+        </menu>
+    </item>
+</menu>

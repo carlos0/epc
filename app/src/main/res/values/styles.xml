@@ -1,0 +1,56 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Base.AppTheme">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Base.AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+<!--        <item name="colorAccent">@color/colorPrimary_light</item>-->
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorPrimary_text</item>
+        <item name="android:textColorSecondary">@color/colorSecondary_text</item>
+        <item name="colorControlHighlight">@color/colorPrimary_light</item>
+        <item name="android:fontFamily">@font/quicksand_medium</item>
+<!--        <item name="android:timePickerDialogTheme">@style/PickerDialogCustom</item>-->
+<!--        <item name="android:datePickerDialogTheme">@style/PickerDialogCustom</item>-->
+    </style>
+
+<!--    <style name="PickerDialogCustom" parent="AppTheme">-->
+<!--        <item name="android:textColor">@color/colorPrimary</item>-->
+<!--        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>-->
+<!--        <item name="android:layout_margin">2dp</item>-->
+<!--        <item name="android:datePickerMode">spinner</item>-->
+<!--    </style>-->
+
+    <style name="ToolbarTheme" parent="AppTheme">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+
+    <style name="NavigationViewTheme" parent="AppTheme">
+        <item name="textAppearanceListItem">@style/TextAppearance.AppCompat.Body2</item>
+    </style>
+
+    <!--Etiqueta flotante-->
+
+    <!--Campo de texto-->
+    <style name="EditText" parent="AppTheme">
+        <!-- cursor y línea normal-->
+        <item name="colorControlNormal">@color/colorSecondary_text</item>
+        <!-- cursor y línea con foco-->
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/color_list</item>
+    </style>
+
+</resources>
