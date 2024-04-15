@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.Ibotta:Supported-Picker-Dialogs:1.0.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c488adee90f7d5b6d667918537b8b07b/jetified-Supported-Picker-Dialogs-1.0.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c488adee90f7d5b6d667918537b8b07b/jetified-Supported-Picker-Dialogs-1.0.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c488adee90f7d5b6d667918537b8b07b/jetified-Supported-Picker-Dialogs-1.0.0/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/00d12a40ee6cc678685cd05f2a2de95a/jetified-Supported-Picker-Dialogs-1.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/00d12a40ee6cc678685cd05f2a2de95a/jetified-Supported-Picker-Dialogs-1.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/00d12a40ee6cc678685cd05f2a2de95a/jetified-Supported-Picker-Dialogs-1.0.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

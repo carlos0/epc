@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class JEncuesta {
-
     public int id_asignacion;
     public int correlativo;
     public int id_pregunta;

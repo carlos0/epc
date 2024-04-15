@@ -34,7 +34,7 @@ public class Seccion extends EntidadId {
         String query = "SELECT id_seccion\n" +
                 "FROM enc_seccion\n" +
                 "WHERE id_nivel = " + idNivel + "\n" +
-                "AND id_seccion in ( 168,169,181,158,431 )  "+ "\n" +
+                "AND id_seccion in ( 168,169,181,201,431)  "+ "\n" +
                 "ORDER BY codigo\n" +
                 "LIMIT 1";
         Cursor cursor = conn.rawQuery(query, null);

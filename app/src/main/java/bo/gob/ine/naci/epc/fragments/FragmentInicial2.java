@@ -189,9 +189,22 @@ public class FragmentInicial2 extends Fragment implements View.OnTouchListener {
 
         Bundle bundle = getArguments();
 
+        for (String key : bundle.keySet()) {
+            Object value = bundle.get(key);
+
+            Log.d("BSQn", "Key: " + key + ", Value: " + value);
+        }
+
         if (bundle != null) {
             idEncuesta = new IdEncuesta((int[]) bundle.getIntArray("IdEncuesta"));
-
+            int[] idEncuestaArray = bundle.getIntArray("IdEncuesta");
+            if (idEncuestaArray != null) {
+                for (int i = 0; i < idEncuestaArray.length; i++) {
+                    Log.d("BSQid", "Elemento " + i + ": " + idEncuestaArray[i]);
+                }
+            } else {
+                Log.d("BSQid", "El array IdEncuesta es nulo");
+            }
             Log.d("BRP2", String.valueOf(idEncuesta.id_asignacion) + "-" + String.valueOf(idEncuesta.correlativo) );
 
             idInformante = new IdInformante(idEncuesta.id_asignacion, idEncuesta.correlativo);
@@ -205,7 +218,8 @@ public class FragmentInicial2 extends Fragment implements View.OnTouchListener {
 
             Pregunta preg = new Pregunta();
             preg.abrir(idEncuesta.id_pregunta);
-            idSeccion = preg.get_id_seccion();
+//            idSeccion = preg.get_id_seccion();
+            idSeccion=181;
             preg.free();
 
             Seccion secc = new Seccion();
@@ -233,8 +247,6 @@ public class FragmentInicial2 extends Fragment implements View.OnTouchListener {
             } else {
                 idInformanteAnterior = new IdInformante(0, 0);
             }
-
-
         }
         encuesta = new Encuesta();
 
@@ -1311,11 +1323,11 @@ try{
                             }
                         }
                         if(Integer.valueOf(p.getId()) == 20484){
-                            if(!verificaHogar(Integer.parseInt(pregs[1].getCodResp()), p.getCodResp(), Integer.parseInt(pregs[0].getCodResp()))){
-                                mensaje.errorMessage(getContext(), null, "Error!", Html.fromHtml("Verifique el número de hogar, debe crear en orden correlativo: Hogar 1, hogar 2, Hogar 3"), Parametros.FONT_OBS);
-                                botonGuardar.setEnabled(true);
-                                return;
-                            }
+//                            if(!verificaHogar(Integer.parseInt(pregs[1].getCodResp()), p.getCodResp(), Integer.parseInt(pregs[0].getCodResp()))){
+//                                mensaje.errorMessage(getContext(), null, "Error!", Html.fromHtml("Verifique el número de hogar, debe crear en orden correlativo: Hogar 1, hogar 2, Hogar 3"), Parametros.FONT_OBS);
+//                                botonGuardar.setEnabled(true);
+//                                return;
+//                            }
                         }
                         String av = pregunta.get_codigo_pregunta();
                         String bv = pregunta.get_pregunta();
@@ -1742,15 +1754,15 @@ try{
                         res = false;
                     }
                 } else {
-                    if (verificaHogar.contains(numHogar)) {
-                        res = false;
-                    } else if(numHogar == verificaHogar.get(verificaHogar.size()-1) + 1){
-                        res = true;
-                    } else if(numHogar < verificaHogar.get(verificaHogar.size()-1)){
-                        res = true;
-                    } else {
-                        res = false;
-                    }
+//                    if (verificaHogar.contains(numHogar)) {
+//                        res = false;
+//                    } else if(numHogar == verificaHogar.get(verificaHogar.size()-1) + 1){
+//                        res = true;
+//                    } else if(numHogar < verificaHogar.get(verificaHogar.size()-1)){
+//                        res = true;
+//                    } else {
+//                        res = false;
+//                    }
                 }
             } else {
                 res = true;

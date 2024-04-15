@@ -352,12 +352,14 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
 
         Log.d("secciones", String.valueOf(idSeccion));
         switch (idSeccion) {
-            case 158:
-                secciones = "158,160, 159, 161, 162, 164";
+            case 202:
+                secciones = "202, 203, 204, 205";
+//                secciones = "158,160, 159, 161, 162, 164";
                 tipo = "PERSONAS";
                 break;
-            case 157:
-                secciones = "157, 432, 166, 165, 445";
+            case 201:
+                secciones = "201";
+//                secciones = "157, 432, 166, 165, 445";
                 tipo = "HOGARES";
                 break;
             default:

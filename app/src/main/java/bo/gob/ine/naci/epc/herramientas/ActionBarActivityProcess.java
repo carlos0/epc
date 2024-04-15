@@ -42,6 +42,18 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
+/**implementando metricas de cambio de seguridad**/
+import java.security.cert.CertificateException;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.security.cert.X509Certificate;
+import java.security.SecureRandom;
+
+
+
+
+
 
 import bo.gob.ine.naci.epc.BuildConfig;
 import bo.gob.ine.naci.epc.R;
@@ -474,7 +486,6 @@ public class ActionBarActivityProcess extends ActionBarActivityNavigator {
             String error = "";
             try {
                 String plainText = Usuario.getPlainToken();
-
 //                ArrayList<Map<String, Object>> contenedor = new ArrayList<>();
 //                ArrayList<Map<String, Object>> contenedor_enc = new ArrayList<>();
 //                Map<String, Object> elementos = null;
@@ -540,7 +551,43 @@ public class ActionBarActivityProcess extends ActionBarActivityNavigator {
                 MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 //                RequestBody body = RequestBody.create(JSON, result);
                 RequestBody body = RequestBody.create(JSON, datodato);
-                OkHttpClient client = new OkHttpClient();
+//                OkHttpClient client = new OkHttpClient();
+
+                // Crear un objeto SSLContext sin validar certificados
+                SSLContext sslContext = SSLContext.getInstance("TLS");
+                sslContext.init(null, new TrustManager[]{new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    }
+
+                    @Override
+                    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    }
+
+                    @Override
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[0];
+                    }
+                }}, new SecureRandom());
+                X509TrustManager trustManager = new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                        // Implementación del método
+                    }
+
+                    @Override
+                    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                        // Implementación del método
+                    }
+
+                    @Override
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[0];
+                    }
+                };
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager) trustManager)
+                        .build();
                 Request request = new Request.Builder()
                         .url(urlAux)
                         .post(body)
