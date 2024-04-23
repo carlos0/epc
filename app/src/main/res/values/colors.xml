@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <!--    <color name="colorPrimary">#1565C0</color>-->
-    <color name="colorPrimary">#14375B</color>
-    <color name="colorPrimaryDark">#F39200</color>
-    <color name="colorPrimary_light">#C5CAE9</color>
+    <color name="colorPrimary">#737575</color>
+    <color name="colorPrimaryDark">#B87513</color>
+    <color name="colorPrimary_light">#868686</color>
     <color name="colorAccent">#E64949</color>
 
     <color name="colorPrimaryOpaco">#66F39200</color>
@@ -42,5 +42,8 @@
 
     <color name="color_concluido">#437C2A</color>
     <color name="color_anulado">#E20017</color>
+
+    <color name="postcensal_dorado">#B87513</color>
+    <color name="postcensal_plateado">#868686</color>
 
 </resources>

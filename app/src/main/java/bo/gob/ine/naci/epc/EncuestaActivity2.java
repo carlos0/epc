@@ -510,6 +510,13 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
         if (toogle.onOptionsItemSelected(item))
             return true;
         return super.onOptionsItemSelected(item);

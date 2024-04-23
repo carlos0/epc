@@ -252,9 +252,15 @@ public class Movil {
         TelephonyManager tm;
         try{
             tm = (TelephonyManager)MyApplication.getContext().getSystemService(Context.TELEPHONY_SERVICE);
-            if (tm != null)
-                identifier = tm.getDeviceId();
-
+            if (tm != null){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    // Para Android Oreo (API 26) y versiones superiores, se utiliza getImei()
+                    identifier = tm.getImei();
+                } else {
+                    // Para versiones anteriores a Android Oreo, se utiliza getDeviceId()
+                    identifier = tm.getDeviceId();
+                }
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -262,6 +268,7 @@ public class Movil {
             identifier = Settings.Secure.getString(MyApplication.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         return identifier;
     }
+
     public static String getMd5Hash(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");

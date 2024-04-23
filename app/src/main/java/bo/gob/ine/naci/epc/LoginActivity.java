@@ -41,7 +41,7 @@ public class LoginActivity extends ActionBarActivityProcess {
     private String userInput;
     private String passInput;
     private Timer timer;
-    private static final long SPLASH_SCREEN_DELAY = 2000;
+    private static final long SPLASH_SCREEN_DELAY = 50;
     private EditText login;
     private EditText password;
     private TextInputLayout contentLogin;
@@ -169,9 +169,9 @@ public class LoginActivity extends ActionBarActivityProcess {
 
 //        if (login == null|| Entidad.getDataBase()==null) {
         if (login == null|| !DataBase.existsDataBase()) {
-            logo.animate().translationZ(-1f).setDuration(200).setStartDelay(1000);
+//            logo.animate().translationZ(-1f).setDuration(200).setStartDelay(1000);
 //            layoutLogin.setVisibility(View.VISIBLE);
-            layoutLogin.setAnimation(logoAnim);
+//            layoutLogin.setAnimation(logoAnim);
 //            logo.animate().translationY(1000).setDuration(2000).setStartDelay(1000);
         } else {
             layoutLogin.setVisibility(View.GONE);
@@ -193,7 +193,7 @@ public class LoginActivity extends ActionBarActivityProcess {
 
     public TranslateAnimation shakeError() {
         TranslateAnimation shake = new TranslateAnimation(0, 10, 0, 0);
-        shake.setDuration(500);
+        shake.setDuration(100);
         shake.setInterpolator(new CycleInterpolator(5)); return shake;
     }
 

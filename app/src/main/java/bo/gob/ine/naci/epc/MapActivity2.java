@@ -1,6 +1,7 @@
 package bo.gob.ine.naci.epc;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,6 +10,8 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -21,6 +24,8 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,6 +44,7 @@ import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.TileOverlay;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
@@ -127,6 +133,9 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
     private LinearLayout content_mensaje;
     private int tipo;
 
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
+    private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +143,8 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -176,7 +187,7 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
 //        disperso.setBackgroundColor(getResources().getColor(R.color.color_transparent_black));
 //        map.setBackgroundColor(getResources().getColor(R.color.color_transparent_black));
 //        google.setBackgroundColor(getResources().getColor(R.color.color_transparent_black));
-        if(codUpm.endsWith("D")){
+        if (codUpm.endsWith("D")) {
             tipo = 2;
             disperso.setVisibility(View.VISIBLE);
         } else {
@@ -192,13 +203,13 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
 //        recorrido.setChecked(true);
         disperso.setChecked(true);
         map.setChecked(true);
-        google.setChecked(true);
+        google.setChecked(false);
         ubicacion.setChecked(true);
 
         perimetro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(perimetro.isChecked()){
+                if (perimetro.isChecked()) {
                     polygonPerimetro(1);
                     marcadorPerimetro(1);
                 } else {
@@ -211,7 +222,7 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
         predio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(predio.isChecked()){
+                if (predio.isChecked()) {
                     polygonPredio(1);
                     marcadorPredio(1);
                 } else {
@@ -225,7 +236,7 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
         recorrido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(recorrido.isChecked()){
+                if (recorrido.isChecked()) {
                     marcadorRecorrido(1);
                 } else {
                     marcadorRecorrido(2);
@@ -236,7 +247,7 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
         disperso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(disperso.isChecked()){
+                if (disperso.isChecked()) {
                     polygonDisperso(1);
                     marcadorDisperso(1);
                 } else {
@@ -249,7 +260,7 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
         google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(google.isChecked()){
+                if (google.isChecked()) {
                     mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                 } else {
                     mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
@@ -260,22 +271,8 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(map.isChecked()){
-                    if (valoresOverlay.containsKey(codUpm)) {
-                        valoresOverlay.get(codUpm).setVisible(true);
-                    } else {
-                        Toast.makeText(MapActivity2.this, "Descargue CARTOGRAFIA desde el menu principal", Toast.LENGTH_SHORT).show();
-                        map.setChecked(false);
-                    }
-
-                } else {
-                    if (valoresOverlay.containsKey(codUpm)) {
-                        valoresOverlay.get(codUpm).setVisible(false);
-                    } else {
-                        Toast.makeText(MapActivity2.this, "Descargue CARTOGRAFIA desde el menu principal", Toast.LENGTH_SHORT).show();
-                        map.setChecked(false);
-                    }
-                }
+                map.setChecked(true);
+                areaZoom(puntosZoom);
             }
         });
 
@@ -283,11 +280,45 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
             @Override
             public void onClick(View v) {
                 ubicacion.setChecked(true);
-                areaZoom(puntosZoom);
+                obtenerUbicacionActual();
             }
         });
 
         startThree();
+    }
+
+    public void obtenerUbicacionActual() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_LOCATION_PERMISSION);
+        } else {
+            mostrarUbicacion();
+        }
+    }
+
+    private void mostrarUbicacion() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager != null) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (location != null) {
+                LatLng miUbicacion = new LatLng(location.getLatitude(), location.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(miUbicacion, 15));
+            } else {
+                Toast.makeText(this, "No se pudo obtener la ubicación actual", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -324,9 +355,19 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
         mMap.setMyLocationEnabled(true);
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setCompassEnabled(true);
-        uiSettings.setMyLocationButtonEnabled(true);
+        uiSettings.setMyLocationButtonEnabled(false);
         uiSettings.setRotateGesturesEnabled(false);
 //        uiSettings.setZoomControlsEnabled(true);
+
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
+                }
+            }
+        });
 
         cargarPerimetros();
         cargarPredios();

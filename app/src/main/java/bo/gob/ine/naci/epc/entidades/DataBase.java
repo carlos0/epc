@@ -414,30 +414,31 @@ public class DataBase extends SQLiteOpenHelper {
                 "PRIMARY KEY (id_upm, voe_seleccionada, voe_remplazo))");
 
         //TODO:BRP
-        db.execSQL("CREATE TABLE perimetro(\n" +
+        db.execSQL("CREATE TABLE a_epc_segmento(\n" +
                 "gid integer NOT NULL,\n" +
-                "num_upm nvarchar(20),\n" +
-                "ciudad_com nvarchar(100),\n" +
-                "data_json text,\n" +
-                "tipo text)");
-
-        db.execSQL("CREATE TABLE predio(\n" +
+                "seg_unico nvarchar(254),\n" +
+                "geo text)");
+        db.execSQL("CREATE TABLE a_epc_manzana(\n" +
                 "gid integer NOT NULL,\n" +
-                "num_upm nvarchar(20),\n" +
-                "id_manz nvarchar(20),\n" +
-                "ciudad_com nvarchar(100),\n" +
-                "orden_pred integer,\n" +
-                "recorrido nvarchar(5),\n" +
-                "data_json text,\n" +
-                "tipo text)");
-
-        db.execSQL("CREATE TABLE disperso(\n" +
+                "id_manz nvarchar(13),\n" +
+                "orden_manz nvarchar(10),\n" +
+                "seg_unico nvarchar(254),\n" +
+                "geo text)");
+        db.execSQL("CREATE TABLE a_epc_predio(\n" +
                 "gid integer NOT NULL,\n" +
-                "num_upm nvarchar(20),\n" +
-                "ciudad_com nvarchar(100),\n" +
-                "id_com nvarchar(20),\n" +
-                "data_json text,\n" +
-                "tipo text)");
+                "seg_unico nvarchar(254),\n" +
+                "orden nvarchar(20),\n" +
+                "geo text)");
+        db.execSQL("CREATE TABLE d_epc_comunidad(\n" +
+                "gid integer NOT NULL,\n" +
+                "ciu_com nvarchar(254),\n" +
+                "id_com nvarchar(13),\n" +
+                "seg_unico nvarchar(254),\n" +
+                "geo text)");
+        db.execSQL("CREATE TABLE d_epc_segmento(\n" +
+                "gid integer NOT NULL,\n" +
+                "seg_unico nvarchar(254),\n" +
+                "geo text)");
 
  }
 

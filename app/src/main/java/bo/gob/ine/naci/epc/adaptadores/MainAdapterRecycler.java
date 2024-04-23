@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +86,46 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
         final Map<String, Object> objView = dataView.get(position);
 //        vi.setId((int) objView.get("id_upm"));
 
+        holder.main_codigo.setTextSize(Parametros.FONT_LIST_BIG);
+        holder.main_codigo.setText((String) objView.get("codigo"));
+        holder.main_codigo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringBuilder stringBuilderAdiRem=new StringBuilder();
+                if(!String.valueOf(objView.get("qUpmsRemplazo")).equals("")){
+                    stringBuilderAdiRem.append("REEMPLAZADO: "+String.valueOf(objView.get("qUpmsRemplazo"))+"<br>");
+                }
+                if(!String.valueOf(objView.get("qUpmsAdicionales")).equals("")){
+                    stringBuilderAdiRem.append("ADICIONALES: "+String.valueOf(objView.get("qUpmsAdicionales").toString().replace(" ","<br>")));
+                }
+                ((MainActivity) activity).informationMessage(activity, null, "ADICIONALES/REEMPLAZOS", Html.fromHtml(stringBuilderAdiRem.toString()), Parametros.FONT_OBS);
+            }
+        });
+
+        final int numConcluidas = Integer.parseInt(objView.get("qBoletasConcluidas").toString());
+        Log.d("numConcluidas", String.valueOf(numConcluidas));
+        holder.numConlcuidas.setText(numConcluidas+"/6");
+        if(numConcluidas>=6){
+            holder.numConlcuidas.setTextColor(getContext().getResources().getColor(R.color.color_concluido));
+            holder.textConcluidas.setTextColor(getContext().getResources().getColor(R.color.color_concluido));
+        } else {
+            holder.numConlcuidas.setTextColor(getContext().getResources().getColor(R.color.color_anulado));
+            holder.textConcluidas.setTextColor(getContext().getResources().getColor(R.color.color_anulado));
+        }
+
+        final int numElaboradas = Integer.parseInt(objView.get("qBoletasElaboradas").toString());
+        holder.numElaboradas.setText(objView.get("qBoletasElaboradas").toString());
+        if(numElaboradas==0){
+            holder.numElaboradas.setTextColor(getContext().getResources().getColor(R.color.color_concluido));
+            holder.textElaboradas.setTextColor(getContext().getResources().getColor(R.color.color_concluido));
+        } else {
+            holder.numElaboradas.setTextColor(getContext().getResources().getColor(R.color.color_anulado));
+            holder.textElaboradas.setTextColor(getContext().getResources().getColor(R.color.color_anulado));
+        }
+
+                    holder.info_observacion.setVisibility(View.GONE);
+                    holder.main_lv_view.setVisibility(View.GONE);
+
         holder.main_map_view.setVisibility(View.VISIBLE);
         if (RolPermiso.tienePermiso(Usuario.getRol(), "activity_googlemap")) {
             holder.main_map_view.setOnClickListener(new View.OnClickListener() {
@@ -103,32 +144,15 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
                 }
             });
         }
-        holder.main_codigo.setTextSize(Parametros.FONT_LIST_BIG);
-        holder.main_codigo.setText((String) objView.get("codigo"));
 
-        holder.main_codigo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                StringBuilder stringBuilderAdiRem=new StringBuilder();
-                if(!String.valueOf(objView.get("qUpmsRemplazo")).equals("")){
-                    stringBuilderAdiRem.append("REEMPLAZADO: "+String.valueOf(objView.get("qUpmsRemplazo"))+"<br>");
-                }
-                if(!String.valueOf(objView.get("qUpmsAdicionales")).equals("")){
-                    stringBuilderAdiRem.append("ADICIONALES: "+String.valueOf(objView.get("qUpmsAdicionales").toString().replace(" ","<br>")));
-                }
-                ((MainActivity) activity).informationMessage(activity, null, "ADICIONALES/REEMPLAZOS", Html.fromHtml(stringBuilderAdiRem.toString()), Parametros.FONT_OBS);
-            }
-        });
         String nombre = (String)objView.get("nombre");
         String vector[] = nombre.split("-");
-
 
         String ciudad = "-";
         String municipio= "-";
         String zona= "-";
-//        String departamento = vector[0];
-        try{
 
+        try{
             ciudad = vector[0];
             municipio= vector[1];
             zona= vector[2];
@@ -148,24 +172,13 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
             holder.main_mensaje.setTextColor(MyApplication.getContext().getResources().getColor(R.color.color_concluido));
             holder.main_mensaje.setText("NO TIENE BOLETAS PENDIENTES");
         }
-        holder.txtLvTitle.setTextSize(Parametros.FONT_LIST_SMALL);
-        holder.txtTotal.setTextSize(Parametros.FONT_LIST_SMALL_SMALL);
-        holder.txtViviendas.setTextSize(Parametros.FONT_LIST_SMALL_SMALL);
+
         if (RolPermiso.tienePermiso(Usuario.getRol(), "activity_listado_viviendas")) {
             holder.txtViviendasElaboradas.setVisibility(View.VISIBLE);
             holder.txtViviendasSeleccionadas.setVisibility(View.VISIBLE);
-            holder.txtTotal.setText("LV");
-            String datosLvTotal = "<font color="+MyApplication.getContext().getResources().getColor(R.color.colorPrimaryDark)+">TOTAL REGISTROS:</font>"+objView.get("qViviendasElaboradas");
-            String datosLvSeleccionadas=   "<font color="+MyApplication.getContext().getResources().getColor(R.color.colorPrimaryDark)+">VIV. SELECCIONADAS:</font>"+objView.get("qViviendasSeleccionadas") ;
-            holder.txtLvTitle.setText("LV");
-            holder.txtTotal.setText(Html.fromHtml(datosLvTotal));
-            holder.txtViviendas.setText(Html.fromHtml(datosLvSeleccionadas));
         } else {
             holder.txtViviendasElaboradas.setVisibility(View.GONE);
             holder.txtViviendasSeleccionadas.setVisibility(View.GONE);
-            holder.txtLvTitle.setVisibility(View.GONE);
-            holder.txtTotal.setVisibility(View.GONE);
-            holder.txtViviendas.setVisibility(View.GONE);
         }
         String listAdicionales[]=(objView.get("qUpmsAdicionales").toString()).split(" ");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>((Context) this.activity, android.R.layout.simple_spinner_item,listAdicionales);
@@ -196,17 +209,19 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
 //        listPopupWindow.setHeight(400);
 //        listPopupWindow.setModal(true);
 //        boolean open = false;
-        if(objView.get("estado_lv").toString().equals("1")){
-            holder.main_lv_view.setTextColor(MyApplication.getContext().getResources().getColor(R.color.color_concluido));
-            holder.main_lv_view.setIconTintResource(R.color.color_concluido);
-        }else if(objView.get("estado_lv").toString().equals("2")){
-            holder.main_lv_view.setTextColor(MyApplication.getContext().getResources().getColor(R.color.colorAccent));
-            holder.main_lv_view.setIconTintResource(R.color.colorAccent);
-        }else {
-//            holder.main_lv_view.setBackground();
-            holder.main_lv_view.setTextColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimary));
-            holder.main_lv_view.setIconTintResource(R.color.colorPrimary);
-        }
+
+//        if(objView.get("estado_lv").toString().equals("1")){
+//            holder.main_lv_view.setTextColor(MyApplication.getContext().getResources().getColor(R.color.color_concluido));
+//            holder.main_lv_view.setIconTintResource(R.color.color_concluido);
+//        }else if(objView.get("estado_lv").toString().equals("2")){
+//            holder.main_lv_view.setTextColor(MyApplication.getContext().getResources().getColor(R.color.colorAccent));
+//            holder.main_lv_view.setIconTintResource(R.color.colorAccent);
+//        }else {
+////            holder.main_lv_view.setBackground();
+//            holder.main_lv_view.setTextColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimary));
+//            holder.main_lv_view.setIconTintResource(R.color.colorPrimary);
+//        }
+
         holder.info_boleta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,36 +235,36 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
 //                }
             }
         });
-        if(objView.get("qBoletasObservadas").toString().equals("0")){
-//            holder.info_observacion.setText("0");
-            holder.info_observacion.setVisibility(View.VISIBLE);
 
-        }else{
-            holder.info_observacion.setText(String.valueOf(objView.get("qBoletasObservadas")) );
-            holder.info_observacion.setVisibility(View.VISIBLE);
-            Circle circle = new Circle();
-            circle.setCount(objView.get("qBoletasObservadas").toString());
-            Drawable[] a = {activity.getApplication().getResources().getDrawable(R.drawable.ic_notifications), circle};
-            LayerDrawable image = new LayerDrawable(a);
-            holder.info_observacion.setIcon(image);
-        }
+//        if(objView.get("qBoletasObservadas").toString().equals("0")){
+//            holder.info_observacion.setVisibility(View.VISIBLE);
+//        }else{
+//            holder.info_observacion.setText(String.valueOf(objView.get("qBoletasObservadas")) );
+//            holder.info_observacion.setVisibility(View.VISIBLE);
+//            Circle circle = new Circle();
+//            circle.setCount(objView.get("qBoletasObservadas").toString());
+//            Drawable[] a = {activity.getApplication().getResources().getDrawable(R.drawable.ic_notifications), circle};
+//            LayerDrawable image = new LayerDrawable(a);
+//            holder.info_observacion.setIcon(image);
+//        }
 
-        if(Usuario.getRol() == Parametros.SUPERVISOR) {
-            holder.main_lv_view.setVisibility(View.VISIBLE);
-            holder.main_lv_view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("IdUpm", (Integer) objView.get("id_upm"));
-                    Intent listado = new Intent(activity.getApplicationContext(), ListadoViviendasActivity.class);
-                    listado.putExtras(bundle);
-                    holder.fabMenuMain2.clearChecked();
-                    activity.startActivity(listado);
-                }
-            });
-        } else {
-            holder.main_lv_view.setVisibility(View.GONE);
-        }
+//        if(Usuario.getRol() == Parametros.SUPERVISOR) {
+//            holder.main_lv_view.setVisibility(View.VISIBLE);
+//            holder.main_lv_view.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putInt("IdUpm", (Integer) objView.get("id_upm"));
+//                    Intent listado = new Intent(activity.getApplicationContext(), ListadoViviendasActivity.class);
+//                    listado.putExtras(bundle);
+//                    holder.fabMenuMain2.clearChecked();
+//                    activity.startActivity(listado);
+//                }
+//            });
+//        } else {
+//            holder.main_lv_view.setVisibility(View.GONE);
+//        }
+
         holder.info_observacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -266,90 +281,6 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
 //        }
 //        setAnimation(holder.itemView, position);
 
-        holder.chart.setDrawBarShadow(false);
-        holder.chart.setDrawValueAboveBar(true);
-        holder.chart.getDescription().setEnabled(false);
-        holder.chart.setPinchZoom(false);
-        holder.chart.setDrawGridBackground(false);
-        holder.chart.setDrawBarShadow(false);
-        XAxis xAxis = holder.chart.getXAxis();
-        xAxis.setDrawGridLines(false);
-        xAxis.setLabelRotationAngle(-50);
-        xAxis.setLabelCount(2);
-        YAxis leftAxis = holder.chart.getAxisLeft();
-        leftAxis.setDrawGridLines(false);
-        holder.chart.getXAxis().setDrawAxisLine(false);
-        holder.chart.setTouchEnabled(false);
-        holder.chart.setClickable(true);
-        holder.chart.setDoubleTapToZoomEnabled(false);
-        holder.chart.getXAxis().setDrawAxisLine(false);
-        holder.chart.getXAxis().setDrawGridLines(false);
-        holder.chart.getXAxis().setDrawAxisLine(false);
-        holder.chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        holder.chart.getXAxis().setTextSize(7f);
-        holder.chart.getAxisLeft().setDrawGridLines(false);
-        holder.chart.getAxisLeft().setDrawLabels(false);
-        holder.chart.getAxisLeft().setDrawAxisLine(false);
-        holder.chart.getAxisRight().setDrawAxisLine(false);
-        holder.chart.getAxisRight().setDrawGridLines(false);
-        holder.chart.getAxisRight().setDrawLabels(false);
-
-//        holder.chart.setFitBars(true);
-
-        Legend l = holder.chart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
-        l.setEnabled(false);
-
-        setData(holder,objView);
-        holder.chart.animateXY(2000, 2000);
-    }
-
-    private void setData(ViewHolder holder, Map<String, Object> objView) {
-        ArrayList<BarEntry> values = new ArrayList<>();
-        int total = 0;
-        int qBoletasElaboradas = (int) objView.get("qBoletasElaboradas");
-        int qBoletasConcluidas = (int) objView.get("qBoletasConcluidas");
-//        int qViviendasElaboradas = (int) objView.get("qViviendasElaboradas");
-//        int qViviendasSeleccionadas = (int) objView.get("qViviendasSeleccionadas");
-//        values.add(new BarEntry(0, qViviendasSeleccionadas));
-//        values.add(new BarEntry(1, qViviendasElaboradas));
-        values.add(new BarEntry(0, qBoletasConcluidas));
-        values.add(new BarEntry(1, qBoletasElaboradas));
-
-        final ArrayList<String> xAxisLabel = new ArrayList<>();
-//        xAxisLabel.add("Viv.Seleccionadas");
-//        xAxisLabel.add("Viv.Elaboradas");
-        xAxisLabel.add("Concluidas");
-        xAxisLabel.add("Elaboradas");
-        holder.chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
-        BarDataSet set1;
-        if (holder.chart.getData() != null &&
-                holder.chart.getData().getDataSetCount() > 0) {
-            set1 = (BarDataSet) holder.chart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
-            holder.chart.getData().notifyDataChanged();
-            holder.chart.notifyDataSetChanged();
-        } else {
-            set1 = new BarDataSet(values, " ");
-            final int[] VORDIPLOM_COLORS = {
-                    MyApplication.getContext().getResources().getColor(R.color.color_concluido),
-                    MyApplication.getContext().getResources().getColor(R.color.colorAccent)
-//                    MyApplication.getContext().getResources().getColor(R.color.color_preconcluido),
-//                    MyApplication.getContext().getResources().getColor(R.color.color_elaborado),
-            };
-            set1.setColors(VORDIPLOM_COLORS);
-            set1.setDrawIcons(false);
-            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-            dataSets.add(set1);
-            BarData data = new BarData(dataSets);
-            data.setValueFormatter(new IntegerFormatter());
-            data.setValueTextSize(10f);
-            data.setBarWidth(0.7f);
-            holder.chart.setData(data);
-        }
     }
 
     @Override
@@ -391,10 +322,16 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
         public TextView txtBoletasConcluidas;
         public ListView listViewViviendasAdicion;
         public TextView txtViviendasRemplazo;
-        public HorizontalBarChart chart;
-        public TextView txtTotal;
-        public TextView txtViviendas;
-        public TextView txtLvTitle;
+
+        public TextView numConlcuidas;
+        public TextView textConcluidas;
+        public TextView numElaboradas;
+        public TextView textElaboradas;
+
+//        public HorizontalBarChart chart;
+//        public TextView txtTotal;
+//        public TextView txtViviendas;
+//        public TextView txtLvTitle;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -415,10 +352,16 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
             txtBoletasConcluidas = itemView.findViewById(R.id.list_boletas_concluidas);
             listViewViviendasAdicion = itemView.findViewById(R.id.list_upm_adicional);
             txtViviendasRemplazo = itemView.findViewById(R.id.list_upm_remplazo);
-            chart = itemView.findViewById(R.id.chart);
-            txtTotal=itemView.findViewById(R.id.id_text_lv_total);
-            txtViviendas=itemView.findViewById(R.id.id_text_lv_viviendas);
-            txtLvTitle=itemView.findViewById(R.id.id_text_lv_lv);
+
+            numConlcuidas = itemView.findViewById(R.id.numConlcuidas);
+            textConcluidas = itemView.findViewById(R.id.textConcluidas);
+            numElaboradas = itemView.findViewById(R.id.numElaboradas);
+            textElaboradas = itemView.findViewById(R.id.textElaboradas);
+
+//            chart = itemView.findViewById(R.id.chart);
+//            txtTotal=itemView.findViewById(R.id.id_text_lv_total);
+//            txtViviendas=itemView.findViewById(R.id.id_text_lv_viviendas);
+//            txtLvTitle=itemView.findViewById(R.id.id_text_lv_lv);
 
 
         }

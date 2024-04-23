@@ -8,6 +8,7 @@ import android.text.Html;
 import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import java.util.Timer;
@@ -19,7 +20,7 @@ import bo.gob.ine.naci.epc.herramientas.Parametros;
 
 public class SplashActivity extends ActionBarActivityProcess {
 
-    private static final long SPLASH_SCREEN_DELAY = 2000;
+    private static final long SPLASH_SCREEN_DELAY =1000;
     private Animation topAnim, bottonAnim;
     private ImageView fondo,image;
     private Timer timer;
@@ -31,15 +32,15 @@ public class SplashActivity extends ActionBarActivityProcess {
 //        getSupportActionBar().hide();
 
 //        topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
-//        bottonAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
+        bottonAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
 //
-//        fondo = findViewById(R.id.fondo_splash);
+        fondo = findViewById(R.id.fondo_splash);
         image = findViewById(R.id.logo);
 //        TextView txtSiceNombre = findViewById(R.id.txt_sice_nombre_completo);
 //        TextView textView2 = findViewById(R.id.txt_sice_nombre_completo);
 //        txtSiceNombre.setText(String.format(getString(R.string.sice_nombre_completo), Parametros.VERSION));
 
-//        fondo.setAnimation(topAnim);
+        fondo.setAnimation(topAnim);
         image.setAnimation(bottonAnim);
 //        txtSiceNombre.setAnimation(bottonAnim);
 //        textView2.setAnimation(bottonAnim);

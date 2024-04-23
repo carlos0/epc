@@ -55,13 +55,14 @@ public class Parametros {
 
 //    public static final String TABLAS_DESCARGA = "enc_pregunta, cat_catalogo, cat_seleccion, cat_tipo_pregunta, cat_upm_hijo, enc_informante, enc_encuesta, enc_nivel, enc_seccion, ope_asignacion, ope_brigada, ope_documento, ope_reporte, seg_rol, seg_rolpermiso, seg_usuario, seg_proyecto, cat_upm, cat_manzanas_comunidad, cat_comunidad_upm, perimetro, predio, disperso";
 //public static final String TABLAS_DESCARGA_ASIGNACION = "ope_asignacion, cat_upm, cat_upm_hijo, enc_observacion, cat_tipo_obs, ope_reporte, ope_voes_remplazo, cat_manzanas_comunidad, perimetro, predio, disperso";
-    public static final String TABLAS_DESCARGA = "enc_pregunta, cat_catalogo, cat_seleccion, cat_tipo_pregunta, cat_upm_hijo, enc_informante, enc_encuesta, enc_nivel, enc_seccion, ope_asignacion, ope_brigada, ope_documento, ope_reporte, seg_rol, seg_rolpermiso, seg_usuario, seg_proyecto, cat_upm";
-    public static final String TABLAS_DESCARGA_ASIGNACION = "ope_asignacion, cat_upm, cat_upm_hijo, enc_observacion, cat_tipo_obs, ope_reporte";
+    public static final String TABLAS_DESCARGA = "enc_pregunta, cat_catalogo, cat_seleccion, cat_tipo_pregunta, cat_upm_hijo, enc_informante, enc_encuesta, enc_nivel, enc_seccion, ope_asignacion, ope_brigada, ope_documento, ope_reporte, seg_rol, seg_rolpermiso, seg_usuario, seg_proyecto, cat_upm, a_epc_segmento, a_epc_manzana, a_epc_predio, d_epc_comunidad, d_epc_segmento";
+    public static final String TABLAS_DESCARGA_ASIGNACION = "ope_asignacion, cat_upm, cat_upm_hijo, enc_observacion, cat_tipo_obs, ope_reporte, a_epc_segmento, a_epc_manzana, a_epc_predio, d_epc_comunidad, d_epc_segmento";
 
     public static final String TABLAS_DESCARGA_LV = "f_reordena_lv, enc_informante_lv, enc_encuesta_lv";
     public static final String TABLAS_REORDENA_LV = "f_arregla_lv, enc_informante_lv, enc_encuesta_lv";
     public static final String TABLAS_DESCARGA_OBSERVACION = "enc_observacion, cat_tipo_obs";
-    public static final String TABLAS_DESCARGA_BOLETA = "enc_pregunta, cat_catalogo, cat_seleccion, cat_tipo_pregunta, enc_nivel, enc_seccion, ope_documento, ope_reporte, seg_proyecto, cat_manzanas_comunidad, cat_comunidad_upm" ;
+//    public static final String TABLAS_DESCARGA_BOLETA = "enc_pregunta, cat_catalogo, cat_seleccion, cat_tipo_pregunta, enc_nivel, enc_seccion, ope_documento, ope_reporte, seg_proyecto, cat_manzanas_comunidad, cat_comunidad_upm" ;
+    public static final String TABLAS_DESCARGA_BOLETA = "enc_pregunta, cat_catalogo, cat_seleccion, cat_tipo_pregunta, enc_nivel, enc_seccion, ope_documento, ope_reporte, seg_proyecto" ;
 
 //TODO: MODIFICAR TODO ESTO
 
@@ -112,6 +113,9 @@ public class Parametros {
     public static int ID_PREG_PERSONAS  = 20475;
 
     public static int ID_PREG_HOGAR  = 18580;
+
+    public static int ID_PREG_MORTALIDAD  = 38202;
+
     public static int ID_PREG_INCIDENCIA  = 99999;
 
     public static Fragment FRAGMENTO_ACTUAL = null;

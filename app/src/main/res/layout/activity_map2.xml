@@ -24,7 +24,9 @@
 			android:id="@+id/map"
 			android:name="com.google.android.gms.maps.SupportMapFragment"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent" />
+			android:layout_height="match_parent"
+			tools:layout="@layout/activity_map2" />
+
 
 		<LinearLayout
 			android:layout_width="wrap_content"
@@ -56,79 +58,7 @@
 
 		</LinearLayout>
 
-		<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-		<!--        android:id="@+id/fabMenuMain2"-->
-		<!--        android:layout_width="wrap_content"-->
-		<!--        android:layout_height="wrap_content"-->
-		<!--        android:layout_gravity="bottom|start"-->
-		<!--        android:layout_margin="@dimen/fab_margin"-->
-		<!--        android:backgroundTint="@color/colorPrimary"-->
-		<!--        app:borderWidth="0dp"-->
-		<!--        app:srcCompat="@drawable/ic_check_black_24dp"-->
-		<!--        android:visibility="gone"-->
-		<!--        tools:ignore="VectorDrawableCompat" />-->
 
-		<!--    <com.getbase.floatingactionbutton.FloatingActionsMenu-->
-		<!--        android:id="@+id/fabMenuMain"-->
-		<!--        android:layout_width="wrap_content"-->
-		<!--        android:layout_height="wrap_content"-->
-		<!--        android:layout_gravity="bottom|end"-->
-		<!--        app:fab_addButtonColorNormal="@color/colorPrimary"-->
-		<!--        app:fab_addButtonColorPressed="@color/colorPrimaryDark"-->
-		<!--        app:fab_labelStyle="@style/menu_labels_style"-->
-		<!--        app:srcCompat="@android:drawable/ic_dialog_map">-->
-
-		<!--        <com.getbase.floatingactionbutton.FloatingActionButton-->
-		<!--            android:id="@+id/fabPerimetro"-->
-		<!--            android:layout_width="wrap_content"-->
-		<!--            android:layout_height="wrap_content"-->
-		<!--            app:fab_colorNormal="@color/colorPrimary"-->
-		<!--            app:fab_colorPressed="@color/colorAccent"-->
-		<!--            app:fab_labelStyle="@style/menu_labels_style"-->
-		<!--            app:fab_icon="@android:drawable/ic_dialog_map"-->
-		<!--            app:fab_size="mini"-->
-		<!--            app:fab_title="Perimetros" />-->
-
-		<!--        <com.getbase.floatingactionbutton.FloatingActionButton-->
-		<!--            android:id="@+id/fabPredio"-->
-		<!--            android:layout_width="wrap_content"-->
-		<!--            android:layout_height="wrap_content"-->
-		<!--            app:fab_colorNormal="@color/colorPrimary"-->
-		<!--            app:fab_colorPressed="@color/colorAccent"-->
-		<!--            app:fab_labelStyle="@style/menu_labels_style"-->
-		<!--            app:fab_icon="@android:drawable/ic_dialog_map"-->
-		<!--            app:fab_size="mini"-->
-		<!--            app:fab_title="Predios" />-->
-
-		<!--        <com.getbase.floatingactionbutton.FloatingActionButton-->
-		<!--            android:id="@+id/fabDisperso"-->
-		<!--            android:layout_width="wrap_content"-->
-		<!--            android:layout_height="wrap_content"-->
-		<!--            app:fab_colorNormal="@color/colorPrimary"-->
-		<!--            app:fab_colorPressed="@color/colorAccent"-->
-		<!--            app:fab_labelStyle="@style/menu_labels_style"-->
-		<!--            app:fab_icon="@android:drawable/ic_dialog_map"-->
-		<!--            app:fab_size="mini"-->
-		<!--            app:fab_title="Disperso"-->
-		<!--            android:visibility="gone"/>-->
-
-		<!--        <com.getbase.floatingactionbutton.FloatingActionButton-->
-		<!--            android:id="@+id/fabTutorial2"-->
-		<!--            android:layout_width="wrap_content"-->
-		<!--            android:layout_height="wrap_content"-->
-		<!--            app:fab_size="mini"-->
-		<!--            app:fab_title="TUTORIAL"-->
-		<!--            android:layout_gravity="bottom|center"-->
-		<!--            app:fab_colorNormal="@color/colorAccent"-->
-		<!--            app:fab_colorPressed="@color/colorPrimary"-->
-		<!--            app:fab_labelStyle="@style/menu_labels_style"-->
-		<!--            android:visibility="gone"-->
-		<!--            />-->
-		<!--    </com.getbase.floatingactionbutton.FloatingActionsMenu>-->
-
-		<!--	<HorizontalScrollView-->
-		<!--		android:layout_width="match_parent"-->
-		<!--		android:layout_height="wrap_content">-->
 		<com.google.android.material.button.MaterialButtonToggleGroup
 			android:id="@+id/fabMenuMain2"
 			android:layout_width="match_parent"
@@ -195,7 +125,7 @@
 				style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:text="ir a upm"
+				android:text="MI UBICACIÓN"
 				app:icon="@drawable/ic_ir_upm"
 				android:backgroundTint="@color/color_blanco_button"
 				app:iconSize="30dp" />
@@ -218,7 +148,6 @@
 				android:text="Mapa ine"
 				app:icon="@android:drawable/ic_dialog_map"
 				android:backgroundTint="@color/color_blanco_button"
-				android:visibility="gone"
 				app:iconSize="30dp" />
 
 
@@ -250,28 +179,27 @@
 			android:text=""
 			android:visibility="gone" />
 
-
 	</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 	<androidx.constraintlayout.widget.Barrier
-        android:layout_width="wrap_content"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		app:barrierDirection="left" />
 
 	<androidx.constraintlayout.widget.Guideline
-        android:layout_width="wrap_content"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
 		app:layout_constraintGuide_begin="20dp" />
 
 	<androidx.constraintlayout.widget.Guideline
-        android:layout_width="wrap_content"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
 		app:layout_constraintGuide_begin="20dp" />
 
 	<androidx.constraintlayout.widget.Guideline
-        android:layout_width="wrap_content"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
 		app:layout_constraintGuide_end="639dp" />

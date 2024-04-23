@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -29,8 +32,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.tozny.crypto.android.AesCbcWithIntegrity;
 
@@ -72,8 +75,7 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
     private ActionBarDrawerToggle toogle;
     private ImageView boletaVacia;
     private String proyectoNombre;
-    private FloatingActionsMenu fabMenuMain;
-    private FloatingActionButton descarga, actualiza, consolida;
+    private FloatingActionButton fabMapa;
     private Animation animation;
     private View hView;
     private static long back_pressed;
@@ -101,63 +103,15 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
-        fabMenuMain = findViewById(R.id.fabMenuMain);
-        descarga = findViewById(R.id.fabDescarga);
-        actualiza = findViewById(R.id.fabActualiza);
-        consolida = findViewById(R.id.fabConsolida);
+        fabMapa = findViewById(R.id.botonMapa);
+        fabMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                irMap2(1);
+            }
+        });
+
         view4 = findViewById(R.id.view4);
-
-        descarga.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Movil.isNetworkAvailable()) {
-                    successMethod = "cargarListado";
-                    errorMethod = null;
-//                                    if (Observacion.countObs("1,6,8,17,18,19,22,24") > 0) {
-//                                        decisionMessage("download_asignacion", null, "ALERTA", Html.fromHtml("Tiene observaciones en sus boletas. Se le recomienda corregirlas. ¿Desea descargar la carga de trabajo de todos modos?"));
-//                                    } else {
-                    download_asignacion();
-//                                    }
-                } else {
-                    errorMessage(MainActivity.this, null, "Error!", Html.fromHtml("No tiene conexión a Internet"), Parametros.FONT_OBS);
-                }
-                fabMenuMain.collapse();
-            }
-        });
-
-        actualiza.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Movil.isNetworkAvailable()) {
-                    try {
-                        startThree();
-                        successMethod = "success";
-                        errorMethod = null;
-                        new DownloadFileJson().execute(Parametros.URL_DOWNLOAD, Parametros.TABLAS_DESCARGA_BOLETA, Usuario.getLogin(), "Los datos se importaron correctamente.",Usuario.getPlainToken());
-                    } catch (Exception ex) {
-                        errorMessage(MainActivity.this, "finish", "Error!", Html.fromHtml(ex.getMessage()), Parametros.FONT_OBS);
-                    }
-                } else {
-                    errorMessage(MainActivity.this, null, "Error!", Html.fromHtml("No tiene conexión a Internet"), Parametros.FONT_OBS);
-                }
-                fabMenuMain.collapse();
-            }
-        });
-
-        consolida.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Movil.isNetworkAvailable()) {
-                    successMethod = null;
-                    errorMethod = null;
-                    finalMethod = null;
-                    decisionMessage(MainActivity.this, "consolida", null, "¿Consolidar?", Html.fromHtml("Se subirán los datos"));
-                } else {
-                    errorMessage(MainActivity.this, null, "Error!", Html.fromHtml("No tiene conexión a Internet"), Parametros.FONT_OBS);
-                }
-                fabMenuMain.collapse();
-            }
-        });
 
         boletaVacia = findViewById(R.id.boletaVacia);
         drawerLayout = findViewById(R.id.main_navigation_drawer);
@@ -179,6 +133,10 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
         toogle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(toogle);
         toogle.syncState();
+        Drawable iconoNavegacion = toogle.getDrawerArrowDrawable();
+        iconoNavegacion.setColorFilter(getResources().getColor(R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+        toolbar.setNavigationIcon(iconoNavegacion);
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        actionBar = getSupportActionBar();
@@ -256,7 +214,6 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
             list = findViewById(R.id.list_view);
 
             cargaListadoPrueba();
-            fabMenuMain.expand();
         }catch (Exception e){
             e.printStackTrace();
             errorMessage(MainActivity.this,null, "Error!", Html.fromHtml("No se pudo cargar el listado"), Parametros.FONT_OBS);
@@ -298,75 +255,72 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
         }
     }
     private void IniciaTutorial(){
-
-
-
-        //NavigationView navigationView = findViewById(R.id.action_cartografia);
-        //navigationView.getHeaderView(0);
-
-
-//        Map<String, Object> val = valores.get(list.getChildAdapterPosition());
-
-        builder = new GuideView.Builder(this)
-                .setTitle("Despliega")
-                .setContentText("Despliega Opciones")
-                .setGravity(Gravity.center)
-                .setDismissType(DismissType.anywhere)
-                .setTargetView(fabMenuMain)
-                .setGuideListener(new GuideListener() {
-                    @Override
-                    public void onDismiss(View view) {
-                        switch (view.getId()) {
-                            case R.id.fabMenuMain:
-                                builder.setTargetView(descarga).build();
-                                builder.setTitle("Descarga");
-                                builder.setTitleTextSize(25);
-                                builder.setContentText("Descargar y actualizar la asignación de carga de trabajo");
-                                break;
-                            case R.id.fabDescarga:
-                                builder.setTargetView(actualiza).build();
-                                builder.setTitle("Actualiza");
-                                builder.setTitleTextSize(25);
-                                builder.setContentText("actualizar la base de datos de preguntas");
-                                break;
-                            case R.id.fabActualiza:
-                                builder.setTargetView(consolida).build();
-                                builder.setTitle("Consolida");
-                                builder.setTitleTextSize(25);
-                                builder.setContentText("Enviar la información capturada del dispositivo al servidor del INE");
-                                break;
-                            case R.id.fabConsolida:
-                                builder.setTargetView(list.getChildAt(0)).build();
-                                builder.setTitle("Opciones");
-                                builder.setTitleTextSize(25);
-                                builder.setContentText("Para mostrar detalle Presionar imagen (Información) \n Para mostrar los LV's presionar la imagen de la derecha (LV) \n Para mostrar las boletas seleccionar la fila \n Para mostrar las observaciones presionar el ícono de observaciones");
-
-
-                                break;
-                            case R.id.list_it:
-                                builder.setTargetView(hView).build();
-                                builder.setTitle("Cartografía");
-                                builder.setTitleTextSize(25);
-                                builder.setContentText("Seleccionar cartografía");
-                                finish();
-                                startActivity(getIntent());
-
-                                return;
-                            case R.id.main_navigation_drawer:
-
-                                return;
-                        }
-
-                        mGuideView = builder.build();
-                        mGuideView.show();
-                    }
-                });
-        mGuideView = builder.build();
-        mGuideView.show();
-        updatingForDynamicLocationViews();
-
-
-
+//
+//
+//
+//        //NavigationView navigationView = findViewById(R.id.action_cartografia);
+//        //navigationView.getHeaderView(0);
+//
+//
+////        Map<String, Object> val = valores.get(list.getChildAdapterPosition());
+//
+//        builder = new GuideView.Builder(this)
+//                .setTitle("Despliega")
+//                .setContentText("Despliega Opciones")
+//                .setGravity(Gravity.center)
+//                .setDismissType(DismissType.anywhere)
+//                .setTargetView(fabMenuMain)
+//                .setGuideListener(new GuideListener() {
+//                    @Override
+//                    public void onDismiss(View view) {
+//                        switch (view.getId()) {
+//                            case R.id.fabMenuMain:
+//                                builder.setTargetView(descarga).build();
+//                                builder.setTitle("Descarga");
+//                                builder.setTitleTextSize(25);
+//                                builder.setContentText("Descargar y actualizar la asignación de carga de trabajo");
+//                                break;
+//                            case R.id.fabDescarga:
+//                                builder.setTargetView(actualiza).build();
+//                                builder.setTitle("Actualiza");
+//                                builder.setTitleTextSize(25);
+//                                builder.setContentText("actualizar la base de datos de preguntas");
+//                                break;
+//                            case R.id.fabActualiza:
+//                                builder.setTargetView(consolida).build();
+//                                builder.setTitle("Consolida");
+//                                builder.setTitleTextSize(25);
+//                                builder.setContentText("Enviar la información capturada del dispositivo al servidor del INE");
+//                                break;
+//                            case R.id.fabConsolida:
+//                                builder.setTargetView(list.getChildAt(0)).build();
+//                                builder.setTitle("Opciones");
+//                                builder.setTitleTextSize(25);
+//                                builder.setContentText("Para mostrar detalle Presionar imagen (Información) \n Para mostrar los LV's presionar la imagen de la derecha (LV) \n Para mostrar las boletas seleccionar la fila \n Para mostrar las observaciones presionar el ícono de observaciones");
+//
+//
+//                                break;
+//                            case R.id.list_it:
+//                                builder.setTargetView(hView).build();
+//                                builder.setTitle("Cartografía");
+//                                builder.setTitleTextSize(25);
+//                                builder.setContentText("Seleccionar cartografía");
+//                                finish();
+//                                startActivity(getIntent());
+//
+//                                return;
+//                            case R.id.main_navigation_drawer:
+//
+//                                return;
+//                        }
+//
+//                        mGuideView = builder.build();
+//                        mGuideView.show();
+//                    }
+//                });
+//        mGuideView = builder.build();
+//        mGuideView.show();
+//        updatingForDynamicLocationViews();
 
     }
     private void updatingForDynamicLocationViews() {
@@ -390,24 +344,84 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
         if(toogle.onOptionsItemSelected(item)){
             return true;
         }
-//
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                drawerLayout.openDrawer(GravityCompat.START);
-//                return true;
-//        }
         switch (item.getItemId()) {
-            case R.id.action_settings:
-
-
-                inicializaPrueba ();
-                IniciaTutorial();
-
-                //inicializa();
+            case R.id.action_sync:
+                sincronizar();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sincronizar() {
+        if (Movil.isNetworkAvailable()) {
+            try {
+                startThree();
+                decisionMessage(MainActivity.this, "syncConsolida", null, "¿Sincronizar?", Html.fromHtml("Se datos se sincronizaran"));
+            } catch (Exception ex) {
+                errorMessage(MainActivity.this, "finish", "Error!", Html.fromHtml(ex.getMessage()), Parametros.FONT_OBS);
+            }
+        } else {
+            errorMessage(MainActivity.this, null, "Error!", Html.fromHtml("No tiene conexión a Internet"), Parametros.FONT_OBS);
+        }
+    }
+
+    public void syncConsolida(){
+        Log.d("ALERTA: ","------------------syncConsolida---------------------");
+        String file = DataBase.backup("");
+        if (file == null) {
+            errorMessage(MainActivity.this, null, "Error!", Html.fromHtml("No se pudo generar la copia de seguridad."), Parametros.FONT_OBS);
+        } else {
+            try {
+                startThree();
+                successMethod = "syncActualiza";
+                new enviaJson().execute(Parametros.URL_DOWNLOAD, String.valueOf(Usuario.getUsuario()),String.valueOf(Usuario.getPlainToken()));
+            } catch (Exception ex) {
+                errorMessage(MainActivity.this, null, "Error!", Html.fromHtml(ex.getMessage()), Parametros.FONT_OBS);
+            }
+        }
+    }
+    public void syncActualiza() {
+        Log.d("ALERTA: ","------------------syncActualiza---------------------");
+        try {
+            startThree();
+            successMethod = "syncDescarga";
+            new DownloadFileJson().execute(Parametros.URL_DOWNLOAD, Parametros.TABLAS_DESCARGA_BOLETA, Usuario.getLogin(), "Los datos se importaron correctamente.",Usuario.getPlainToken());
+        } catch (Exception ex) {
+            errorMessage(MainActivity.this, "finish", "Error!", Html.fromHtml(ex.getMessage()), Parametros.FONT_OBS);
+        }
+    }
+    public void syncDescarga() {
+        Log.d("ALERTA: ","------------------syncDescarga---------------------");
+        try {
+            startThree();
+            successMethod = "syncDescargaCartografia";
+            new DownloadFileJson().execute(Parametros.URL_DOWNLOAD,Parametros.TABLAS_DESCARGA_ASIGNACION, Usuario.getLogin(),"Los datos se importaron correctamente.",Usuario.getPlainToken());
+        } catch (Exception ex) {
+            errorMessage(MainActivity.this, "finish", "Error!", Html.fromHtml(ex.getMessage()), Parametros.FONT_OBS);
+        }
+    }
+
+    public void syncDescargaCartografia() {
+        Log.d("ALERTA: ","------------------syncDescargaCartografia---------------------");
+        try {
+            startThree();
+            successMethod = "cargarListado";
+            ArrayList<String> pathFileList = Upm.getCodigosUpm(Usuario.getUsuario());
+            if(pathFileList.size() == 0){
+                errorMessage(MainActivity.this, null, "Error!", Html.fromHtml("No tiene información de mapas. Descargue su carga de trabajo con la opción: 'Descargar asignación'"), Parametros.FONT_OBS);
+            } else {
+                File directory = new File(Parametros.DIR_CARTO);
+                if (!directory.exists()) {
+                    if (!directory.mkdirs()) {
+                        errorMessage(MainActivity.this,null, "Error!", Html.fromHtml("No se pudo crear el directorio."), Parametros.FONT_OBS);
+                    }
+                }
+                new DownloadFtp().execute(pathFileList);
+            }
+        } catch (Exception ex) {
+            errorMessage(MainActivity.this, "finish", "Error!", Html.fromHtml(ex.getMessage()), Parametros.FONT_OBS);
+        }
     }
 
     private void setupNavigationDrawerContent(NavigationView navigationView) {
@@ -805,31 +819,13 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
     public DragAndDropPermissions requestDragAndDropPermissions(DragEvent event) {
         return super.requestDragAndDropPermissions(event);
     }
-        @Override
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        final MenuItem versionItem = menu.findItem(R.id.action_settings);
-        MenuItem borrarMenu=menu.findItem(R.id.action_borrar_todo);
-        borrarMenu.setVisible(false);
-//        searchView = (SearchView) searchItem.getActionView();
-//        searchView.setQueryHint(getString(R.string.search_view_hint));
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                searchView.clearFocus();
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String searchText) {
-//                adapter.refreshData(valores);
-//                adapter.getFilter().filter(searchText);
-//                return true;
-//            }
-//        });
-//        cargarMenuItems(menu);
-            versionItem.setTitle("Versión "+Parametros.VERSION);
+        MenuItem versionItem = menu.findItem(R.id.action_sync);
+        versionItem.setTitle("Versión "+Parametros.VERSION);
         return true;
     }
 

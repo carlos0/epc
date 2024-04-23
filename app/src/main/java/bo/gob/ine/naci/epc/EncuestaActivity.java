@@ -138,6 +138,8 @@ public class EncuestaActivity extends ActionBarActivityProcess implements View.O
 
         ringProgressBar=(RingProgressBar)findViewById(R.id.progress_bar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         fragmentInicial = new FragmentInicial();
         fragmentList = new FragmentList();
         fragmentEncuesta = new FragmentEncuesta();
@@ -469,6 +471,13 @@ public class EncuestaActivity extends ActionBarActivityProcess implements View.O
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
         if(toogle.onOptionsItemSelected(item))
             return true;
         return super.onOptionsItemSelected(item);

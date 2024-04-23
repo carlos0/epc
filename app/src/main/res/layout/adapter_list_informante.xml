@@ -50,12 +50,12 @@
                     android:layout_marginTop="20dp"
                     >
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/list_value"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:textColor="@color/colorPrimaryDark"-->
-<!--                        android:textStyle="bold" />-->
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/list_value"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:textColor="@color/colorPrimaryDark"-->
+                    <!--                        android:textStyle="bold" />-->
 
                     <TextView
                         android:id="@+id/list_description"
@@ -70,6 +70,7 @@
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
+
                     <ImageButton
                         android:id="@+id/eliminaBoleta"
                         android:layout_width="wrap_content"
@@ -80,6 +81,18 @@
                         android:tooltipText="Eliminar"
                         android:src="@drawable/ic_delete"/>
                     <ImageButton
+                        android:id="@+id/ver_mapa_segmento"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="5dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_circle"
+                        android:tooltipText="Eliminar"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/action_cartografia"
+                        android:tint="@color/color_list"/>
+
+                    <ImageButton
                         android:id="@+id/list_observacion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -87,13 +100,14 @@
                         android:layout_gravity="center"
                         android:background="@color/icons"
                         android:tooltipText="Eliminar"
-                        android:src="@drawable/ic_notifications"/>
+                        android:src="@drawable/ic_notifications"
+                        android:visibility="gone"/>
 
-<!--                    <ImageButton-->
-<!--                        android:id="@+id/eliminaBoleta"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:src="@drawable/ic_baseline_delete_24" />-->
+                    <!--                    <ImageButton-->
+                    <!--                        android:id="@+id/eliminaBoleta"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="match_parent"-->
+                    <!--                        android:src="@drawable/ic_baseline_delete_24" />-->
                 </LinearLayout>
             </LinearLayout>
 
@@ -107,7 +121,8 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:textColor="@color/color_list"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -120,22 +135,25 @@
                     android:layout_height="match_parent"
                     android:backgroundTint="@color/colorPrimary_light"
                     android:text="Aprobar boleta"
-                    android:textColor="@color/color_list" />
+                    android:textColor="@color/color_list"
+                    android:visibility="gone"/>
                 <Button
                     android:id="@+id/list_revision_super"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/colorAccent"
+                    android:backgroundTint="@color/postcensal_dorado"
                     android:text="Revision Supervisor"
-                    android:textColor="@color/color_list" />
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/color_list"
+                    android:layout_marginEnd="0dp"/>
 
                 <!--                <Button-->
-<!--                    android:id="@+id/list_observacion"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:backgroundTint="@color/colorCheckButton"-->
-<!--                    android:text="Observaciones"-->
-<!--                    android:textColor="@color/color_list" />-->
+                <!--                    android:id="@+id/list_observacion"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:backgroundTint="@color/colorCheckButton"-->
+                <!--                    android:text="Observaciones"-->
+                <!--                    android:textColor="@color/color_list" />-->
             </LinearLayout>
 
             <LinearLayout

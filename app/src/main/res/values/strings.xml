@@ -49,7 +49,7 @@
     <!--OTROS MENSAJES-->
     <string name="title_dicie">"DICIE-Informática"</string>
     <string name="text_version">"Versión %1$s"</string>
-    <string name="title_main">ENCUESTA DE HOGARES(2023)</string>
+    <string name="title_main">ENCUESTA POST CENSAL</string>
     <string name="title_table_miembros">VARIABLES RELACIONADAS CON MIEMBROS DE HOGAR</string>
 
     <!-- TODO: Remove or change this placeholder text -->

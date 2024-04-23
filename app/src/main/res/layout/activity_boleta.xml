@@ -20,7 +20,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/status_bar_lollipop_height"
-            android:background="?colorPrimary"/>
+            android:background="@color/postcensal_dorado"/>
 
     </LinearLayout>
 
@@ -47,7 +47,7 @@
                     android:transitionName="logo"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/logo_ine" />
+                    android:src="@drawable/logo_postcensal" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -58,6 +58,15 @@
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
                     android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/mapa_lv"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/action_cartografia"
+                    android:tint="@color/color_list"
+                    android:layout_marginEnd="15dp"
+                    android:layout_gravity="center"/>
             </LinearLayout>
 
 
@@ -83,17 +92,18 @@
                 android:id="@+id/list_Boleta"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_anchor="@+id/boletaVacia"
+                app:layout_anchorGravity="bottom|center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </LinearLayout>
 
 
-<!--    </LinearLayout>-->
+    <!--    </LinearLayout>-->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/botonBoleta"
@@ -101,8 +111,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@android:drawable/ic_input_add"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:srcCompat="@drawable/ic_add"
+        app:maxImageSize="40dp"
+        app:borderWidth="0dp"
+        app:tint="@color/color_list"
         />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

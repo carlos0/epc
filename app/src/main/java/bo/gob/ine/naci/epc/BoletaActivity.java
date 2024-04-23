@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -47,7 +48,7 @@ import bo.gob.ine.naci.epc.herramientas.Parametros;
 public class BoletaActivity extends ActionBarActivityProcess implements AdapterEvents, View.OnTouchListener {
 
     private Toolbar toolbar;
-    private ImageView imagen;
+    private ImageView imagen, mapa_lv;
     private int idNivel;
     private IdInformante idTemp;
     private FloatingActionButton botonBoleta;
@@ -64,7 +65,7 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
     int lastAction;
     private  int idAsignacion;
     private  Integer nroRevisita;
-//    private int reciclada;
+    //    private int reciclada;
     private int idUpmHijo;
 
     @Override
@@ -83,9 +84,21 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
         nivel = nivelInicial.nivel_inicial();
         verificaBoletas();
         cargarListado();
+        mapa_lv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                irMap2();
+            }
+        });
 
     }
-
+    public void irMap2() {
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("idUpm", idUpm);
+        Intent map = new Intent(getApplicationContext(), MapActivity2.class);
+//        map.putExtras(bundle);
+        startActivity(map);
+    }
     public void cargarOpciones(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -109,6 +122,7 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
 
         boletaVacia = findViewById(R.id.boletaVacia);
         list = findViewById(R.id.list_Boleta);
+        mapa_lv= findViewById(R.id.mapa_lv);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -274,7 +288,7 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
                         Map<String, Object> val = valores.get(list.getChildAdapterPosition(v));
 //                        irEncuesta2(new IdInformante((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo")), new IdEncuesta(0,0,0), 2, 3, Parametros.ID_SECCION_RESERVADA, new IdInformante((Integer) val.get("id_asignacion_padre"), (Integer) val.get("correlativo_padre")),1,idUpmHijo);
                         irEncuesta2(new IdEncuesta((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo"), 0), 0, false);
-                    finish();
+                        finish();
                     } catch (Exception exp) {
                         exp.printStackTrace();
                     }
@@ -366,7 +380,7 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
 
     public static void habilitaSupervisor(IdInformante idInformante){
         Log.d("supervisor2", "aqui");
-            Informante.supervisor(idInformante);
+        Informante.supervisor(idInformante);
 
     }
 
@@ -391,9 +405,9 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
                     agregarInformante();
                 break;
 
-                case MotionEvent.ACTION_BUTTON_PRESS:
-                    agregarInformante();
-                    break;
+            case MotionEvent.ACTION_BUTTON_PRESS:
+                agregarInformante();
+                break;
             default:
                 return false;
         }
@@ -430,39 +444,39 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
                     informantePadreAnterior = new InformanteAnterior().obtenerListado("id_nivel = 3 AND id_upm = " + idUpm+" AND id_base=2 ", "CAST(codigo AS Int)");
                 }
                 if(informantePadreAnterior != null && informantePadreAnterior.size()>0) {
-                for(Map<String, Object> t : informantePadreAnterior){
-                    Informante informantePadre = new Informante();
+                    for(Map<String, Object> t : informantePadreAnterior){
+                        Informante informantePadre = new Informante();
 //                    Map<String, Object> mapInformantePadreAnterior = informantePadreAnterior.get(0);
-                    if (informantePadre.nuevo()) {
-                        informantePadre.set_id_nivel((Integer) t.get("id_nivel"));
-                        informantePadre.set_id_upm((Integer) t.get("id_upm"));
-                        informantePadre.set_id_upm_hijo((Integer) t.get("id_upm_hijo"));
-                        informantePadre.set_codigo((String) t.get("codigo"));
-                        informantePadre.set_descripcion((String) t.get("descripcion"));
-                        informantePadre.set_usucre(Usuario.getLogin());
-                        informantePadre.set_id_informante_anterior(new IdInformante((Integer) t.get("id_asignacion"), (Integer) t.get("correlativo")));
-                        informantePadre.set_codigo_anterior((String) t.get("codigo"));
-                        informantePadre.set_id_usuario(Usuario.getUsuario());
+                        if (informantePadre.nuevo()) {
+                            informantePadre.set_id_nivel((Integer) t.get("id_nivel"));
+                            informantePadre.set_id_upm((Integer) t.get("id_upm"));
+                            informantePadre.set_id_upm_hijo((Integer) t.get("id_upm_hijo"));
+                            informantePadre.set_codigo((String) t.get("codigo"));
+                            informantePadre.set_descripcion((String) t.get("descripcion"));
+                            informantePadre.set_usucre(Usuario.getLogin());
+                            informantePadre.set_id_informante_anterior(new IdInformante((Integer) t.get("id_asignacion"), (Integer) t.get("correlativo")));
+                            informantePadre.set_codigo_anterior((String) t.get("codigo"));
+                            informantePadre.set_id_usuario(Usuario.getUsuario());
 
-                        IdInformante idInformantePadreNuevo = null;
-                        switch ((Integer) t.get("id_nivel")) {
-                            case 3:
-                                idInformantePadreNuevo = (IdInformante) informantePadre.guardar();
-                                break;
+                            IdInformante idInformantePadreNuevo = null;
+                            switch ((Integer) t.get("id_nivel")) {
+                                case 3:
+                                    idInformantePadreNuevo = (IdInformante) informantePadre.guardar();
+                                    break;
 
-                        }
-                        ///inserta encuesta de padre
-                        ArrayList<Map<String, Object>> encuestaAnteriorPadre = new EncuestaAnterior().obtenerListado("id_asignacion = " + t.get("id_asignacion") + " AND correlativo =" + t.get("correlativo")+" AND id_pregunta NOT IN (2036,2037,2038,2151)", "");
-                        Encuesta encuestaPadre = new Encuesta();
-                        for (Map<String, Object> r : encuestaAnteriorPadre) {
-                            if (encuestaPadre.nuevo()) {
-                                if (idInformantePadreNuevo != null)
-                                    encuestaPadre.set_id_encuesta(new IdEncuesta(idInformantePadreNuevo.id_asignacion, idInformantePadreNuevo.correlativo, (Integer) r.get("id_pregunta")));
-                                encuestaPadre.set_codigo_respuesta((String) r.get("codigo_respuesta"));
-                                encuestaPadre.set_respuesta((String) r.get("respuesta"));
-                                encuestaPadre.set_observacion((String) r.get("observacion"));
-                                encuestaPadre.set_usucre(Usuario.getLogin());
-                                switch ((String) r.get("codigo_respuesta")) {
+                            }
+                            ///inserta encuesta de padre
+                            ArrayList<Map<String, Object>> encuestaAnteriorPadre = new EncuestaAnterior().obtenerListado("id_asignacion = " + t.get("id_asignacion") + " AND correlativo =" + t.get("correlativo")+" AND id_pregunta NOT IN (2036,2037,2038,2151)", "");
+                            Encuesta encuestaPadre = new Encuesta();
+                            for (Map<String, Object> r : encuestaAnteriorPadre) {
+                                if (encuestaPadre.nuevo()) {
+                                    if (idInformantePadreNuevo != null)
+                                        encuestaPadre.set_id_encuesta(new IdEncuesta(idInformantePadreNuevo.id_asignacion, idInformantePadreNuevo.correlativo, (Integer) r.get("id_pregunta")));
+                                    encuestaPadre.set_codigo_respuesta((String) r.get("codigo_respuesta"));
+                                    encuestaPadre.set_respuesta((String) r.get("respuesta"));
+                                    encuestaPadre.set_observacion((String) r.get("observacion"));
+                                    encuestaPadre.set_usucre(Usuario.getLogin());
+                                    switch ((String) r.get("codigo_respuesta")) {
 //                                    case "997":
 //                                        encuestaPadre.set_estado(Estado.NOAPLICA);
 //                                        break;
@@ -472,40 +486,40 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
 //                                    case "999":
 //                                        encuestaPadre.set_estado(Estado.NOSABE);
 //                                        break;
-                                    default:
-                                        encuestaPadre.set_estado(Estado.ELABORADO);
-                                        break;
+                                        default:
+                                            encuestaPadre.set_estado(Estado.ELABORADO);
+                                            break;
+                                    }
+                                    encuestaPadre.guardar();
+                                } else {
+                                    return "No se ha podido crear la respuesta.";
                                 }
-                                encuestaPadre.guardar();
-                            } else {
-                                return "No se ha podido crear la respuesta.";
                             }
-                        }
 
-                        informanteAnterior = new InformanteAnterior().obtenerListado("id_nivel = 4 AND id_upm = " + idUpm + " AND id_base=2 AND id_asignacion_padre= " + (Integer) t.get("id_asignacion") + " AND correlativo_padre= " + (Integer) t.get("correlativo"), "CAST(codigo AS Int)");
-                        //informantes Hijos
+                            informanteAnterior = new InformanteAnterior().obtenerListado("id_nivel = 4 AND id_upm = " + idUpm + " AND id_base=2 AND id_asignacion_padre= " + (Integer) t.get("id_asignacion") + " AND correlativo_padre= " + (Integer) t.get("correlativo"), "CAST(codigo AS Int)");
+                            //informantes Hijos
 
-                        Informante informante = new Informante();
+                            Informante informante = new Informante();
 
-                        for (Map<String, Object> i : informanteAnterior) {
-                            textCodigos.append(",").append((String) i.get("codigo"));
-                            if (informante.nuevo()) {
+                            for (Map<String, Object> i : informanteAnterior) {
+                                textCodigos.append(",").append((String) i.get("codigo"));
+                                if (informante.nuevo()) {
 
-                                informante.set_id_nivel((Integer) i.get("id_nivel"));
-                                informante.set_id_upm((Integer) i.get("id_upm"));
-                                informante.set_id_upm_hijo((Integer) i.get("id_upm_hijo"));
-                                informante.set_id_informante(new IdInformante(idAsignacion, 0));
-                                informante.set_codigo((String) i.get("codigo"));
-                                informante.set_descripcion((String) i.get("descripcion"));
-                                informante.set_usucre(Usuario.getLogin());
-                                informante.set_id_informante_anterior(new IdInformante((Integer) i.get("id_asignacion"), (Integer) i.get("correlativo")));
-                                informante.set_codigo_anterior((String) i.get("codigo"));
-                                informante.set_id_usuario(Usuario.getUsuario());
+                                    informante.set_id_nivel((Integer) i.get("id_nivel"));
+                                    informante.set_id_upm((Integer) i.get("id_upm"));
+                                    informante.set_id_upm_hijo((Integer) i.get("id_upm_hijo"));
+                                    informante.set_id_informante(new IdInformante(idAsignacion, 0));
+                                    informante.set_codigo((String) i.get("codigo"));
+                                    informante.set_descripcion((String) i.get("descripcion"));
+                                    informante.set_usucre(Usuario.getLogin());
+                                    informante.set_id_informante_anterior(new IdInformante((Integer) i.get("id_asignacion"), (Integer) i.get("correlativo")));
+                                    informante.set_codigo_anterior((String) i.get("codigo"));
+                                    informante.set_id_usuario(Usuario.getUsuario());
 //                        informante.set_estado((Estado) i.get("estado"));
-                                if (idInformantePadreNuevo != null) {
-                                    informante.set_id_informante_padre(idInformantePadreNuevo);
-                                }
-                                IdInformante idInformanteNuevo;
+                                    if (idInformantePadreNuevo != null) {
+                                        informante.set_id_informante_padre(idInformantePadreNuevo);
+                                    }
+                                    IdInformante idInformanteNuevo;
 //                                switch ((Integer) i.get("id_nivel")) {
 //                                    case 2:
 //                                idInformanteNuevo = (IdInformante) informante.guardar();
@@ -514,47 +528,47 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
 //                                        idInformanteNuevo = (IdInformante)informante.guardar();
 //                                        break;
 //                                    default:
-                                idInformanteNuevo = informante.guardar(idInformantePadreNuevo);
+                                    idInformanteNuevo = informante.guardar(idInformantePadreNuevo);
 //                                        break;
 //                                }
 
-                                ArrayList<Map<String, Object>> encuestaAnterior = new EncuestaAnterior().obtenerListado("id_asignacion = " + i.get("id_asignacion") + " AND correlativo=" + i.get("correlativo")+" AND id_pregunta NOT IN (2036,2037,2038,2151)", "");
-                                Encuesta encuesta = new Encuesta();
-                                for (Map<String, Object> r : encuestaAnterior) {
-                                    if (encuesta.nuevo()) {
-                                        if (idInformanteNuevo != null)
-                                            encuesta.set_id_encuesta(new IdEncuesta(idInformanteNuevo.id_asignacion, idInformanteNuevo.correlativo, (Integer) r.get("id_pregunta")));
-                                        encuesta.set_codigo_respuesta((String) r.get("codigo_respuesta"));
-                                        encuesta.set_respuesta((String) r.get("respuesta"));
-                                        encuesta.set_observacion((String) r.get("observacion"));
-                                        encuesta.set_usucre(Usuario.getLogin());
-                                        switch ((String) r.get("codigo_respuesta")) {
-                                            case "997":
-                                                encuesta.set_estado(Estado.NOAPLICA);
-                                                break;
-                                            case "998":
-                                                encuesta.set_estado(Estado.SENIEGA);
-                                                break;
-                                            case "999":
-                                                encuesta.set_estado(Estado.NOSABE);
-                                                break;
-                                            default:
-                                                encuesta.set_estado(Estado.ELABORADO);
-                                                break;
+                                    ArrayList<Map<String, Object>> encuestaAnterior = new EncuestaAnterior().obtenerListado("id_asignacion = " + i.get("id_asignacion") + " AND correlativo=" + i.get("correlativo")+" AND id_pregunta NOT IN (2036,2037,2038,2151)", "");
+                                    Encuesta encuesta = new Encuesta();
+                                    for (Map<String, Object> r : encuestaAnterior) {
+                                        if (encuesta.nuevo()) {
+                                            if (idInformanteNuevo != null)
+                                                encuesta.set_id_encuesta(new IdEncuesta(idInformanteNuevo.id_asignacion, idInformanteNuevo.correlativo, (Integer) r.get("id_pregunta")));
+                                            encuesta.set_codigo_respuesta((String) r.get("codigo_respuesta"));
+                                            encuesta.set_respuesta((String) r.get("respuesta"));
+                                            encuesta.set_observacion((String) r.get("observacion"));
+                                            encuesta.set_usucre(Usuario.getLogin());
+                                            switch ((String) r.get("codigo_respuesta")) {
+                                                case "997":
+                                                    encuesta.set_estado(Estado.NOAPLICA);
+                                                    break;
+                                                case "998":
+                                                    encuesta.set_estado(Estado.SENIEGA);
+                                                    break;
+                                                case "999":
+                                                    encuesta.set_estado(Estado.NOSABE);
+                                                    break;
+                                                default:
+                                                    encuesta.set_estado(Estado.ELABORADO);
+                                                    break;
+                                            }
+                                            encuesta.guardar();
+                                        } else {
+                                            return "No se ha podido crear la respuesta.";
                                         }
-                                        encuesta.guardar();
-                                    } else {
-                                        return "No se ha podido crear la respuesta.";
                                     }
+                                    Log.d("generados", textCodigos.toString());
+                                } else {
+                                    return "No se ha podido crear el informante.";
                                 }
-                                Log.d("generados", textCodigos.toString());
-                            } else {
-                                return "No se ha podido crear el informante.";
                             }
                         }
-                    }
 ////////
-                }
+                    }
 
                 }else {
 
@@ -645,5 +659,6 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
             }
         }
     }
+
 
 }

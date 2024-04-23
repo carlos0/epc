@@ -12,13 +12,9 @@ import java.util.ArrayList;
 public class JMPredio {
 
     public int gid;
-    public String num_upm;
-    public String id_manz;
-    public String ciudad_com;
-    public int orden_pred;
-    public String recorrido;
-    public String data_json;
-    public String tipo;
+    public String seg_unico;
+    public String orden;
+    public String geo;
 
     public ArrayList<ContentValues> datos;
 
@@ -28,23 +24,15 @@ public class JMPredio {
 
             JSONObject objetoJSON = jsonArray.getJSONObject(j);
             gid = objetoJSON.getInt("gid");
-            num_upm = objetoJSON.getString("num_upm");
-            id_manz = objetoJSON.getString("id_manz");
-            ciudad_com = objetoJSON.getString("ciudad_com");
-            orden_pred = objetoJSON.getInt("orden_pred");
-            recorrido = objetoJSON.getString("recorrido");
-            data_json = objetoJSON.getString("data_json");
-            tipo = objetoJSON.getString("tipo");
+            seg_unico = objetoJSON.getString("seg_unico");
+            orden = objetoJSON.getString("orden");
+            geo = objetoJSON.getString("geo");
 
             ContentValues paquete = new ContentValues();
             paquete.put("gid", gid);
-            paquete.put("num_upm", num_upm);
-            paquete.put("id_manz", id_manz);
-            paquete.put("ciudad_com", ciudad_com);
-            paquete.put("orden_pred", orden_pred);
-            paquete.put("recorrido", recorrido);
-            paquete.put("data_json", data_json);
-            paquete.put("tipo", tipo);
+            paquete.put("seg_unico", seg_unico);
+            paquete.put("orden", orden);
+            paquete.put("geo", geo);
 
             datos.add(paquete);
         }

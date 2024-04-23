@@ -5,12 +5,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -18,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Html;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,16 +32,22 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.udojava.evalex.Expression;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -113,6 +124,8 @@ public class FragmentList extends Fragment {
     private ScrollView scrollPopUp;
     private RelativeLayout relativeLayout;
 
+    private static LinearLayout prueba;
+
     private IdInformante idInformante;
     private static IdInformante idPadre;
     private static int nivel;
@@ -137,7 +150,7 @@ public class FragmentList extends Fragment {
     static IComunicaFragments2 iComunicaFragments;
     private static FragmentTransaction transaction;
 
-    private CardView cardDatosViv, cardPersonas, cardHogar, cardIncidencia;
+    private CardView cardDatosViv, cardPersonas, cardHogar, cardIncidencia, cardMortalidad;
     private ScrollView scrollPersona;
 //    private boolean personaActiva = false;
     private ImageButton buttonPersonas;
@@ -179,6 +192,8 @@ public class FragmentList extends Fragment {
 //        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         vista = inflater.inflate(R.layout.fragment_fragment_list, container, false);
+
+        prueba = (LinearLayout) vista.findViewById(R.id.prueba);
 
         list = (RecyclerView) vista.findViewById(R.id.fragment_list_view);
 
@@ -248,6 +263,7 @@ public class FragmentList extends Fragment {
         cardPersonas = vista.findViewById(R.id.cardPersonas);
         cardHogar = vista.findViewById(R.id.cardHogar);
         cardIncidencia = vista.findViewById(R.id.cardIncidencia);
+        cardMortalidad = vista.findViewById(R.id.cardMortalidad);
         scrollPersona = vista.findViewById(R.id.scrollPersona);
         buttonPersonas = vista.findViewById(R.id.buttonPersonas);
 
@@ -295,6 +311,13 @@ public class FragmentList extends Fragment {
 //                iComunicaFragments.enviarDatos(idInformante, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, Parametros.ID_INCIDENCIA_FINAL), 2, 3, 180, idPadre, 3);
             }
         });
+        cardMortalidad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iComunicaFragments.enviarDatos(new IdEncuesta(idEncuesta.id_asignacion, idEncuesta.correlativo,Parametros.ID_PREG_MORTALIDAD), 3, false);
+//                iComunicaFragments.enviarDatos(idInformante, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, Parametros.ID_INCIDENCIA_FINAL), 2, 3, 180, idPadre, 3);
+            }
+        });
         buttonPersonas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -302,8 +325,92 @@ public class FragmentList extends Fragment {
             }
         });
         cargarListado(getActivity());
+//        cargarPrueba(getContext(), prueba);
         return vista;
     }
+
+//    private void cargarPrueba(Context context, LinearLayout linearLayout) {
+//        // Suponiendo que tienes un contenedor como un LinearLayout donde quieres agregar los CardViews
+//        LinearLayout contenedor = linearLayout;
+//
+//        String[] listaDatos = {"Dato 1", "Dato 2", "Dato 3"};
+//
+//        for (String dato : listaDatos) {
+//            // Crea un nuevo CardView
+//            CardView cardView = new CardView(context);
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+//                    ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.WRAP_CONTENT
+//            );
+//            int marginLeft = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
+//            int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
+//            int marginRight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
+//            int marginBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getResources().getDisplayMetrics());
+//
+//            layoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.layoutMargin), marginTop, marginRight, marginBottom);
+//            cardView.setLayoutParams(layoutParams);
+//            cardView.setRadius(getResources().getDimensionPixelSize(R.dimen.cardCornerRadius));
+//            cardView.setCardElevation(getResources().getDimensionPixelSize(R.dimen.cardElevation));
+//
+//            // Crea un nuevo ConstraintLayout dentro del CardView
+//            ConstraintLayout constraintLayout = new ConstraintLayout(context);
+//            ConstraintLayout.LayoutParams clLayoutParams = new ConstraintLayout.LayoutParams(
+//                    ConstraintLayout.LayoutParams.MATCH_PARENT,
+//                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+//            );
+//            constraintLayout.setLayoutParams(clLayoutParams);
+//            constraintLayout.setBackgroundResource(R.drawable.corner);
+//
+//            // Crea TextViews dentro del ConstraintLayout
+//            TextView iconTextView = new TextView(context);
+//            iconTextView.setLayoutParams(new ConstraintLayout.LayoutParams(
+//                    getResources().getDimensionPixelSize(R.dimen.iconWidth),
+//                    getResources().getDimensionPixelSize(R.dimen.iconHeight)
+//                    //ConstraintLayout.LayoutParams.MATCH_PARENT
+//            ));
+//            iconTextView.setText("1");
+//            iconTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.iconTextSize));
+//            iconTextView.setTypeface(null, Typeface.BOLD);
+//            iconTextView.setShadowLayer(
+//                    4f,  // Radio de desenfoque de la sombra
+//                    0f,      // Desplazamiento horizontal de la sombra
+//                    0f,      // Desplazamiento vertical de la sombra
+//                    ContextCompat.getColor(context, R.color.colorPrimary_text)  // Color de la sombra
+//            );
+//            iconTextView.setGravity(Gravity.CENTER);
+//            iconTextView.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+//
+//            TextView titleTextView = new TextView(context);
+//            titleTextView.setLayoutParams(new ConstraintLayout.LayoutParams(
+//                    ConstraintLayout.LayoutParams.MATCH_PARENT,
+//                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+//            ));
+//            titleTextView.setText(dato);
+//            titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+//            titleTextView.setTypeface(null, Typeface.BOLD);
+//            titleTextView.setTextColor(Color.BLACK);
+//
+//            TextView descriptionTextView = new TextView(context);
+//            descriptionTextView.setLayoutParams(new ConstraintLayout.LayoutParams(
+//                    ConstraintLayout.LayoutParams.MATCH_PARENT,
+//                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+//            ));
+//            descriptionTextView.setText("Llene o edite los datos de la vivienda");
+//            descriptionTextView.setTextColor(Color.BLACK);
+//
+//            // Agrega TextViews al ConstraintLayout
+//            constraintLayout.addView(iconTextView);
+//            constraintLayout.addView(titleTextView);
+//            constraintLayout.addView(descriptionTextView);
+//
+//            // Agrega ConstraintLayout al CardView
+//            cardView.addView(constraintLayout);
+//
+//            // Agrega CardView al contenedor
+//            contenedor.addView(cardView);
+//        }
+//
+//    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -341,7 +448,72 @@ public class FragmentList extends Fragment {
     }
 
     private void popUp() {
-        final String buttonPressed = "";
+//        final String buttonPressed = "";
+//
+//        LinearLayout layout = new LinearLayout(getContext());
+//        layout.setOrientation(LinearLayout.VERTICAL);
+//        layout.setPadding(16, 16, 16, 16);
+//
+//        // Crear la imagen dentro de un cuadrado redondeado (ImageView dentro de un LinearLayout)
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(200, 200);
+//        params.setMargins(0, 0, 0, 16); // Márgenes inferiores para separar la imagen de los EditText
+//        LinearLayout imageLayout = new LinearLayout(getContext());
+//        imageLayout.setLayoutParams(params);
+//        imageLayout.setBackgroundResource(R.drawable.corner); // Fondo redondeado
+//        ImageView imageView = new ImageView(getContext());
+//        imageView.setImageResource(R.drawable.i_hombre); // Reemplaza "your_image" con el nombre de tu imagen en recursos
+//        imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+//        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP); // Escalar y centrar la imagen
+//        imageLayout.addView(imageView);
+//        layout.addView(imageLayout); // Agregar el LinearLayout con la imagen al layout principal
+//
+//        // EditText para el nombre
+//        EditText editTextName = new EditText(getContext());
+//        editTextName.setHint("Nombre");
+//        editTextName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+//        layout.addView(editTextName); // Agregar EditText al layout principal
+//
+//        // EditText para el email
+//        EditText editTextEmail = new EditText(getContext());
+//        editTextEmail.setHint("Email");
+//        editTextEmail.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+//        layout.addView(editTextEmail); // Agregar EditText al layout principal
+//
+//        // Switch para seleccionar el sexo (con texto adicional)
+//        LinearLayout switchLayout = new LinearLayout(getContext());
+//        switchLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+//        switchLayout.setOrientation(LinearLayout.HORIZONTAL);
+//        Switch genderSwitch = new Switch(getContext());
+//        TextView genderText = new TextView(getContext());
+//        genderText.setText("Femenino"); // Texto adicional al lado del switch
+//        switchLayout.addView(genderSwitch);
+//        switchLayout.addView(genderText);
+//        layout.addView(switchLayout); // Agregar el LinearLayout con el switch al layout principal
+//
+//        // Crear el AlertDialog con el layout personalizado
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//        builder.setView(layout);
+//        builder.setTitle("Ingrese sus datos");
+//        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                String name = editTextName.getText().toString();
+//                String email = editTextEmail.getText().toString();
+//                String gender = genderSwitch.isChecked() ? "Masculino" : "Femenino";
+//                Toast.makeText(getContext(), "Nombre: " + name + "\nEmail: " + email + "\nGénero: " + gender, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        // Mostrar el AlertDialog
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
+
         relativeLayout = new RelativeLayout(getContext());
         LinearLayout.LayoutParams buttonParam=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 900);
         buttonParam.setMargins(10,10,10,50);

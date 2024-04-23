@@ -2,6 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item
+        android:id="@+id/action_sync"
+        android:title="Sincronizar"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_sync" />
+    <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_fingerprint_black_24dp"
         android:orderInCategory="100"
@@ -13,5 +18,6 @@
         android:icon="@drawable/ic_fingerprint_black_24dp"
         android:orderInCategory="100"
         android:title="Voes Seleccionadas"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:visible="false"/>
 </menu>

@@ -1,0 +1,15 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="#737575" />
+    <stroke
+        android:width="3dp"
+        android:color="@color/postcensal_dorado" />
+    <corners android:radius="1000dp" /> <!-- Un radio suficientemente grande para que el fondo sea un círculo -->
+    <padding
+        android:left="2dp"
+        android:top="1dp"
+        android:right="2dp"
+        android:bottom="1dp" />
+
+</shape>

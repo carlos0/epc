@@ -38,7 +38,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -75,9 +77,11 @@ import bo.gob.ine.naci.epc.objetosJson.JFlujo;
 import bo.gob.ine.naci.epc.objetosJson.JInformante;
 import bo.gob.ine.naci.epc.objetosJson.JInformanteAnterior;
 import bo.gob.ine.naci.epc.objetosJson.JInformanteAnteriorPrimero;
-import bo.gob.ine.naci.epc.objetosJson.JMDisperso;
-import bo.gob.ine.naci.epc.objetosJson.JMPerimetro;
+import bo.gob.ine.naci.epc.objetosJson.JMComunidad;
 import bo.gob.ine.naci.epc.objetosJson.JMPredio;
+import bo.gob.ine.naci.epc.objetosJson.JMSegmento;
+import bo.gob.ine.naci.epc.objetosJson.JMSegmentoD;
+import bo.gob.ine.naci.epc.objetosJson.JMmanzana;
 import bo.gob.ine.naci.epc.objetosJson.JNivel;
 import bo.gob.ine.naci.epc.objetosJson.JObservacion;
 import bo.gob.ine.naci.epc.objetosJson.JOpeVoesRemplazo;
@@ -146,8 +150,17 @@ public class ActionBarActivityProcess extends ActionBarActivityNavigator {
                 finalMessage = params[3];
                 String plainText = params[4] == null ? Usuario.getPlainToken() : params[4];
                 //TODO:BRP{
+                List<String> tablas = Arrays.asList("seg_usuario", "seg_usuariorestriccion", "ope_asignacion",
+                        "enc_informante", "enc_encuesta", "enc_observacion", "cat_upm", "enc_informante_lv",
+                        "enc_encuesta_lv", "f_reordena_lv", "f_arregla_lv", "cat_manzanas_comunidad",
+                        "cat_comunidad_upm", "enc_informante_anterior", "enc_encuesta_anterior",
+                        "enc_informante_anterior_primero", "enc_encuesta_anterior_primero", "cat_upm_hijo",
+                        "ope_brigada", "ope_voes_remplazo", "perimetro", "predio", "disperso", "a_epc_segmento",
+                        "a_epc_manzana", "a_epc_predio", "d_epc_comunidad", "d_epc_segmento");
+
                 for (String tb : tablasDescarga) {
-                    if (tb.equals("seg_usuario") || tb.equals("seg_usuariorestriccion") || tb.equals("ope_asignacion") || tb.equals("enc_informante") || tb.equals("enc_encuesta") || tb.equals("enc_observacion") || tb.equals("cat_upm") || tb.equals("enc_informante_lv") || tb.equals("enc_encuesta_lv") || tb.equals("f_reordena_lv") || tb.equals("f_arregla_lv") || tb.equals("cat_manzanas_comunidad") || tb.equals("cat_comunidad_upm") || tb.equals("enc_informante_anterior") || tb.equals("enc_encuesta_anterior") || tb.equals("enc_informante_anterior_primero") || tb.equals("enc_encuesta_anterior_primero") || tb.equals("cat_upm_hijo") || tb.equals("ope_brigada") || tb.equals("ope_voes_remplazo") || tb.equals("perimetro") || tb.equals("predio") || tb.equals("disperso")) {
+                    if(tablas.contains(tb)) {
+//                    if (tb.equals("seg_usuario") || tb.equals("seg_usuariorestriccion") || tb.equals("ope_asignacion") || tb.equals("enc_informante") || tb.equals("enc_encuesta") || tb.equals("enc_observacion") || tb.equals("cat_upm") || tb.equals("enc_informante_lv") || tb.equals("enc_encuesta_lv") || tb.equals("f_reordena_lv") || tb.equals("f_arregla_lv") || tb.equals("cat_manzanas_comunidad") || tb.equals("cat_comunidad_upm") || tb.equals("enc_informante_anterior") || tb.equals("enc_encuesta_anterior") || tb.equals("enc_informante_anterior_primero") || tb.equals("enc_encuesta_anterior_primero") || tb.equals("cat_upm_hijo") || tb.equals("ope_brigada") || tb.equals("ope_voes_remplazo") || tb.equals("perimetro") || tb.equals("predio") || tb.equals("disperso")) {
                         //TODO:BRP}
                         Log.d("tablas ", tb);
                         if (condicion.split("/").length > 1) {
@@ -402,20 +415,30 @@ public class ActionBarActivityProcess extends ActionBarActivityNavigator {
                             respuesta = ent.insertDataJson(jInformanteAnteriorPrimero.datos, true, false);
                             break;
                         //TODO:BRP{
-                        case "perimetro":
-                            JMPerimetro jmPerimetro =  new JMPerimetro(jsonArray);
+                        case "a_epc_segmento":
+                            JMSegmento jmSegmento =  new JMSegmento(jsonArray);
                             ent = new Entidad(tablasDescarga[i]);
-                            respuesta = ent.insertDataJson(jmPerimetro.datos, true, false);
+                            respuesta = ent.insertDataJson(jmSegmento.datos, true, false);
                             break;
-                        case "predio":
-                            JMPredio jmPredio =  new JMPredio(jsonArray);
+                        case "a_epc_manzana":
+                            JMmanzana jMmanzana =  new JMmanzana(jsonArray);
+                            ent = new Entidad(tablasDescarga[i]);
+                            respuesta = ent.insertDataJson(jMmanzana.datos, true, false);
+                            break;
+                        case "a_epc_predio":
+                            JMPredio jmPredio = new JMPredio(jsonArray);
                             ent = new Entidad(tablasDescarga[i]);
                             respuesta = ent.insertDataJson(jmPredio.datos, true, false);
                             break;
-                        case "disperso":
-                            JMDisperso jmDisperso = new JMDisperso(jsonArray);
+                        case "d_epc_comunidad":
+                            JMComunidad jmComunidad = new JMComunidad(jsonArray);
                             ent = new Entidad(tablasDescarga[i]);
-                            respuesta = ent.insertDataJson(jmDisperso.datos, true, false);
+                            respuesta = ent.insertDataJson(jmComunidad.datos, true, false);
+                            break;
+                        case "d_epc_segmento":
+                            JMSegmentoD jmSegmentoD = new JMSegmentoD(jsonArray);
+                            ent = new Entidad(tablasDescarga[i]);
+                            respuesta = ent.insertDataJson(jmSegmentoD.datos, true, false);
                             break;
                         //TODO:BRP}
                     }
@@ -448,13 +471,13 @@ public class ActionBarActivityProcess extends ActionBarActivityNavigator {
             }
             if (result.equalsIgnoreCase("Ok")) {
                 if(Usuario.getMovilToken()==null){
-                    try {
-                        Usuario.autenticarStore(Usuario.getPlainToken(tokenCripto,condicion),condicion);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        Usuario.autenticarStore(Usuario.getPlainToken(tokenCripto,condicion),condicion);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
                 }
                 exitoMessage(ActionBarActivityProcess.this ,successMethod, "Concluído", Html.fromHtml(finalMessage), Parametros.FONT_OBS);
             } else {
@@ -468,8 +491,6 @@ public class ActionBarActivityProcess extends ActionBarActivityNavigator {
     public class enviaJson extends AsyncTask<String, Void, String> {
         String mensajeRequest;
         String datodato;
-        int id_asignacion;
-        int correlativo;
 
         @Override
         protected void onPreExecute() {
@@ -585,13 +606,18 @@ public class ActionBarActivityProcess extends ActionBarActivityNavigator {
                         return new X509Certificate[0];
                     }
                 };
+                Log.d("ALERTA", "-------------CONSOLIDA-------------");
+                Log.d("ALERTA", Parametros.URL_UPLOAD);
+                Log.d("ALERTA", datodato);
+                Log.d("ALERTA", Movil.getImei());
+                Log.d("ALERTA", Parametros.VERSION);
                 OkHttpClient client = new OkHttpClient.Builder()
                         .sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager) trustManager)
                         .build();
                 Request request = new Request.Builder()
                         .url(urlAux)
                         .post(body)
-                        .addHeader("authorization","Bearer "+plainText)
+//                        .addHeader("authorization","Bearer "+plainText)
                         .addHeader("serie",Movil.getImei())
                         .addHeader("version",Parametros.VERSION)
                         .build();

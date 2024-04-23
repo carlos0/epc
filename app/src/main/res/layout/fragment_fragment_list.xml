@@ -21,6 +21,7 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/prueba"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -46,14 +47,14 @@
                             android:layout_height="0dp"
                             android:layout_marginTop="1dp"
                             android:layout_marginBottom="1dp"
-                            app:layout_constraintStart_toStartOf="parent"
+                            android:gravity="center"
+                            android:shadowColor="@color/color_list"
+                            android:shadowRadius="4"
                             android:text="1"
+                            android:textColor="@color/colorPrimaryDark"
                             android:textSize="50dp"
                             android:textStyle="bold"
-                            android:shadowColor="@color/colorPrimary_text"
-                            android:shadowRadius="4"
-                            android:gravity="center"
-                            android:textColor="@color/colorPrimaryDark"
+                            app:layout_constraintStart_toStartOf="parent"
                             tools:ignore="MissingConstraints" />
 
                         <TextView
@@ -62,14 +63,15 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="80dp"
+                            android:shadowColor="@color/color_list"
+                            android:shadowRadius="4"
                             android:text="DATOS DE LA VIVIENDA"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/iconDatosViv"
-                            app:layout_constraintTop_toTopOf="@id/iconDatosViv"
-                            />
+                            app:layout_constraintTop_toTopOf="@id/iconDatosViv" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -77,10 +79,74 @@
                             android:layout_marginBottom="12dp"
                             android:ellipsize="end"
                             android:text="Llene o edite los datos de la vivienda"
-                            app:layout_constraintStart_toStartOf="@id/titleDatosViv"
+                            android:textColor="@color/color_list"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@id/titleDatosViv"
-                            app:layout_constraintTop_toBottomOf="@id/titleDatosViv"
+                            app:layout_constraintStart_toStartOf="@id/titleDatosViv"
+                            app:layout_constraintTop_toBottomOf="@id/titleDatosViv" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardHogar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="6dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/corner">
+
+                        <TextView
+                            android:id="@+id/iconHogar"
+                            android:layout_width="50dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginBottom="1dp"
+                            android:gravity="center"
+                            android:shadowColor="@color/color_list"
+                            android:shadowRadius="4"
+                            android:text="2"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="50dp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:ignore="MissingConstraints" />
+
+                        <TextView
+                            android:id="@+id/titleHogar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="80dp"
+                            android:shadowColor="@color/color_list"
+                            android:shadowRadius="4"
+                            android:text="VIVIENDA"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/iconHogar"
+                            app:layout_constraintTop_toTopOf="@id/iconHogar"
+                            />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:ellipsize="end"
+                            android:text="LLene o edite los datos del hogar"
+                            app:layout_constraintStart_toStartOf="@id/titleHogar"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/titleHogar"
+                            app:layout_constraintTop_toBottomOf="@id/titleHogar"
                             android:textColor="@color/color_list"
                             />
 
@@ -117,10 +183,10 @@
                                 android:layout_marginTop="1dp"
                                 android:layout_marginBottom="1dp"
                                 app:layout_constraintStart_toStartOf="parent"
-                                android:text="2"
+                                android:text="3"
                                 android:textSize="50dp"
                                 android:textStyle="bold"
-                                android:shadowColor="@color/colorPrimary_text"
+                                android:shadowColor="@color/color_list"
                                 android:shadowRadius="4"
                                 android:gravity="center"
                                 android:textColor="@color/colorPrimaryDark"
@@ -132,6 +198,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginEnd="80dp"
+                                android:shadowColor="@color/color_list"
+                                android:shadowRadius="4"
                                 android:text="PERSONAS"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="18sp"
@@ -189,7 +257,7 @@
                 </ScrollView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardHogar"
+                    android:id="@+id/cardMortalidad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
@@ -203,37 +271,37 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/corner">
 
-
                         <TextView
-                            android:id="@+id/iconHogar"
+                            android:id="@+id/iconMortalidad"
                             android:layout_width="50dp"
                             android:layout_height="0dp"
                             android:layout_marginTop="1dp"
                             android:layout_marginBottom="1dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            android:text="3"
+                            android:gravity="center"
+                            android:shadowColor="@color/color_list"
+                            android:shadowRadius="4"
+                            android:text="4"
+                            android:textColor="@color/colorPrimaryDark"
                             android:textSize="50dp"
                             android:textStyle="bold"
-                            android:shadowColor="@color/colorPrimary_text"
-                            android:shadowRadius="4"
-                            android:gravity="center"
-                            android:textColor="@color/colorPrimaryDark"
-                            />
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:ignore="MissingConstraints" />
 
                         <TextView
-                            android:id="@+id/titleHogar"
+                            android:id="@+id/titleMortalidad"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="80dp"
-                            android:text="HOGAR"
+                            android:shadowColor="@color/color_list"
+                            android:shadowRadius="4"
+                            android:text="MIGRACIÓN, MORTALIDAD DESPUES DEL CENSO"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/iconHogar"
-                            app:layout_constraintTop_toTopOf="@id/iconHogar"
-                            />
+                            app:layout_constraintStart_toEndOf="@id/iconMortalidad"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -241,10 +309,10 @@
                             android:layout_marginBottom="12dp"
                             android:ellipsize="end"
                             android:text="LLene o edite los datos del hogar"
-                            app:layout_constraintStart_toStartOf="@id/titleHogar"
+                            app:layout_constraintStart_toStartOf="@id/titleMortalidad"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@id/titleHogar"
-                            app:layout_constraintTop_toBottomOf="@id/titleHogar"
+                            app:layout_constraintEnd_toEndOf="@id/titleMortalidad"
+                            app:layout_constraintTop_toBottomOf="@id/titleMortalidad"
                             android:textColor="@color/color_list"
                             />
 
@@ -275,10 +343,10 @@
                             android:layout_marginTop="1dp"
                             android:layout_marginBottom="1dp"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:text="4"
+                            android:text="5"
                             android:textSize="50dp"
                             android:textStyle="bold"
-                            android:shadowColor="@color/colorPrimary_text"
+                            android:shadowColor="@color/color_list"
                             android:shadowRadius="4"
                             android:gravity="center"
                             android:textColor="@color/colorPrimaryDark"
@@ -290,6 +358,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="80dp"
+                            android:shadowColor="@color/color_list"
+                            android:shadowRadius="4"
                             android:text="INCIDENCIA"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="18sp"
