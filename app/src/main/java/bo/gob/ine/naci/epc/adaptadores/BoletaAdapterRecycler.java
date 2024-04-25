@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.Map;
 
 import bo.gob.ine.naci.epc.BoletaActivity;
+import bo.gob.ine.naci.epc.MainActivity;
 import bo.gob.ine.naci.epc.R;
 import bo.gob.ine.naci.epc.entidades.Observacion;
 import bo.gob.ine.naci.epc.herramientas.LottieDialog;
@@ -188,6 +189,13 @@ public class BoletaAdapterRecycler extends RecyclerView.Adapter<BoletaAdapterRec
             @Override
             public void onClick(View view) {
                 ((BoletaActivity) activity).decisionMessageDelete(activity, null, null, "Confirmar", Html.fromHtml("Se perdera la información de la vivienda"), Integer.valueOf(objView.get("id_asignacion").toString()), Integer.valueOf(objView.get("correlativo").toString()), Integer.valueOf(objView.get("id_upm").toString()), "hogar");
+            }
+        });
+
+        holder.btnMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((BoletaActivity) activity).irMap2((Integer) objView.get("id_upm"), 3, (Integer) objView.get("id_asignacion"),(Integer) objView.get("correlativo"));
             }
         });
 
@@ -401,6 +409,8 @@ public class BoletaAdapterRecycler extends RecyclerView.Adapter<BoletaAdapterRec
         public Button btnObservacionSuper;
         public TextView txtEstado;
         public ImageButton btnEliminar;
+        public ImageButton btnMapa;
+
         public Button btnVerDato;
         public Button btnVerDatoPersona;
         public Button list_revision_super;
@@ -421,6 +431,8 @@ public class BoletaAdapterRecycler extends RecyclerView.Adapter<BoletaAdapterRec
             txtEstado.setTextSize(Parametros.FONT_LIST_SMALL);
             informante_text_view = (TextView) itemView.findViewById(R.id.informante_text_view);
             btnEliminar = (ImageButton) itemView.findViewById(R.id.eliminaBoleta);
+            btnMapa = (ImageButton) itemView.findViewById(R.id.ver_mapa_segmento);
+
             btnVerDato = (Button) itemView.findViewById(R.id.list_revision);
             btnVerDatoPersona = (Button) itemView.findViewById(R.id.list_revision_person);
             list_revision_super = (Button) itemView.findViewById(R.id.list_revision_super);

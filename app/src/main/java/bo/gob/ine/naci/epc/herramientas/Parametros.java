@@ -110,7 +110,7 @@ public class Parametros {
 
     public static int ID_PREG_DATOS_VIVIENDA  = 18596;
     //nombres de Miembro de hogar
-    public static int ID_PREG_PERSONAS  = 20475;
+    public static int ID_PREG_PERSONAS  = 18581;
 
     public static int ID_PREG_HOGAR  = 18580;
 
@@ -129,8 +129,8 @@ public class Parametros {
     public static boolean personaActiva = false;
 
     public static List<Integer> LIST_PREG_DATOS_VIVIENDA = Arrays.asList(181);
-    public static List<Integer> LIST_PREG_PERSONAS = Arrays.asList(202, 203, 204, 205);
-    public static List<Integer> LIST_PREG_HOGAR = Arrays.asList(201);
+    public static List<Integer> LIST_PREG_PERSONAS = Arrays.asList(202, 203, 204);
+    public static List<Integer> LIST_PREG_HOGAR = Arrays.asList(201, 205);
     public static List<Integer> LIST_PREG_INCIDENCIA = Arrays.asList(180);
 
     public static Boolean FRAGMENT_ACTIVO = false;

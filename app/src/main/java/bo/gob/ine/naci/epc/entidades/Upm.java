@@ -404,26 +404,64 @@ public class Upm extends EntidadId {
     }
 
     //TODO:BRP{
-    public ArrayList<Map<String, Object>> obtenerPerimetro(int idUpm) {
+    public ArrayList<Map<String, Object>> obtenerComunidad(int idUpm, boolean todo) {
         ArrayList<Map<String, Object>> list = new ArrayList<>();
         String query;
 
-        query = "SELECT num_upm, ciudad_com, data_json, tipo\n" +
-                "FROM perimetro\n" +
-                "WHERE num_upm IN ( \n" +
-                "SELECT codigo FROM cat_upm WHERE id_upm = " + idUpm + " \n" +
-                "UNION \n" +
-                "SELECT codigo FROM cat_upm_hijo WHERE id_upm_padre = " + idUpm + ")";
+        if(todo){
+            query = "SELECT ciu_com, id_com, seg_unico, geo\n" +
+                    "FROM d_epc_comunidad";
+        } else {
+            query = "SELECT ciu_com, id_com, seg_unico, geo\n" +
+                    "FROM d_epc_comunidad\n" +
+                    "WHERE seg_unico IN ( \n" +
+                    "SELECT codigo FROM cat_upm WHERE id_upm = " + idUpm + " \n" +
+                    "UNION \n" +
+                    "SELECT codigo FROM cat_upm_hijo WHERE id_upm_padre = " + idUpm + ")";
+        }
+
 
         Cursor cursor = conn.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
                 Map<String, Object> map = new LinkedHashMap<>();
-                map.put("upm", cursor.getString(0));
-                map.put("ciucom", cursor.getString(1));
-                map.put("geojson", cursor.getString(2));
+                map.put("ciu_com", cursor.getString(0));
+                map.put("id_com", cursor.getString(1));
+                map.put("seg_unico", cursor.getString(2));
+                map.put("geo", cursor.getString(3));
+                list.add(map);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    public ArrayList<Map<String, Object>> obtenerPredio(int idUpm, boolean todo) {
+        ArrayList<Map<String, Object>> list = new ArrayList<>();
+        String query;
+        if(todo){
+            query = "SELECT seg_unico, orden, cod_if, tipo, ciu_com ,geo\n" +
+                    "FROM a_epc_predio";
+        } else {
+            query = "SELECT seg_unico, orden, cod_if, tipo, ciu_com ,geo\n" +
+                    "FROM a_epc_predio\n" +
+                    "WHERE seg_unico IN ( \n" +
+                    "SELECT codigo FROM cat_upm WHERE id_upm = " + idUpm + " \n" +
+                    "UNION \n" +
+                    "SELECT codigo FROM cat_upm_hijo WHERE id_upm_padre = " + idUpm + ")";
+        }
+        Cursor cursor = conn.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Map<String, Object> map = new LinkedHashMap<>();
+                map.put("seg_unico", cursor.getString(0));
+                map.put("orden", cursor.getString(1));
+                map.put("cod_if", cursor.getString(2));
                 map.put("tipo", cursor.getString(3));
+                map.put("ciu_com", cursor.getString(4));
+                map.put("geo", cursor.getString(5));
                 list.add(map);
             } while (cursor.moveToNext());
         }
@@ -431,29 +469,29 @@ public class Upm extends EntidadId {
         return list;
     }
 
-    public ArrayList<Map<String, Object>> obtenerPredio(int idUpm) {
+    public ArrayList<Map<String, Object>> obtenerManzana(int idUpm, boolean todo) {
         ArrayList<Map<String, Object>> list = new ArrayList<>();
         String query;
-
-        query = "SELECT num_upm, id_manz, ciudad_com, orden_pred, recorrido, data_json, tipo\n" +
-                "FROM predio\n" +
-                "WHERE num_upm IN ( \n" +
-                "SELECT codigo FROM cat_upm WHERE id_upm = " + idUpm + " \n" +
-                "UNION \n" +
-                "SELECT codigo FROM cat_upm_hijo WHERE id_upm_padre = " + idUpm + ")";
-
+            if(todo){
+                query = "SELECT id_manz, orden_manz, seg_unico, geo\n" +
+                        "FROM a_epc_manzana";
+            } else {
+                query = "SELECT id_manz, orden_manz, seg_unico, geo\n" +
+                        "FROM a_epc_manzana\n" +
+                        "WHERE seg_unico IN ( \n" +
+                        "SELECT codigo FROM cat_upm WHERE id_upm = " + idUpm + " \n" +
+                        "UNION \n" +
+                        "SELECT codigo FROM cat_upm_hijo WHERE id_upm_padre = " + idUpm + ")";
+            }
         Cursor cursor = conn.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
                 Map<String, Object> map = new LinkedHashMap<>();
-                map.put("upm", cursor.getString(0));
-                map.put("id_manz", cursor.getString(1));
-                map.put("ciucom", cursor.getString(2));
-                map.put("orden", cursor.getString(3));
-                map.put("recorrido", cursor.getString(4));
-                map.put("geojson", cursor.getString(5));
-                map.put("tipo", cursor.getString(6));
+                map.put("id_manz", cursor.getString(0));
+                map.put("orden_manz", cursor.getString(1));
+                map.put("seg_unico", cursor.getString(2));
+                map.put("geo", cursor.getString(3));
                 list.add(map);
             } while (cursor.moveToNext());
         }
@@ -461,27 +499,56 @@ public class Upm extends EntidadId {
         return list;
     }
 
-    public ArrayList<Map<String, Object>> obtenerDisperso(int idUpm) {
+    public ArrayList<Map<String, Object>> obtenerSegmento(int idUpm, boolean todo) {
         ArrayList<Map<String, Object>> list = new ArrayList<>();
         String query;
-
-        query = "SELECT num_upm, ciudad_com, id_com, data_json, tipo\n" +
-                "FROM disperso\n" +
-                "WHERE num_upm IN ( \n" +
-                "SELECT codigo FROM cat_upm WHERE id_upm = " + idUpm + " \n" +
-                "UNION \n" +
-                "SELECT codigo FROM cat_upm_hijo WHERE id_upm_padre = " + idUpm + ")";
-
+                if(todo){
+                    query = "SELECT seg_unico, geo\n" +
+                            "FROM a_epc_segmento";
+                } else {
+                    query = "SELECT seg_unico, geo\n" +
+                            "FROM a_epc_segmento\n" +
+                            "WHERE seg_unico IN ( \n" +
+                            "SELECT codigo FROM cat_upm WHERE id_upm = " + idUpm + " \n" +
+                            "UNION \n" +
+                            "SELECT codigo FROM cat_upm_hijo WHERE id_upm_padre = " + idUpm + ")";
+                }
         Cursor cursor = conn.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
                 Map<String, Object> map = new LinkedHashMap<>();
-                map.put("upm", cursor.getString(0));
-                map.put("ciucom", cursor.getString(1));
-                map.put("id_com", cursor.getString(2));
-                map.put("geojson", cursor.getString(3));
-                map.put("tipo", cursor.getString(4));
+                map.put("seg_unico", cursor.getString(0));
+                map.put("geo", cursor.getString(1));
+                list.add(map);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    public ArrayList<Map<String, Object>> obtenerSegmentoD(int idUpm, boolean todo) {
+        ArrayList<Map<String, Object>> list = new ArrayList<>();
+        String query;
+                    if(todo){
+                        query = "SELECT seg_unico, segmento, geo\n" +
+                                "FROM d_epc_segmento";
+                    } else {
+                        query = "SELECT seg_unico, segmento, geo\n" +
+                                "FROM d_epc_segmento\n" +
+                                "WHERE seg_unico IN ( \n" +
+                                "SELECT codigo FROM cat_upm WHERE id_upm = " + idUpm + " \n" +
+                                "UNION \n" +
+                                "SELECT codigo FROM cat_upm_hijo WHERE id_upm_padre = " + idUpm + ")";
+                    }
+        Cursor cursor = conn.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Map<String, Object> map = new LinkedHashMap<>();
+                map.put("seg_unico", cursor.getString(0));
+                map.put("segmento", cursor.getString(1));
+                map.put("geo", cursor.getString(2));
                 list.add(map);
             } while (cursor.moveToNext());
         }

@@ -170,7 +170,9 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="D:\snina\ec\migracion\Re__logos\background_upm (6).png" />
+                                                <entry key="imagePath" value="D:\brodriguezp\Desktop\EPC\git\app\src\main\res\drawable\logo_postcensal.png" />
+                                                <entry key="paddingPercent" value="5" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -202,8 +204,11 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="imageAsset" value="D:\snina\ec\migracion\Re__logos\background_upm (6).png" />
-                                      <entry key="outputName" value="ic_background_upm" />
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="backgroundColor" value="000000" />
+                                      <entry key="iconShape" value="CIRCLE" />
+                                      <entry key="imageAsset" value="D:\brodriguezp\Desktop\EPC\git\app\src\main\res\drawable\logo_postcensal.png" />
+                                      <entry key="outputName" value="ic_logo_postcensal" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -384,7 +389,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
+                            <entry key="outputIconType" value="LAUNCHER_LEGACY" />
                           </map>
                         </option>
                       </PersistentState>

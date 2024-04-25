@@ -107,7 +107,7 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
         fabMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                irMap2(1);
+                irMap2(0, 1, 0, 0);
             }
         });
 

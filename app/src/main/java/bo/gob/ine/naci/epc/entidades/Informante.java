@@ -1214,7 +1214,7 @@ public class Informante extends EntidadCorr {
                     str = Html.fromHtml(cursor.getString(1)).toString();
                     str = str.length() > 30 ? str.substring(0, 30) + "..." : str;
                 }
-                strPreguntasRespuestasIniciales.append("<b><font color=#0C407A>" + str + "</font></b>").append(": ").append(cursor.getString(2)).append("<br>");
+                strPreguntasRespuestasIniciales.append("<b><font color=#B87513>" + str + "</font></b>").append(": ").append(cursor.getString(2)).append("<br>");
             } while (cursor.moveToNext());
             strPreguntasRespuestasIniciales.delete(strPreguntasRespuestasIniciales.length() - 4, strPreguntasRespuestasIniciales.length());
         }

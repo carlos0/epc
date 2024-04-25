@@ -136,7 +136,7 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
 //                        ((MainActivity) activity).irMap((Integer) objView.get("id_upm"));
                         holder.fabMenuMain2.clearChecked();
                         //TODO:BRP{
-                        ((MainActivity) activity).irMap2((Integer) objView.get("id_upm"));
+                        ((MainActivity) activity).irMap2((Integer) objView.get("id_upm"), 2, 0,0);
                         //TODO:BRP}
                     } catch (Exception e) {
                         e.printStackTrace();

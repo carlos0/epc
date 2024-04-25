@@ -40,4 +40,5 @@ public enum TipoPregunta {
     ValorTipoGastos,
     CerradaConsulta,
     Tabla,
+    TablaMatriz,
 }

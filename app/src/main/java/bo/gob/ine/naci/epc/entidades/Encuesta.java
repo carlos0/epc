@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.airbnb.lottie.L;
+import com.google.android.gms.maps.model.LatLng;
 import com.udojava.evalex.Expression;
 
 import org.json.JSONArray;
@@ -15,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -1308,6 +1311,26 @@ public static boolean fueRespondida(IdInformante idInformante) {
         return res;
     }
 
+
+    public static Map<String, String> getPunto(int idAsignacion, int correlativo) {
+        Map<String, String> res = new HashMap<>();
+        String query = "SELECT codigo, latitud, longitud\n" +
+                "FROM enc_informante\n" +
+                "WHERE id_asignacion = "+ idAsignacion +"\n" +
+                "AND correlativo = " + correlativo;
+
+        Cursor cursor = conn.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                res.put("codigo", cursor.getString(0));
+                res.put("latitud", cursor.getString(1));
+                res.put("longitud", cursor.getString(2));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return res;
+    }
+
     /**
      * Listado de array de la Entidad
      *
@@ -2290,4 +2313,43 @@ public static boolean fueRespondida(IdInformante idInformante) {
     }
 
 
+    public ArrayList<Map<String, Object>> obtenerListadoTablaMatriz(int idAsignacion, int correlativo, int id) {
+        ArrayList<Map<String, Object>> res = new ArrayList<>();
+        String query;
+        Cursor cursor = null;
+
+        String nombre = "(SELECT ee.respuesta FROM enc_encuesta ee WHERE ee.id_asignacion = e.id_asignacion AND ee.correlativo = e.correlativo AND ee.id_pregunta IN (38105) AND ee.fila = e.fila AND ee.visible in ('t','true')) nombre";
+        String sexo = "(SELECT ee.respuesta FROM enc_encuesta ee WHERE ee.id_asignacion = e.id_asignacion AND ee.correlativo = e.correlativo AND ee.id_pregunta IN (38109) AND ee.fila = e.fila AND ee.visible in ('t','true')) sexo";
+        String edad = "(SELECT ee.respuesta FROM enc_encuesta ee WHERE ee.id_asignacion = e.id_asignacion AND ee.correlativo = e.correlativo AND ee.id_pregunta IN (38107) AND ee.fila = e.fila AND ee.visible in ('t','true')) edad";
+
+        query = "SELECT id_asignacion, correlativo, fila, "+nombre+","+ sexo +","+edad+" \n" +
+                "FROM enc_encuesta e\n" +
+                "WHERE i.estado <> 'ANULADO'\n" +
+                "AND i.estado <> 'INHABILITADO'\n" +
+                "AND i.estado <> 'CONCLUIDO'\n" +
+                "AND id_asignacion = " + idAsignacion + "\n" +
+                "AND i.correlativo = " + correlativo + "\n" +
+                "AND i.id_pregunta = 38105 \n" +
+                "ORDER BY fila";
+
+        try {
+            cursor = conn.rawQuery(query, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (cursor.moveToFirst()) {
+            do {
+                Map<String, Object> row = new LinkedHashMap<>();
+                row.put("id_asignacion", cursor.getInt(0));
+                row.put("correlativo", cursor.getInt(1));
+                row.put("fila", cursor.getInt(2));
+                row.put("nombre", cursor.getInt(3));
+                row.put("sexo", cursor.getInt(4));
+                row.put("edad", cursor.getString(5));
+                res.add(row);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return res;
+    }
 }

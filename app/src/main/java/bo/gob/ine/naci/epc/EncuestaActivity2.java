@@ -268,7 +268,7 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
                         break;
                     case 3:
                         textViewEncuesta.setText("Hogar - " + Informante.getCodigoString(idE.getIdInformante()));
-                        nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, Parametros.ID_PREG_HOGAR);
+                        nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, idPregunta);
                         nBundle = new Bundle();
                         nBundle.putIntArray("IdEncuesta", nIdEncuesta.toArray());
                         transaction = getSupportFragmentManager().beginTransaction();

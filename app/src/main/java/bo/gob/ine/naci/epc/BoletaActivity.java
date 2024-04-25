@@ -87,18 +87,12 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
         mapa_lv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                irMap2();
+                irMap2(idUpm, 2, 0 ,0);
             }
         });
 
     }
-    public void irMap2() {
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("idUpm", idUpm);
-        Intent map = new Intent(getApplicationContext(), MapActivity2.class);
-//        map.putExtras(bundle);
-        startActivity(map);
-    }
+
     public void cargarOpciones(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

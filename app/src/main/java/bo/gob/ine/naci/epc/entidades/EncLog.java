@@ -101,6 +101,7 @@ public class EncLog extends EntidadCorr {
                         "FROM enc_encuesta\n" +
                         "WHERE " + list.get(i) + " \n" +
                         "AND id_pregunta = " + element + "\n";
+                Log.d("consulta1.1", squery);
                 Cursor scursor = conn.rawQuery(squery, null);
                 if (scursor.moveToFirst()) {
                     Log.d("consulta25", scursor.getString(0));
@@ -123,16 +124,19 @@ public class EncLog extends EntidadCorr {
             eval = expression.eval();
             Log.d("consulta2", nuevoValor);
             Log.d("consulta3", list.get(i).toString());
+            Log.d("consulta3.1", String.valueOf(eval));
             if(Integer.parseInt(String.valueOf(eval)) > 0){
+
                 String pquery = "SELECT codigo, respuesta\n" +
                         "FROM enc_informante ei, enc_encuesta ee\n" +
                         "WHERE ei.id_asignacion = ee.id_asignacion AND ei.correlativo= ee.correlativo \n" +
                         "AND " + list.get(i).toString().replace("id_asignacion", "ei.id_asignacion").replace("correlativo", "ei.correlativo") + " \n" +
-                        "AND id_pregunta = 18581";;
+                        "AND id_pregunta = 18581";
 //                String pquery = "SELECT valor1, descripcion\n" +
 //                        "FROM enc_log\n" +
 //                        "WHERE " + list.get(i) + "\n" +
 //                        "AND id_pregunta = 18581 \n";
+                Log.d("consulta 3.2", pquery);
                 Cursor pcursor = conn.rawQuery(pquery, null);
                 if (pcursor.moveToFirst()) {
                     Log.d("consulta4", pcursor.getInt(0) + "|" + pcursor.getString(1));

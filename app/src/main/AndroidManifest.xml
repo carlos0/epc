@@ -25,10 +25,10 @@
     <application
         android:name="bo.gob.ine.naci.epc.MyApplication"
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher_ine20"
+        android:icon="@mipmap/ic_logo_postcensal"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_launcher_ine20"
+        android:roundIcon="@mipmap/ic_logo_postcensal"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"

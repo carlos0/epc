@@ -107,6 +107,7 @@ import bo.gob.ine.naci.epc.preguntas2.PreguntaView;
 import bo.gob.ine.naci.epc.preguntas2.Prioridad;
 import bo.gob.ine.naci.epc.preguntas2.SeleccionKish;
 import bo.gob.ine.naci.epc.preguntas2.Tabla;
+import bo.gob.ine.naci.epc.preguntas2.TablaMatriz;
 import bo.gob.ine.naci.epc.preguntas2.ValorTipo;
 import bo.gob.ine.naci.epc.preguntas2.ValorTipo2;
 import bo.gob.ine.naci.epc.preguntas2.ValorTipoGastos;
@@ -353,7 +354,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
         Log.d("secciones", String.valueOf(idSeccion));
         switch (idSeccion) {
             case 202:
-                secciones = "202, 203, 204, 205";
+                secciones = "202, 203, 204";
 //                secciones = "158,160, 159, 161, 162, 164";
                 tipo = "PERSONAS";
                 break;
@@ -1428,6 +1429,10 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
                             pregunti = new Tabla(getActivity(), getContext(), idInformante, idPadre, i, pregunta.get_id_pregunta(), pregunta.get_id_seccion(), pregunta.get_codigo_pregunta(), p, pregunta.get_longitud(), omision, pregunta.get_ayuda(), true, true, mostrarSeccion, obs);
                             break;
                         }
+                        case TablaMatriz: {
+                            pregunti = new TablaMatriz(getContext(), i, pregunta.get_id_pregunta(), pregunta.get_id_seccion(), pregunta.get_codigo_pregunta(), p, pregunta.get_longitud(), omision, pregunta.get_ayuda(), true, true, mostrarSeccion, obs, idInformante.id_asignacion, idInformante.correlativo);
+                            break;
+                        }
                     }
 
                     Log.d("getCodPreg", pregunta.get_codigo_pregunta());
@@ -2141,5 +2146,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
 
 //        iComunicaFragments.enviarDatos(idPadre, new IdEncuesta(idPadre.id_asignacion,idPadre.correlativo,18581), 2, idNivel, idSeccion, idPadre, 2);
     }
+
+
 
 }

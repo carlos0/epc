@@ -14,6 +14,9 @@ public class JMPredio {
     public int gid;
     public String seg_unico;
     public String orden;
+    public String cod_if;
+    public String tipo;
+    public String ciu_com;
     public String geo;
 
     public ArrayList<ContentValues> datos;
@@ -26,12 +29,18 @@ public class JMPredio {
             gid = objetoJSON.getInt("gid");
             seg_unico = objetoJSON.getString("seg_unico");
             orden = objetoJSON.getString("orden");
+            cod_if = objetoJSON.getString("cod_if");
+            tipo = objetoJSON.getString("tipo");
+            ciu_com = objetoJSON.getString("ciu_com");
             geo = objetoJSON.getString("geo");
 
             ContentValues paquete = new ContentValues();
             paquete.put("gid", gid);
             paquete.put("seg_unico", seg_unico);
             paquete.put("orden", orden);
+            paquete.put("cod_if", cod_if);
+            paquete.put("tipo", tipo);
+            paquete.put("ciu_com", ciu_com);
             paquete.put("geo", geo);
 
             datos.add(paquete);

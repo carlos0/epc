@@ -13,6 +13,7 @@ public class JMSegmentoD {
 
     public int gid;
     public String seg_unico;
+    public String segmento;
     public String geo;
 
     public ArrayList<ContentValues> datos;
@@ -24,11 +25,13 @@ public class JMSegmentoD {
             JSONObject objetoJSON = jsonArray.getJSONObject(j);
             gid = objetoJSON.getInt("gid");
             seg_unico = objetoJSON.getString("seg_unico");
+            segmento = objetoJSON.getString("segmento");
             geo = objetoJSON.getString("geo");
 
             ContentValues paquete = new ContentValues();
             paquete.put("gid", gid);
             paquete.put("seg_unico", seg_unico);
+            paquete.put("segmento", segmento);
             paquete.put("geo", geo);
 
             datos.add(paquete);

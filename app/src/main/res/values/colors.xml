@@ -46,4 +46,16 @@
     <color name="postcensal_dorado">#B87513</color>
     <color name="postcensal_plateado">#868686</color>
 
+<!--COLORES MAPA-->
+    <color name="marker_predio">#000000</color>
+    <color name="s_marker_predio">#437C2A</color>
+    <color name="marker_predio_disperso">#E20017</color>
+    <color name="s_marker_predio_disperso">#8E442D</color>
+    <color name="marker_manzana">#E20017</color>
+    <color name="s_marker_manzana">#E20017</color>
+    <color name="marker_comunidad">#4D2012</color>
+    <color name="s_marker_comunidad">#E20017</color>
+    <color name="marker_segmento">#E20017</color>
+    <color name="s_marker_segmento">#E20017</color>
+
 </resources>

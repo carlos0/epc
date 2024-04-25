@@ -135,9 +135,12 @@ public class ActionBarActivityNavigator extends ActionBarActivityMessage {
         startActivity(map);
     }
     //TODO:BRP{
-    public void irMap2(int idUpm) {
+    public void irMap2(int idUpm, int tipo, int idAsignacion, int correlativo) {
         Bundle bundle = new Bundle();
         bundle.putInt("idUpm", idUpm);
+        bundle.putInt("tipo", tipo);
+        bundle.putInt("idAsignacion", idAsignacion);
+        bundle.putInt("correlativo", correlativo);
         Intent map = new Intent(getApplicationContext(), MapActivity2.class);
         map.putExtras(bundle);
         startActivity(map);

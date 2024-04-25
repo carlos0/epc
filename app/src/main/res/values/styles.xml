@@ -53,4 +53,8 @@
         <item name="android:textColor">@color/color_list</item>
     </style>
 
+    <style name="textGenerator1">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
 </resources>

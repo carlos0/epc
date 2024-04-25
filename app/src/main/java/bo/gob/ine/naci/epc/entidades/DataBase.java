@@ -267,7 +267,7 @@ public class DataBase extends SQLiteOpenHelper {
                 "correlativo_padre integer,\n" +
                 "id_usuario integer NOT NULL,\n" +
                 "id_upm integer,\n" +
-                "id_upm_hijo integer,\n" +
+                "id_upm_hijo integer DEFAULT 0,\n" +
                 "id_nivel integer NOT NULL,\n" +
                 "latitud nvarchar(14) NOT NULL DEFAULT '0',\n" +
                 "longitud nvarchar(14) NOT NULL DEFAULT '0',\n" +
@@ -303,6 +303,7 @@ public class DataBase extends SQLiteOpenHelper {
                 "feccre long NOT NULL DEFAULT (strftime('%s', 'now', 'localtime')),\n" +
                 "usumod nvarchar(60),\n" +
                 "fecmod long,\n" +
+                "fila integer NOT NULL DEFAULT 0,\n" +
                 "PRIMARY KEY (id_asignacion, correlativo, id_pregunta))");
         db.execSQL("CREATE INDEX index_encuesta_visible ON enc_encuesta(visible ASC)");
         db.execSQL("CREATE INDEX index_encuesta_codigo_respuesta ON enc_encuesta(codigo_respuesta ASC)");
@@ -428,6 +429,9 @@ public class DataBase extends SQLiteOpenHelper {
                 "gid integer NOT NULL,\n" +
                 "seg_unico nvarchar(254),\n" +
                 "orden nvarchar(20),\n" +
+                "cod_if nvarchar(20),\n" +
+                "tipo nvarchar(20),\n" +
+                "ciu_com nvarchar(20),\n" +
                 "geo text)");
         db.execSQL("CREATE TABLE d_epc_comunidad(\n" +
                 "gid integer NOT NULL,\n" +
@@ -438,6 +442,7 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE d_epc_segmento(\n" +
                 "gid integer NOT NULL,\n" +
                 "seg_unico nvarchar(254),\n" +
+                "segmento nvarchar(254),\n" +
                 "geo text)");
 
  }

@@ -59,6 +59,9 @@
 		</LinearLayout>
 
 
+		<HorizontalScrollView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
 		<com.google.android.material.button.MaterialButtonToggleGroup
 			android:id="@+id/fabMenuMain2"
 			android:layout_width="match_parent"
@@ -70,13 +73,13 @@
 			app:singleSelection="false">
 
 			<com.google.android.material.button.MaterialButton
-				android:id="@+id/fabPerimetro"
+				android:id="@+id/fabComunidad"
 				style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:backgroundTint="@color/color_blanco_button"
-				android:visibility="gone"
-				android:text="Perimetro" />
+				android:visibility="visible"
+				android:text="Comunidad" />
 
 			<com.google.android.material.button.MaterialButton
 				android:id="@+id/fabPredio"
@@ -84,31 +87,40 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:backgroundTint="@color/color_blanco_button"
-				android:visibility="gone"
-				android:text="predio" />
+				android:visibility="visible"
+				android:text="Predio" />
 
 			<com.google.android.material.button.MaterialButton
-				android:id="@+id/fabDisperso"
+				android:id="@+id/fabManzana"
 				style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:backgroundTint="@color/color_blanco_button"
-				android:visibility="gone"
-				android:text="disperso" />
+				android:visibility="visible"
+				android:text="Manzana" />
 
 
 			<com.google.android.material.button.MaterialButton
-				android:id="@+id/fabRecorrido"
+				android:id="@+id/fabSegmento"
 				style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:backgroundTint="@color/color_blanco_button"
-				android:visibility="gone"
-				android:text="recorrido" />
+				android:visibility="visible"
+				android:text="segmento" />
+
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/fabSegmentoD"
+				style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:backgroundTint="@color/color_blanco_button"
+				android:visibility="visible"
+				android:text="segmento" />
 
 		</com.google.android.material.button.MaterialButtonToggleGroup>
 
-		<!--	</HorizontalScrollView>-->
+			</HorizontalScrollView>
 
 		<com.google.android.material.button.MaterialButtonToggleGroup
             android:layout_width="wrap_content"
