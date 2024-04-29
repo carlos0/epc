@@ -203,7 +203,7 @@ public class FragmentMenu extends Fragment {
                     idInformante=idPadre;
                     idPadre=new IdInformante(0,0);
                 }
-                iComunicaFragments.enviarDatos(idInformante, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, 18504), 2, 3, 2, idPadre, 3);
+                iComunicaFragments.enviarDatos(idInformante, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, 18504, 1), 2, 3, 2, idPadre, 3);
             }
         });
         fabIncidencia = vista.findViewById(R.id.fabIncidencia);
@@ -214,7 +214,7 @@ public class FragmentMenu extends Fragment {
                     idInformante=idPadre;
                     idPadre=new IdInformante(0,0);
                 }
-                iComunicaFragments.enviarDatos(idInformante, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, Parametros.ID_INCIDENCIA_FINAL), 2, 3, 180, idPadre, 3);
+                iComunicaFragments.enviarDatos(idInformante, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, Parametros.ID_INCIDENCIA_FINAL, 1), 2, 3, 180, idPadre, 3);
             }
         });
         cargarListado(getActivity());
@@ -584,7 +584,7 @@ public class FragmentMenu extends Fragment {
                        //obtiene la primera pregunta del nivel 4 miembro del hogar
 
 
-                        accionInicioBoleta(new IdInformante((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo")), new IdEncuesta((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo"), 18581),4, 4, 5, new IdInformante((Integer) val.get("id_asignacion_padre"), (Integer) val.get("correlativo_padre")));
+                        accionInicioBoleta(new IdInformante((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo")), new IdEncuesta((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo"), 18581, 1),4, 4, 5, new IdInformante((Integer) val.get("id_asignacion_padre"), (Integer) val.get("correlativo_padre")));
                     } catch (Exception exp) {
                         exp.printStackTrace();
                     }
@@ -734,7 +734,7 @@ public class FragmentMenu extends Fragment {
                         } else {
                             encuesta.nuevo();
                         }
-                        encuesta.set_id_encuesta(new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preg.getId()));
+                        encuesta.set_id_encuesta(new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preg.getId(), 1));
                         encuesta.set_codigo_respuesta(preg.getCodResp());
                         encuesta.set_respuesta(preg.getResp());
                         encuesta.set_observacion(preg.getObservacion());

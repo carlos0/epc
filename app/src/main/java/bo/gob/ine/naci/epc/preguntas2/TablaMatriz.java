@@ -5,6 +5,7 @@ import static com.google.android.material.textfield.TextInputLayout.END_ICON_NON
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -22,7 +23,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -34,21 +37,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import bo.gob.ine.naci.epc.BottomSheet;
 import bo.gob.ine.naci.epc.R;
 import bo.gob.ine.naci.epc.adaptadores.BoletaAdapterRecycler;
 import bo.gob.ine.naci.epc.adaptadores.TablaMatrizAdapterRecycler;
 import bo.gob.ine.naci.epc.entidades.Encuesta;
 import bo.gob.ine.naci.epc.entidades.Estado;
 import bo.gob.ine.naci.epc.entidades.IdEncuesta;
+import bo.gob.ine.naci.epc.entidades.IdInformante;
 import bo.gob.ine.naci.epc.entidades.Informante;
 import bo.gob.ine.naci.epc.fragments.FragmentEncuesta;
 import bo.gob.ine.naci.epc.herramientas.Movil;
 import bo.gob.ine.naci.epc.herramientas.Parametros;
 
 public class TablaMatriz extends PreguntaView implements View.OnClickListener {
-    protected TextInputLayout contenedor;
-    protected TextInputEditText textbox;
+//    protected TextInputLayout contenedor;
+//    protected TextInputEditText textbox;
     protected ImageButton btnNext;
     protected ImageButton btnAdd;
 
@@ -75,11 +78,10 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
     private ArrayList<Map<String, Object>> valores = new ArrayList<>();
     private int idAsignacion;
     private int correlativo;
-    RecyclerView recyclerView;
     LinearLayout linearLayout;
 
-    BottomSheet bottomSheetDialog;
-
+    int fila;
+    RecyclerView list;
 
     public TablaMatriz(final Context context, final int posicion, final int id, int idSeccion, final String cod, String preg, int maxLength, final Map<Integer, String> buttonsActive, String ayuda, boolean multiple, final Boolean evaluar, final Boolean mostrarSeccion, String observacion, int idAsignacion, int correlativo) {
         super(context, id, idSeccion, cod, preg, ayuda, mostrarSeccion, observacion);
@@ -110,59 +112,47 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
         layoutParamsButton.gravity = Gravity.RIGHT;
         btnNext.setLayoutParams(layoutParamsButton);
 
-
-        textbox = new TextInputEditText(getContext());
-        textbox.setHintTextColor(getResources().getColor(R.color.colorSecondary_text));
-        textbox.setTextColor(getResources().getColor(R.color.colorPrimary_text));
-        textbox.setImeOptions(EditorInfo.IME_ACTION_GO);
-
-        textbox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_GO) {
-                    if(evaluar) {
-                        FragmentEncuesta.actualiza(id);
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
-        addView(textbox);
-
-        linearLayout = new LinearLayout(context);
+        linearLayout = new LinearLayout(getContext());
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
+                LayoutParams.WRAP_CONTENT
         ));
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-        recyclerView = new RecyclerView(context);
-        recyclerView.setLayoutParams(new LinearLayout.LayoutParams(
+        list = new RecyclerView(getContext());
+        list.setLayoutParams(new LinearLayout.LayoutParams(
                 0,
-                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
                 1.0f
         ));
 
-        cargarListado(recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        list.setLayoutManager(layoutManager);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        btnAdd = new ImageButton(context);
+        Log.d("RECYCLER", "-----------");
+
+        cargarListado();
+
+        btnAdd = new ImageButton(getContext());
         btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_person));
-        btnAdd.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        btnAdd.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         btnAdd.setBackground(null);
         btnAdd.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-//                    FragmentEncuesta.actualiza(id);
-
+//                FragmentEncuesta fragmentEncuesta = new FragmentEncuesta();
+                fila = Encuesta.ultimaFilaBucle(new IdInformante(idAsignacion,correlativo), Parametros.ID_PREG_BUCLE);
+                Log.d("FILA", String.valueOf(fila));
+                FragmentEncuesta.dibujaTablaMatriz(fila + 1);
             }
         });
-        addView(btnNext);
-        linearLayout.addView(recyclerView);
+
+        linearLayout.addView(list);
         linearLayout.addView(btnAdd);
 
-
         addView(linearLayout);
-
+        setBotones(btnNext, false);
 
         buttons = new LinearLayout(context);
         buttons.setFocusable(true);
@@ -208,7 +198,7 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
         }
     }
 
-    public void cargarListado(RecyclerView list) {
+    public void cargarListado() {
 
         try {
             Encuesta encuesta = new Encuesta();
@@ -219,12 +209,10 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
             adapter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    String a = valores.get(list.getChildAdapterPosition(v)).get("id_asignacion").toString();
                     try {
                         Map<String, Object> val = valores.get(list.getChildAdapterPosition(v));
-//                        irEncuesta2(new IdEncuesta((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo"), 0), 0, false);
-//                        listarPreguntas();
-//                        finish();
+                        Log.d("FILA_CLICK", val.get("fila").toString());
+                        FragmentEncuesta.dibujaTablaMatriz(Integer.parseInt(val.get("fila").toString()));
                     } catch (Exception exp) {
                         exp.printStackTrace();
                     }
@@ -240,18 +228,16 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
 
     @Override
     public String getCodResp() {
-        if (idOpciones.contains(seleccion)) {
-            return seleccion;
-        } else if (textbox.getText().toString().trim().length() > 0) {
-            return String.valueOf(textbox.getText().toString().trim().length());
-        } else {
-            return "-1";
-        }
+        int countFila = Encuesta.cuentaFilaBucle(new IdInformante(idAsignacion,correlativo), Parametros.ID_PREG_BUCLE);
+        Log.d("FILA", String.valueOf(countFila));
+        return String.valueOf(countFila);
     }
 
     @Override
     public String getResp() {
-        return (textbox.getText().toString().trim()).replace("\n", " ");
+        int countFila = Encuesta.cuentaFilaBucle(new IdInformante(idAsignacion,correlativo), Parametros.ID_PREG_BUCLE);
+        Log.d("FILA", String.valueOf(countFila));
+        return String.valueOf(countFila);
     }
 
     @Override
@@ -262,17 +248,11 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
             botonActive = (ToggleButton) guardaBotones.get(value);
             botonActive.setChecked(true);
             botonActive.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
-            contenedor.setEndIconVisible(false);
+
             boton = botonActive;
 
-            textbox.setEnabled(false);
-            contenedor.setEndIconActivated(false);
-            contenedor.setEndIconActivated(false);
-            contenedor.setEndIconVisible(false);
-            contenedor.setBoxBackgroundMode (BOX_BACKGROUND_FILLED);
-
         } else {
-            textbox.setEnabled(true);
+
             for(String opc : idOpciones) {
                 botonActive = (ToggleButton) guardaBotones.get(opc);
                 botonActive.setChecked(false);
@@ -283,12 +263,7 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
 
     @Override
     public void setResp(String value) {
-        if(value.length() > this.maxLength) {
-            contenedor.setCounterMaxLength(value.length());
-            fArray[0] = new InputFilter.LengthFilter(value.length());
-            textbox.setFilters(fArray);
-        }
-        textbox.setText(value);
+
     }
 
     @Override
@@ -296,7 +271,6 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
         if (buttonsActive != null) {
             buttons.requestFocus();
         } else {
-//            textbox.requestFocus();
         }
     }
 
@@ -316,16 +290,13 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
 
         if(seleccion.equals(a[0])){
             Log.d("REVISION200", "ACTS");
-            textbox.setEnabled(true);
-            textbox.setText("");
+
             seleccion = "";
             seleccionText = "";
             botonActive.setChecked(false);
             botonActive.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
             fArray[0] = new InputFilter.LengthFilter(maxLength);
-            textbox.setFilters(fArray);
-            contenedor.setCounterMaxLength(maxLength);
-            contenedor.setEndIconVisible(true);
+
             boton = null;
             Log.d("REVISION300", seleccion);
             if(evaluar) {
@@ -335,19 +306,13 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
             Log.d("REVISION200", "ACTS2");
             boton.setChecked(false);
             boton.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
-            if(a[1].length() > maxLength) {
-                contenedor.setCounterMaxLength(a[1].length());
-                fArray[0] = new InputFilter.LengthFilter(a[1].length());
-                textbox.setFilters(fArray);
-            }
-            textbox.setText(a[1]);
+
             seleccion = a[0];
             seleccionText = a[1];
-            textbox.setEnabled(false);
+
             botonActive.setChecked(true);
             botonActive.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
-            contenedor.setEndIconVisible(false);
-            contenedor.setEndIconActivated(false);
+
             boton = botonActive;
             Log.d("REVISION400", seleccion);
             if(evaluar) {
@@ -356,17 +321,15 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
         } else {//SI NO EXISTIERA NADA en @seleccion
             Log.d("REVISION200", "ACTS3");
             if(a[1].length() > maxLength) {
-                contenedor.setCounterMaxLength(a[1].length());
-                fArray[0] = new InputFilter.LengthFilter(a[1].length());
-                textbox.setFilters(fArray);
+
             }
-            textbox.setText(a[1]);
+
             seleccion = a[0];
             seleccionText = a[1];
-            textbox.setEnabled(false);
+
             botonActive.setChecked(true);
             botonActive.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
-            contenedor.setEndIconVisible(false);
+
             boton = botonActive;
             Log.d("REVISION400", seleccion);
             if(evaluar) {

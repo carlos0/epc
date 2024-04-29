@@ -606,7 +606,7 @@ public class EncuestaInicialActivity extends ActionBarActivityProcess implements
                         } else {
                             encuesta.nuevo();
                         }
-                        encuesta.set_id_encuesta(new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preg.getId()));
+                        encuesta.set_id_encuesta(new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preg.getId(), 1));
 //                        encuesta.set_id_respuesta(preg.getIdResp());
                         encuesta.set_codigo_respuesta(preg.getCodResp());
                         encuesta.set_respuesta(preg.getResp());

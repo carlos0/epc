@@ -124,7 +124,7 @@ public class Autocompletar extends PreguntaView implements View.OnClickListener 
                     if(!btnOpciones.contains(s.toString())) {
                         Log.d("opcion2", s.toString());
                         valor = "";
-                        codigo = "-1";
+                        codigo = "1";
                         contenedor.setError("Debe seleccionar una opcion correcta");
                     } else {
                         Log.d("opcion4", s.toString());

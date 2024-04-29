@@ -116,6 +116,8 @@ public class Parametros {
 
     public static int ID_PREG_MORTALIDAD  = 38202;
 
+    public static int ID_PREG_BUCLE  = 38105;
+
     public static int ID_PREG_INCIDENCIA  = 99999;
 
     public static Fragment FRAGMENTO_ACTUAL = null;

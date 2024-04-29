@@ -101,6 +101,7 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
     private RingProgressBar ringProgressBar;
     int progress = 0;
     private final static String TAG_FRAGMET_ENCUESTA = "TAG_FRAGMET_ENCUESTA";
+    private final static String TAG_FRAGMET_ENCUESTA_BUCLE = "TAG_FRAGMET_ENCUESTA_BUCLE";
     private final static String TAG_FRAGMET_ENCUESTA_INICIAL = "TAG_FRAGMET_ENCUESTA_INICIAL";
     private final static String TAG_FRAGMET_LISTA = "TAG_FRAGMET_LISTA";
     //Variables de escritura de archivos
@@ -231,7 +232,7 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
             correlativo = idE.correlativo;
             if (correlativo == 0) {
                 textViewEncuesta.setText("Boleta Nueva");
-                nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, Parametros.ID_PREG_DATOS_VIVIENDA);
+                nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, Parametros.ID_PREG_DATOS_VIVIENDA, 1);
                 nBundle = new Bundle();
                 nBundle.putIntArray("IdEncuesta", nIdEncuesta.toArray());
                 fragmentInicial.setArguments(nBundle);
@@ -240,7 +241,7 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
                 switch (bundleFragments.getInt("tipoFragment")) {
                     case 0:
                         textViewEncuesta.setText(String.valueOf(Informante.getCodigoString(idE.getIdInformante())));
-                        nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, Parametros.ID_PREG_PERSONAS);
+                        nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, Parametros.ID_PREG_PERSONAS, 1);
                         nBundle = new Bundle();
                         nBundle.putIntArray("IdEncuesta", nIdEncuesta.toArray());
                         fragmentList.setArguments(nBundle);
@@ -248,7 +249,7 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
                         break;
                     case 1:
                         textViewEncuesta.setText(String.valueOf(Informante.getCodigoString(idE.getIdInformante())));
-                        nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, Parametros.ID_PREG_DATOS_VIVIENDA);
+                        nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, Parametros.ID_PREG_DATOS_VIVIENDA, 1);
                         nBundle = new Bundle();
                         nBundle.putIntArray("IdEncuesta", nIdEncuesta.toArray());
                         transaction = getSupportFragmentManager().beginTransaction();
@@ -258,8 +259,10 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
                         break;
                     case 2:
                         textViewEncuesta.setText("Personas - " + Informante.getCodigoString(idE.getIdInformante())+" - "+Encuesta.getNombre(idE.getIdInformante())+" - "+Encuesta.getEdad(idE.getIdInformante())+" - "+Informante.getCodigoFechaCreacionBoletaFormat(idE.getIdInformante()));
-                        nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, Parametros.ID_PREG_PERSONAS);
+                        nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, Parametros.ID_PREG_PERSONAS, 1);
                         nBundle = new Bundle();
+                        Log.d("REVISION0-1", nIdEncuesta.where());
+                        Log.d("REVISION0-2", String.valueOf(nIdEncuesta.toArray()));
                         nBundle.putIntArray("IdEncuesta", nIdEncuesta.toArray());
                         transaction = getSupportFragmentManager().beginTransaction();
                         fragmentEncuesta.setArguments(nBundle);
@@ -268,7 +271,18 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
                         break;
                     case 3:
                         textViewEncuesta.setText("Hogar - " + Informante.getCodigoString(idE.getIdInformante()));
-                        nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, idPregunta);
+                        nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, idPregunta, 1);
+                        nBundle = new Bundle();
+                        nBundle.putIntArray("IdEncuesta", nIdEncuesta.toArray());
+                        transaction = getSupportFragmentManager().beginTransaction();
+                        fragmentEncuesta = new FragmentEncuesta();
+                        fragmentEncuesta.setArguments(nBundle);
+                        transaction.replace(R.id.contenedor_fragments, fragmentEncuesta, TAG_FRAGMET_ENCUESTA).addToBackStack(null).commit();
+                        Parametros.FRAGMENTO_ACTUAL = fragmentEncuesta;
+                        break;
+                    case 4:
+                        textViewEncuesta.setText("Incidencia - " + Informante.getCodigoString(idE.getIdInformante()));
+                        nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, Parametros.ID_PREG_INCIDENCIA, 1);
                         nBundle = new Bundle();
                         nBundle.putIntArray("IdEncuesta", nIdEncuesta.toArray());
                         transaction = getSupportFragmentManager().beginTransaction();
@@ -276,12 +290,17 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
                         transaction.replace(R.id.contenedor_fragments, fragmentEncuesta, TAG_FRAGMET_ENCUESTA).addToBackStack(null).commit();
                         Parametros.FRAGMENTO_ACTUAL = fragmentEncuesta;
                         break;
-                    case 4:
-                        textViewEncuesta.setText("Incidencia - " + Informante.getCodigoString(idE.getIdInformante()));
-                        nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, Parametros.ID_PREG_INCIDENCIA);
+                    case 10:
+                        //BUCLE
+                        Log.d("REVISION0", idEncuesta.where());
+                        textViewEncuesta.setText("");
+                        nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, idPregunta, idE.fila);
                         nBundle = new Bundle();
+                        Log.d("REVISION0-1", nIdEncuesta.where());
                         nBundle.putIntArray("IdEncuesta", nIdEncuesta.toArray());
+                        nBundle.putInt("fila", bundleFragments.getInt("fila"));
                         transaction = getSupportFragmentManager().beginTransaction();
+                        fragmentEncuesta = new FragmentEncuesta();
                         fragmentEncuesta.setArguments(nBundle);
                         transaction.replace(R.id.contenedor_fragments, fragmentEncuesta, TAG_FRAGMET_ENCUESTA).addToBackStack(null).commit();
                         Parametros.FRAGMENTO_ACTUAL = fragmentEncuesta;
@@ -334,6 +353,17 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
     }
 
     @Override
+    public void enviarDatosTablaMatriz(IdEncuesta encuesta, int fila, int tipoFragment, boolean directo) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("IdEncuesta", encuesta.toArray());
+        bundle.putSerializable("fila", fila);
+        bundle.putSerializable("tipoFragment", tipoFragment);
+        bundle.putSerializable("directo", directo);
+
+        evaluador(bundle);
+    }
+
+    @Override
     public void mensaje(int tipo, Context context, String methodAceptar, String methodCancelar, String titulo, Spanned mensaje, IdEncuesta idEncuestaMsj) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("context", (Serializable) context);
@@ -370,7 +400,7 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
         Log.d("brp", "aqui");
         getSupportFragmentManager().getFragments().remove(this);
         getSupportFragmentManager().popBackStack();
-        enviarDatos(new IdEncuesta(idInformante.id_asignacion,idInformante.correlativo, Parametros.ID_PREG_PERSONAS), 5, false);
+        enviarDatos(new IdEncuesta(idInformante.id_asignacion,idInformante.correlativo, Parametros.ID_PREG_PERSONAS, 1), 5, false);
     }
 
     public void terminar(){
@@ -384,6 +414,11 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
         informante.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         this.startActivity(informante);
         this.finish();
+    }
+
+    public void finBucle(){
+        Log.d("FINBUCLE", idInformante.id_asignacion +" - "+idInformante.correlativo +" - "+ Parametros.ID_PREG_MORTALIDAD);
+        enviarDatos(new IdEncuesta(idInformante.id_asignacion,idInformante.correlativo, Parametros.ID_PREG_MORTALIDAD, 1), 3, false);
     }
 
     @Override

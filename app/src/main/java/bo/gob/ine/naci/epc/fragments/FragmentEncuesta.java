@@ -26,6 +26,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -36,10 +37,13 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -235,6 +239,8 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
     protected String secciones;
     protected String tipo;
 
+    protected int fila = 1;
+
     public FragmentEncuesta() {
         // Required empty public constructor
     }
@@ -281,6 +287,10 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
         if (bundle != null) {
             idEncuesta = new IdEncuesta((int[]) bundle.getIntArray("IdEncuesta"));
             Log.d("REVISION0", idEncuesta.where());
+            if(bundle.containsKey("fila")){
+                fila = bundle.getInt("fila");
+                Log.d("FILA_NUEVA", String.valueOf(fila));
+            }
 
             idInformante = new IdInformante(idEncuesta.id_asignacion, idEncuesta.correlativo);
             Informante inf = new Informante();
@@ -511,6 +521,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
 
                 if (pProc == null) {
                     if (encuesta.abrir(idEncuestaProcesa.where(), null)) {
+                        Log.d("FILA_NUEVA", "EXISTE");
                         tResp = encuesta.get_respuesta();
                         tCodResp = encuesta.get_codigo_respuesta();
                         tObs = encuesta.get_observacion();
@@ -519,6 +530,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
                         Log.d("REVISION001", idEncuestaProcesa.id_pregunta + "-" + tCodResp + "-" + tResp + "-" + tObs);
 
                     } else {
+                        Log.d("FILA_NUEVA", String.valueOf(fila));
                         accion = "NUEVO";
                     }
 
@@ -561,7 +573,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
                                     if (isEval(pregunta.get_regla(), String.valueOf(id_pregunta), tCodResp, tObs)) {
 //                                            nextPreguntas = Pregunta.getNextPreguntas(pregunta.get_codigo_pregunta(), secciones, idEncuesta.id_asignacion, idEncuesta.correlativo);
 //                                            nextPreguntas = Pregunta.getNextPreguntas(preguntaActual.getCod(), secciones);
-                                        guardar(nuevo, idEncuestaProcesa, tCodResp, tResp, tObs, null, tipo, secciones, pregunta.get_codigo_pregunta());
+                                        guardar(nuevo, idEncuestaProcesa, tCodResp, tResp, tObs, null, tipo, secciones, pregunta.get_codigo_pregunta(), fila);
                                         if (isNext(idInformante, id_pregunta, pregunta.get_codigo_pregunta())) {
                                             bucle = true;
                                         } else {
@@ -577,7 +589,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
                                 } else {
 //                                        nextPreguntas = Pregunta.getNextPreguntas(pregunta.get_codigo_pregunta(), secciones, idEncuesta.id_asignacion, idEncuesta.correlativo);
 //                                        nextPreguntas = Pregunta.getNextPreguntas(preguntaActual.getCod(), secciones);
-                                    guardar(nuevo, idEncuestaProcesa, tCodResp, tResp, tObs, null, tipo, secciones, pregunta.get_codigo_pregunta());
+                                    guardar(nuevo, idEncuestaProcesa, tCodResp, tResp, tObs, null, tipo, secciones, pregunta.get_codigo_pregunta(), fila);
                                     if (isNext(idInformante, id_pregunta, pregunta.get_codigo_pregunta())) {
                                         bucle = true;
                                     } else {
@@ -615,7 +627,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
 //                                                nextPreguntas = Pregunta.getNextPreguntas(pregunta.get_codigo_pregunta(), secciones, idEncuesta.id_asignacion, idEncuesta.correlativo);
                                             nextPreguntas = Pregunta.getNextPreguntas(preguntaActual.getCod(), secciones);
                                             nextSecciones = Pregunta.getNextSecciones(preguntaActual.getIdSeccion(), secciones);
-                                            guardar(nuevo, idEncuestaProcesa, tCodResp, tResp, tObs, null, tipo, secciones, pregunta.get_codigo_pregunta());
+                                            guardar(nuevo, idEncuestaProcesa, tCodResp, tResp, tObs, null, tipo, secciones, pregunta.get_codigo_pregunta(), fila);
                                             if (isNext(idInformante, id_pregunta, pregunta.get_codigo_pregunta())) {
                                                 bucle = true;
                                                 pProc = null;
@@ -631,7 +643,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
 //                                            nextPreguntas = Pregunta.getNextPreguntas(pregunta.get_codigo_pregunta(), secciones, idEncuesta.id_asignacion, idEncuesta.correlativo);
                                         nextPreguntas = Pregunta.getNextPreguntas(preguntaActual.getCod(), secciones);
                                         nextSecciones = Pregunta.getNextSecciones(preguntaActual.getIdSeccion(), secciones);
-                                        guardar(nuevo, idEncuestaProcesa, tCodResp, tResp, tObs, null, tipo, secciones, pregunta.get_codigo_pregunta());
+                                        guardar(nuevo, idEncuestaProcesa, tCodResp, tResp, tObs, null, tipo, secciones, pregunta.get_codigo_pregunta(), fila);
                                         if (isNext(idInformante, id_pregunta, pregunta.get_codigo_pregunta())) {
                                             bucle = true;
                                             pProc = null;
@@ -805,27 +817,32 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
             Log.d("TITLEMSJ", titleMsj);
             switch (titleMsj) {
                 case "STOP":
-                    iComunicaFragments.mensaje(3, getContext(), "volverInicio", null, "ERROR", msj, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, 0));
+                    iComunicaFragments.mensaje(3, getContext(), "volverInicio", null, "ERROR", msj, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, 0, fila));
                     progressDialog.dismiss();
                     break;
-
+                case "FIN_BUCLE":
+                    preguntaActual.setFocus();
+//                    iComunicaFragments.mensaje(3, activity, "finBucle", null, titleMsj, Html.fromHtml("Terminaste los datos de la persona"), new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, Parametros.ID_PREG_MORTALIDAD, fila));
+                    iComunicaFragments.enviarDatos(new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo,Parametros.ID_PREG_MORTALIDAD, fila), 3, false);
+                    progressDialog.dismiss();
+                    break;
                 case "FIN_BOLETA":
                     preguntaActual.setFocus();
 //                    scrollView.smoothScrollTo(0, preguntaActual.getTop());
-                    iComunicaFragments.mensaje(3, activity, "terminar", null, titleMsj, Html.fromHtml("Terminaste la vivienda"), new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preguntaActual.getId()));
+                    iComunicaFragments.mensaje(3, activity, "terminar", null, titleMsj, Html.fromHtml("Terminaste la vivienda"), new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preguntaActual.getId(), fila));
                     progressDialog.dismiss();
                     break;
                 case "FIN_HOGAR":
                     preguntaActual.setFocus();
 //                    scrollView.smoothScrollTo(0, preguntaActual.getTop());
-                    iComunicaFragments.mensaje(3, activity, "volverInicio", null, titleMsj, Html.fromHtml("Terminaste los datos del hogar"), new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preguntaActual.getId()));
+                    iComunicaFragments.mensaje(3, activity, "volverInicio", null, titleMsj, Html.fromHtml("Terminaste los datos del hogar"), new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preguntaActual.getId(), fila));
                     progressDialog.dismiss();
                     break;
                 case "FIN_PERSONA":
                 case "FIN_CUESTIONARIO":
                     preguntaActual.setFocus();
 //                    scrollView.smoothScrollTo(0, preguntaActual.getTop());
-                    iComunicaFragments.mensaje(3, activity, "volverInicio", null, titleMsj, Html.fromHtml("Terminaste los datos de la persona"), new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preguntaActual.getId()));
+                    iComunicaFragments.mensaje(3, activity, "volverInicio", null, titleMsj, Html.fromHtml("Terminaste los datos de la persona"), new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preguntaActual.getId(), fila));
                     progressDialog.dismiss();
                     break;
 
@@ -844,7 +861,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
                 case "ERROR_FLUJO":
                     preguntaActual.setFocus();
 //                    scrollView.smoothScrollTo(0, preguntaActual.getTop());
-                    iComunicaFragments.mensaje(2, getContext(), null, null, titleMsj, msj, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preguntaActual.getId()));
+                    iComunicaFragments.mensaje(2, getContext(), null, null, titleMsj, msj, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preguntaActual.getId(), fila));
                     progressDialog.dismiss();
                     break;
                 case "NUEVO":
@@ -956,7 +973,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
         return resp;
     }
 
-    public void guardar(boolean nuevo, IdEncuesta idEncuesta, String tCodResp, String tResp, String tObs, Estado estado, String tipo, String secciones, String codPreg) {
+    public void guardar(boolean nuevo, IdEncuesta idEncuesta, String tCodResp, String tResp, String tObs, Estado estado, String tipo, String secciones, String codPreg, int fila) {
         Log.d("REVISION50", nuevo + "-" + idEncuesta.id_asignacion + "-" + idEncuesta.correlativo + "-" + idEncuesta.id_pregunta + "-" + tCodResp + "-" + tResp + "-" + tObs + "-" + estado);
         Log.d("REVISION50", Usuario.getLogin());
 
@@ -966,6 +983,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
             encuesta.set_feccre(System.currentTimeMillis() / 1000);
             encuesta.set_usucre(Usuario.getLogin());
         } else {
+
             encuesta.editar();
             encuesta.set_usumod(Usuario.getLogin());
             encuesta.set_fecmod(System.currentTimeMillis() / 1000);
@@ -979,6 +997,9 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
         encuesta.set_latitud(Movil.getGPS().split(";")[0].toString());
         encuesta.set_longitud(Movil.getGPS().split(";")[1].toString());
         encuesta.set_visible("t");
+
+        encuesta.set_fila(fila);
+
         encuesta.guardar();
 
 //        encuesta.free();
@@ -1012,6 +1033,11 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
                     msj = Html.fromHtml("");
                     resp = false;
                 }
+            } else if(idSiguiente.idSiguiente == -10){
+                titleMsj = "FIN_BUCLE";
+                msj = Html.fromHtml("");
+
+                resp = false;
             } else {
                 if (idNivel == 3) {
                     String message = informante.concluir(tCodPreg);
@@ -1526,41 +1552,41 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
                     Log.d("REVISION40", pregunti.getCod());
                     layout.addView(pregunti);
 
-                    if (pregunti.getId() == Integer.valueOf(99999)) {
-
-                        TableLayout tableLayout = new TableLayout(getContext());
-                        try {
-                            List<Map<String, Object>> dataMap = Observacion.obtenerDatosTablaVariablesDinamicas(idInformante);
-                            String[] header = dataMap.get(0).keySet().toArray(new String[0]);
-                            ArrayList<String[]> data = new ArrayList<>();
-                            for (Map<String, Object> it : dataMap) {
-                                ArrayList<String> a = new ArrayList<>();
-                                for (String e : header) {
-                                    a.add(String.valueOf(it.get(e)));
-                                }
-                                data.add(a.toArray(new String[0]));
-                            }
-                            TableDynamicObservacion tableDynamic = new TableDynamicObservacion(tableLayout, context);
-                            tableDynamic.addHeader(header);
-                            tableDynamic.addData(data);
-                            tableDynamic.backgroundHeader(MyApplication.getContext().getResources().getColor(R.color.colorPrimary));
-                            tableDynamic.textColorHeader(MyApplication.getContext().getResources().getColor(R.color.color_list));
-                            tableDynamic.backgroundData(MyApplication.getContext().getResources().getColor(R.color.colorInfo), MyApplication.getContext().getResources().getColor(R.color.colorPrimary));
-                            tableDynamic.lineColor(MyApplication.getContext().getResources().getColor(R.color.color_list));
-                            tableDynamic.textColorData(MyApplication.getContext().getResources().getColor(R.color.color_list));
-
-                            HorizontalScrollView horizontalScrollView = new HorizontalScrollView(getContext());
-                            horizontalScrollView.addView(tableLayout);
-
-                            TextView textView = new TextView(getContext());
-                            textView.setText(R.string.title_table_miembros);
-
-                            layout.addView(textView);
-                            layout.addView(horizontalScrollView);
-                        } catch (Exception e) {
-//                                e.printStackTrace();
-                        }
-                    }
+//                    if (pregunti.getId() == Integer.valueOf(99999)) {
+//
+//                        TableLayout tableLayout = new TableLayout(getContext());
+//                        try {
+//                            List<Map<String, Object>> dataMap = Observacion.obtenerDatosTablaVariablesDinamicas(idInformante);
+//                            String[] header = dataMap.get(0).keySet().toArray(new String[0]);
+//                            ArrayList<String[]> data = new ArrayList<>();
+//                            for (Map<String, Object> it : dataMap) {
+//                                ArrayList<String> a = new ArrayList<>();
+//                                for (String e : header) {
+//                                    a.add(String.valueOf(it.get(e)));
+//                                }
+//                                data.add(a.toArray(new String[0]));
+//                            }
+//                            TableDynamicObservacion tableDynamic = new TableDynamicObservacion(tableLayout, context);
+//                            tableDynamic.addHeader(header);
+//                            tableDynamic.addData(data);
+//                            tableDynamic.backgroundHeader(MyApplication.getContext().getResources().getColor(R.color.colorPrimary));
+//                            tableDynamic.textColorHeader(MyApplication.getContext().getResources().getColor(R.color.color_list));
+//                            tableDynamic.backgroundData(MyApplication.getContext().getResources().getColor(R.color.colorInfo), MyApplication.getContext().getResources().getColor(R.color.colorPrimary));
+//                            tableDynamic.lineColor(MyApplication.getContext().getResources().getColor(R.color.color_list));
+//                            tableDynamic.textColorData(MyApplication.getContext().getResources().getColor(R.color.color_list));
+//
+//                            HorizontalScrollView horizontalScrollView = new HorizontalScrollView(getContext());
+//                            horizontalScrollView.addView(tableLayout);
+//
+//                            TextView textView = new TextView(getContext());
+//                            textView.setText(R.string.title_table_miembros);
+//
+//                            layout.addView(textView);
+//                            layout.addView(horizontalScrollView);
+//                        } catch (Exception e) {
+////                                e.printStackTrace();
+//                        }
+//                    }
 
                     View separador = new View(getContext());
                     separador.setBackgroundColor(getResources().getColor(R.color.colorSecondary_text));
@@ -1621,16 +1647,18 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
                 encuestaObs.set_respuesta(preguntaActual.getResp());
                 encuestaObs.set_codigo_respuesta(preguntaActual.getCodResp());
                 encuestaObs.set_visible("t");
+                encuestaObs.set_fila(fila);
                 encuestaObs.guardar();
                 actualiza(idObs);
             } else {
                 encuestaObs.nuevo();
-                encuestaObs.set_id_encuesta(new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preguntaActual.getId()));
+                encuestaObs.set_id_encuesta(new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preguntaActual.getId(), fila));
                 encuestaObs.set_usucre(Usuario.getLogin());
                 encuestaObs.set_respuesta(preguntaActual.getResp());
                 encuestaObs.set_codigo_respuesta(preguntaActual.getCodResp());
                 encuestaObs.set_observacion(obs);
                 encuestaObs.set_visible("t");
+                encuestaObs.set_fila(fila);
                 encuestaObs.guardar();
                 actualiza(idObs);
             }
@@ -1967,6 +1995,11 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
         }
     }
 
+    public static void dibujaTablaMatriz(int filaM) {
+        Log.d("FILA", String.valueOf(filaM));
+        iComunicaFragments.enviarDatosTablaMatriz(new IdEncuesta(idEncuesta.id_asignacion, idEncuesta.correlativo,Parametros.ID_PREG_BUCLE, filaM), filaM,10, false);
+    }
+
     public static void actualizaMatriz(int idPregunta) {
         if (!hiloActivo) {
             Log.d("accion2", String.valueOf(idPregunta));
@@ -2033,73 +2066,6 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
         matDiag.create();
         matDiag.show();
 
-//        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View dialogLayout = inflater.inflate(R.layout.adapter_observacion, null);
-//        SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
-//        TextView titleContenido = (TextView)(((LinearLayout)dialogLayout).findViewById(R.id.observacionTitle));
-//        titleContenido.setText(Html.fromHtml(titulo));
-//        titleContenido.setTextSize(Parametros.FONT_RESP);
-//
-//        LinearLayout.LayoutParams layoutParamsButton2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        layoutParamsButton2.setMargins(5,5,5,5);
-//
-//        TextView aboutContenido = (TextView)(((LinearLayout)dialogLayout).findViewById(R.id.observacionTextView));
-//        aboutContenido.setText(Html.fromHtml(String.valueOf(mensaje)));
-//        aboutContenido.setTextSize(Parametros.FONT_RESP);
-//
-//        final TextInputEditText editText = (TextInputEditText)(((LinearLayout)dialogLayout).findViewById(R.id.observacion));
-//        editText.setText(obsText);
-//        editText.setTextColor(getContext().getResources().getColor(R.color.colorPrimary_text));
-//        InputFilter characterFilter = new InputFilter() {
-//            @Override
-//            public CharSequence filter(CharSequence source, int start, int end, Spanned spanned, int i2, int i3) {
-//                if(source != null && Parametros.BLOCK_CHARACTER_SET.contains(""+source)){
-//                    return "";
-//                }
-//                return null;
-//            }
-//        };
-//        editText.setFilters(new InputFilter[]{characterFilter});
-//
-//        sweetAlertDialog.setCustomView(dialogLayout);
-//        sweetAlertDialog.setCancelable(false);
-//
-//        sweetAlertDialog.setConfirmText("Aceptar");
-//        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-//            @Override
-//            public void onClick(SweetAlertDialog sweetAlertDialog) {
-//                String observation = editText.getText().toString();
-//                Log.d("observation", observation);
-////                if(method.equals("obs")){
-//                obs(idObs, observation);
-////                    Log.d("Pasaa1",observation);
-////                }else{
-//                Log.d("Pasaa2",observation);
-////                    try {
-////                        preguntaActual.setObservacion(observation);
-////                    }catch (Exception e){
-////
-////                    }
-//
-//                pasarObservado(activity, context, observation, idObs);
-////                }
-//                sweetAlertDialog.dismissWithAnimation();
-//            }
-//        });
-//        sweetAlertDialog.setCancelText("Cancelar");
-//        sweetAlertDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-//            @Override
-//            public void onClick(SweetAlertDialog sweetAlertDialog) {
-//                sweetAlertDialog.dismissWithAnimation();
-//            }
-//        });
-//        sweetAlertDialog.show();
-//
-//        Button buttonConfirm = sweetAlertDialog.findViewById(R.id.confirm_button);
-//        buttonConfirm.setLayoutParams(layoutParamsButton2);
-//
-//        Button buttonCancel = sweetAlertDialog.findViewById(R.id.cancel_button);
-//        buttonCancel.setLayoutParams(layoutParamsButton2);
     }
 
     public static void ocultar(Activity activity) {

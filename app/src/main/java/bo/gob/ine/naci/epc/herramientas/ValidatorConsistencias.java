@@ -124,7 +124,7 @@ public class ValidatorConsistencias extends EntidadId {
                         str.append("<b>").append("("+"Boletas Observadas-"+vDes+")").append("</b><br>");
                         str.append("Obs.: ").append(vObs).append("<br>");
                         str.append("Preg.: ").append(Pregunta.getPregunta(Integer.valueOf(map.get("id_pregunta"))));
-                        str.append("<i>Creado por: "+"SYSTEMEH2023").append("</i><br><br>");
+                        str.append("<i>Creado por: "+"SYSTEM2024").append("</i><br><br>");
                         str.append("</font>");
                     }
             }
@@ -223,7 +223,7 @@ public class ValidatorConsistencias extends EntidadId {
                                 "   WHERE ep.id_asignacion ="+cursor.getString(1)+" " +
                                 "       AND ep.correlativo = "+ cursor.getString(2) +" " +
                                 "       AND ep.id_pregunta = "+cursor.getString(6)+")"+","+
-                                "'SYSTEMEH2023',"+
+                                "'SYSTEM2024',"+
                                 "'ELABORADO', " + cursor.getString(6) + ", " +
                               cursor.getString(1) + ", " + cursor.getString(2) + ", '')";
                         conn.execSQL(insertSQL);
@@ -246,7 +246,7 @@ public class ValidatorConsistencias extends EntidadId {
                     " 2," + idUsuario + ",a.id_asignacion_padre,a.correlativo_padre,\n" +
                    /* " 'Cod:'|| a.nro_obs ||';Obs:' ||a.observacion || ';Criterio:' || a.criterio  ,\n" +*/
                     " 'Cod:'|| a.nro_obs ||';Obs:' || a.observacion  ,\n" +
-                    "  (SELECT ep.respuesta FROM enc_encuesta ep WHERE ep.id_asignacion = a.id_asignacion AND ep.correlativo = a.correlativo AND ep.id_pregunta = a.id_pregunta) , 'SYSTEMEH2023',\n" +
+                    "  (SELECT ep.respuesta FROM enc_encuesta ep WHERE ep.id_asignacion = a.id_asignacion AND ep.correlativo = a.correlativo AND ep.id_pregunta = a.id_pregunta) , 'SYSTEM2024',\n" +
                     "  'ELABORADO', a.id_pregunta,\n" +
                     "  a.id_asignacion, a.correlativo,''\n" +
                     this.sqlConsistencias;
@@ -264,7 +264,7 @@ public class ValidatorConsistencias extends EntidadId {
         conn.beginTransaction();
         try {
             String sql = "DELETE FROM enc_observacion " +
-                    "  WHERE usucre = 'SYSTEMEH2023'  " +
+                    "  WHERE usucre = 'SYSTEM2024'  " +
                     "  AND id_asignacion_hijo =" + vIda +
                     "  AND correlativo_hijo =" + vIdc + ";";
             conn.execSQL(sql);

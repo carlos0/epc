@@ -1478,7 +1478,7 @@ try{
                                 encuesta.nuevo();
                             }
                         }
-                        encuesta.set_id_encuesta(new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preg.getId()));
+                        encuesta.set_id_encuesta(new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preg.getId(), 1));
                         encuesta.set_codigo_respuesta(preg.getCodResp());
                         encuesta.set_respuesta(preg.getResp());
                         encuesta.set_observacion(preg.getObservacion());
@@ -1532,7 +1532,7 @@ try{
                                 //DEFAULT ES 4
                                 int nuevoIdNivel = 4;
                                 Map<String, Object> values = Informante.obtenerPreguntaInicialNivel4(nuevoIdNivel);
-                                accionInicioBoleta(idInformante, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, Integer.parseInt(values.get("id_pregunta").toString())), nivel, nuevoIdNivel, Integer.parseInt(values.get("id_seccion").toString()), idInformante);
+                                accionInicioBoleta(idInformante, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, Integer.parseInt(values.get("id_pregunta").toString()), 1), nivel, nuevoIdNivel, Integer.parseInt(values.get("id_seccion").toString()), idInformante);
 
                             }
                         } else {

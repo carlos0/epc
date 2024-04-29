@@ -12,7 +12,8 @@ public class EncuestaAnteriorPrimero extends EntidadCorr {
     public IdEncuesta get_id_encuesta() {
         return new IdEncuesta(filaActual.getInt(filaActual.getColumnIndex("id_asignacion")),
                 filaActual.getInt(filaActual.getColumnIndex("correlativo")),
-                filaActual.getInt(filaActual.getColumnIndex("id_pregunta"))
+                filaActual.getInt(filaActual.getColumnIndex("id_pregunta")),
+                filaActual.getInt(filaActual.getColumnIndex("fila"))
         );
     }
     @SuppressWarnings("unused")

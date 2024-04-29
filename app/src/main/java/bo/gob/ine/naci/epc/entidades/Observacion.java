@@ -226,10 +226,10 @@ public class Observacion extends Entidad {
                 row.put("esposo_esposa", cursor.getString(5));
                 row.put("padre_padrastro", cursor.getString(6));
                 row.put("madre_madrastra", cursor.getString(7));
-                row.put("persona_que_cuido", cursor.getString(8));
-                row.put("encargado_compras", cursor.getString(9));
-                row.put("kish_1", cursor.getString(10));
-                row.put("kish_2", cursor.getString(11));
+//                row.put("persona_que_cuido", cursor.getString(8));
+//                row.put("encargado_compras", cursor.getString(9));
+//                row.put("kish_1", cursor.getString(10));
+//                row.put("kish_2", cursor.getString(11));
                 res.add(row);
             } while (cursor.moveToNext());
         }

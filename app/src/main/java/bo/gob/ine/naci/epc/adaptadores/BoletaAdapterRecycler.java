@@ -464,7 +464,7 @@ public class BoletaAdapterRecycler extends RecyclerView.Adapter<BoletaAdapterRec
         protected String doInBackground(Integer... params) {
             templatePdf = new TemplatePdf(activity, params[0], params[1]);
             templatePdf.openDocument();
-            templatePdf.addTitle(String.valueOf(R.string.title_main), "Gestion 2023", new Date());
+            templatePdf.addTitle(String.valueOf(R.string.title_main), "Gestion 2024", new Date());
             Informante informante = new Informante();
             Map<String, ArrayList<Map<String, Object>>> datos = informante.obtenerListadoPdf(new IdInformante(params[0], params[1]));
             Log.d("valores", String.valueOf(datos));

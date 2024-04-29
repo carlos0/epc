@@ -150,12 +150,12 @@ public class ListadoViviendasActivity extends ActionBarActivityProcess implement
                     if (id == null) {
                         errorMessage(ListadoViviendasActivity.this, null, "Error!", Html.fromHtml("UPM no asignada"), Parametros.FONT_OBS);
                     } else {
-                        irEncuesta(new IdInformante(id, 0), new IdEncuesta(0, 0, 0), 1, 1, 0, new IdInformante(0, 0), 1, idUpmHijo);
+                        irEncuesta(new IdInformante(id, 0), new IdEncuesta(0, 0, 0, 1), 1, 1, 0, new IdInformante(0, 0), 1, idUpmHijo);
 
                         finish();
                     }
                 } else {
-                    irEncuesta(Asignacion.getInformanteCabeceraViviendas(idAsignacion), new IdEncuesta(0, 0, 0), 1, 1, 0, new IdInformante(0, 0), 1, idUpmHijo);
+                    irEncuesta(Asignacion.getInformanteCabeceraViviendas(idAsignacion), new IdEncuesta(0, 0, 0, 1), 1, 1, 0, new IdInformante(0, 0), 1, idUpmHijo);
                     finish();
                 }
             }
@@ -796,7 +796,7 @@ public class ListadoViviendasActivity extends ActionBarActivityProcess implement
                     creaNuevaCabecera(idAsignacion, idUpm);
                 }
 
-                irEncuesta(new IdInformante(id, 0), new IdEncuesta(0, 0, 0), 1, 2, 0, Asignacion.getInformanteCabeceraViviendas(idAsignacion), 1, idUpmHijo);
+                irEncuesta(new IdInformante(id, 0), new IdEncuesta(0, 0, 0, 1), 1, 2, 0, Asignacion.getInformanteCabeceraViviendas(idAsignacion), 1, idUpmHijo);
             } else {
 //                irEncuesta(new IdInformante(id, 0), new IdEncuesta(0,0,0), 1, 2, 0, new IdInformante(0, 0),1);
             }
@@ -817,7 +817,7 @@ public class ListadoViviendasActivity extends ActionBarActivityProcess implement
 //                    String a = valores.get(list.getChildAdapterPosition(v)).get("id_asignacion").toString();
                     try {
                         Map<String, Object> val = valores.get(list.getChildAdapterPosition(v));
-                        irEncuesta(new IdInformante((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo")), new IdEncuesta(0, 0, 0), 1, 2, 0, new IdInformante((Integer) val.get("id_asignacion_padre"), (Integer) val.get("correlativo_padre")), 1, idUpmHijo);
+                        irEncuesta(new IdInformante((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo")), new IdEncuesta(0, 0, 0, 1), 1, 2, 0, new IdInformante((Integer) val.get("id_asignacion_padre"), (Integer) val.get("correlativo_padre")), 1, idUpmHijo);
                         finish();
                     } catch (Exception exp) {
                         exp.printStackTrace();
@@ -863,7 +863,7 @@ public class ListadoViviendasActivity extends ActionBarActivityProcess implement
 //                    String a = valores.get(list.getChildAdapterPosition(v)).get("id_asignacion").toString();
                     try {
                         Map<String, Object> val = valores.get(list.getChildAdapterPosition(v));
-                        irEncuesta(new IdInformante((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo")), new IdEncuesta(0, 0, 0), 1, 2, 0, new IdInformante((Integer) val.get("id_asignacion_padre"), (Integer) val.get("correlativo_padre")), 1, idUpmHijo);
+                        irEncuesta(new IdInformante((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo")), new IdEncuesta(0, 0, 0, 1), 1, 2, 0, new IdInformante((Integer) val.get("id_asignacion_padre"), (Integer) val.get("correlativo_padre")), 1, idUpmHijo);
                         finish();
                     } catch (Exception exp) {
                         exp.printStackTrace();
@@ -1923,7 +1923,7 @@ public class ListadoViviendasActivity extends ActionBarActivityProcess implement
                         for (Map<String, Object> r : encuestaAnterior) {
                             if (encuesta.nuevo()) {
                                 if (idInformanteNuevo != null)
-                                    encuesta.set_id_encuesta(new IdEncuesta(idInformanteNuevo.id_asignacion, idInformanteNuevo.correlativo, (Integer) r.get("id_pregunta")));
+                                    encuesta.set_id_encuesta(new IdEncuesta(idInformanteNuevo.id_asignacion, idInformanteNuevo.correlativo, (Integer) r.get("id_pregunta"), 1));
                                 encuesta.set_codigo_respuesta((String) r.get("codigo_respuesta"));
                                 encuesta.set_respuesta((String) r.get("respuesta"));
                                 encuesta.set_observacion((String) r.get("observacion"));
@@ -2075,7 +2075,7 @@ public class ListadoViviendasActivity extends ActionBarActivityProcess implement
                 for (Map<String, Object> r : encuestaAnteriorPadre) {
                     if (encuestaPadre.nuevo()) {
                         if (idInformantePadreNuevo != null) {
-                            encuestaPadre.set_id_encuesta(new IdEncuesta(idInformantePadreNuevo.id_asignacion, idInformantePadreNuevo.correlativo, Integer.parseInt(String.valueOf(r.get("id_pregunta")))));
+                            encuestaPadre.set_id_encuesta(new IdEncuesta(idInformantePadreNuevo.id_asignacion, idInformantePadreNuevo.correlativo, Integer.parseInt(String.valueOf(r.get("id_pregunta"))), 1));
                         }
                         encuestaPadre.set_codigo_respuesta( String.valueOf(r.get("codigo_respuesta")));
                         encuestaPadre.set_respuesta((String) String.valueOf(r.get("respuesta")));
@@ -2167,7 +2167,7 @@ public class ListadoViviendasActivity extends ActionBarActivityProcess implement
 
             } else {
                 encuestaTemp.nuevo();
-                encuestaTemp.set_id_encuesta(new IdEncuesta(i.id_asignacion, i.correlativo, Pregunta.getIdPregunta(Parametros.CODIGO_PREGUNTA_OBSERVACION_UPM)));
+                encuestaTemp.set_id_encuesta(new IdEncuesta(i.id_asignacion, i.correlativo, Pregunta.getIdPregunta(Parametros.CODIGO_PREGUNTA_OBSERVACION_UPM), 1));
                 encuestaTemp.set_usucre(Usuario.getLogin());
             }
             encuestaTemp.set_codigo_respuesta(observation == null ? "0" : String.valueOf(observation.length()));

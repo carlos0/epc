@@ -46,6 +46,8 @@ import java.util.Objects;
 
 /**implementando metricas de cambio de seguridad**/
 import java.security.cert.CertificateException;
+
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -1247,10 +1249,46 @@ public class ActionBarActivityProcess extends ActionBarActivityNavigator {
                 jUsuario.put("serie",Movil.getImei());
                 jUsuario.put("version",Parametros.VERSION);
 
+                // Crear un objeto SSLContext sin validar certificados
+                SSLContext sslContext = SSLContext.getInstance("TLS");
+                sslContext.init(null, new TrustManager[]{new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    }
+
+                    @Override
+                    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    }
+
+                    @Override
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[0];
+                    }
+                }}, new SecureRandom());
+                X509TrustManager trustManager = new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                        // Implementación del método
+                    }
+
+                    @Override
+                    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                        // Implementación del método
+                    }
+
+                    @Override
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[0];
+                    }
+                };
+
                 URL urlAux = new URL(Parametros.URL_AUTENTICAR);
                 MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                 RequestBody body = RequestBody.create(JSON, jUsuario.toString());
-                OkHttpClient client = new OkHttpClient();
+
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager) trustManager)
+                        .build();
                 Request request = new Request.Builder()
                         .url(urlAux)
                         .post(body)

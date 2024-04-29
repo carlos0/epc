@@ -47,14 +47,16 @@ public class Encuesta extends EntidadCorr {
     protected Identificador getId(Cursor filaActual) {
         return new IdEncuesta(filaActual.getInt(filaActual.getColumnIndex("id_asignacion")),
                 filaActual.getInt(filaActual.getColumnIndex("correlativo")),
-                filaActual.getInt(filaActual.getColumnIndex("id_pregunta")));
+                filaActual.getInt(filaActual.getColumnIndex("id_pregunta")),
+                filaActual.getInt(filaActual.getColumnIndex("fila")));
     }
 
     @Override
     protected Identificador getId(ContentValues filaNueva) {
         return new IdEncuesta(filaNueva.getAsInteger("id_asignacion"),
                 filaNueva.getAsInteger("correlativo"),
-                filaNueva.getAsInteger("id_pregunta"));
+                filaNueva.getAsInteger("id_pregunta"),
+                filaNueva.getAsInteger("fila"));
     }
 
     @Override
@@ -1145,12 +1147,61 @@ public static boolean fueRespondida(IdInformante idInformante) {
         return res;
     }
 
+    //DEVUELVE LA ULTIMA FILA DE BUCLE
+    public static int ultimaFilaBucle(IdInformante idInformante, int idPregunta) {
+        int res = 0;
+        String query = "SELECT MAX(e.fila)\n" +
+                "FROM enc_encuesta e\n" +
+                "WHERE /*e.visible LIKE 't%'\n" +
+                "AND*/ e.id_asignacion = " + idInformante.id_asignacion + "\n" +
+                "AND e.correlativo = " + idInformante.correlativo + "\n" +
+                "AND e.id_pregunta = " + idPregunta;
+        Log.d("FILA", "*////////*///////////////////******************");
+        Log.d("FILA", String.valueOf(query));
+        Cursor cursor = conn.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                res = cursor.getInt(0);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return res;
+    }
+
+    public static int cuentaFilaBucle(IdInformante idInformante, int idPregunta) {
+        int res = 0;
+        String query = "SELECT count(*)\n" +
+                "FROM enc_encuesta e\n" +
+                "WHERE /*e.visible LIKE 't%'\n" +
+                "AND*/ e.id_asignacion = " + idInformante.id_asignacion + "\n" +
+                "AND e.correlativo = " + idInformante.correlativo + "\n" +
+                "AND e.id_pregunta = " + idPregunta;
+        Log.d("FILA", "*////////*///////////////////******************");
+        Log.d("FILA", String.valueOf(query));
+        Cursor cursor = conn.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                res = cursor.getInt(0);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return res;
+    }
+
+    public static void borrarFilaBucle(int idAsignacion, int correlativo, int fila) {
+        String query = "DELETE FROM enc_encuesta WHERE id_asignacion = " + idAsignacion + " \n" +
+                "AND correlativo = " + correlativo + " AND id_pregunta in (38105,38109,38107,38137,38138) AND fila = " + fila ;
+        conn.execSQL(query);
+
+    }
+
 
     @SuppressWarnings("unused")
     public IdEncuesta get_id_encuesta() {
         return new IdEncuesta(filaActual.getInt(filaActual.getColumnIndex("id_asignacion")),
                 filaActual.getInt(filaActual.getColumnIndex("correlativo")),
-                filaActual.getInt(filaActual.getColumnIndex("id_pregunta"))
+                filaActual.getInt(filaActual.getColumnIndex("id_pregunta")),
+                filaActual.getInt(filaActual.getColumnIndex("fila"))
         );
     }
 
@@ -1159,6 +1210,7 @@ public static boolean fueRespondida(IdInformante idInformante) {
         filaNueva.put("id_asignacion", value.id_asignacion);
         filaNueva.put("correlativo", value.correlativo);
         filaNueva.put("id_pregunta", value.id_pregunta);
+        filaNueva.put("fila", value.fila);
     }
 
 //    @SuppressWarnings("unused")
@@ -1288,6 +1340,16 @@ public static boolean fueRespondida(IdInformante idInformante) {
     @SuppressWarnings("unused")
     public void set_fecmod(Long value) {
         filaNueva.put("fecmod", value);
+    }
+
+    @SuppressWarnings("unused")
+    public Integer get_fila() {
+        return filaActual.getInt(filaActual.getColumnIndex("fila"));
+    }
+
+    @SuppressWarnings("unused")
+    public void set_fila(Integer value) {
+        filaNueva.put("fila", value);
     }
 
     public static ArrayList<String> getFotos() {
@@ -2318,19 +2380,16 @@ public static boolean fueRespondida(IdInformante idInformante) {
         String query;
         Cursor cursor = null;
 
-        String nombre = "(SELECT ee.respuesta FROM enc_encuesta ee WHERE ee.id_asignacion = e.id_asignacion AND ee.correlativo = e.correlativo AND ee.id_pregunta IN (38105) AND ee.fila = e.fila AND ee.visible in ('t','true')) nombre";
-        String sexo = "(SELECT ee.respuesta FROM enc_encuesta ee WHERE ee.id_asignacion = e.id_asignacion AND ee.correlativo = e.correlativo AND ee.id_pregunta IN (38109) AND ee.fila = e.fila AND ee.visible in ('t','true')) sexo";
-        String edad = "(SELECT ee.respuesta FROM enc_encuesta ee WHERE ee.id_asignacion = e.id_asignacion AND ee.correlativo = e.correlativo AND ee.id_pregunta IN (38107) AND ee.fila = e.fila AND ee.visible in ('t','true')) edad";
+        String nombre = "(SELECT ee.respuesta FROM enc_encuesta ee WHERE ee.id_asignacion = e.id_asignacion AND ee.correlativo = e.correlativo AND ee.id_pregunta IN (38105) AND ee.fila = e.fila /*AND ee.visible in ('t','true')*/) nombre";
+        String sexo = "(SELECT ee.codigo_respuesta FROM enc_encuesta ee WHERE ee.id_asignacion = e.id_asignacion AND ee.correlativo = e.correlativo AND ee.id_pregunta IN (38109) AND ee.fila = e.fila /*AND ee.visible in ('t','true')*/) sexo";
+        String edad = "(SELECT ee.respuesta FROM enc_encuesta ee WHERE ee.id_asignacion = e.id_asignacion AND ee.correlativo = e.correlativo AND ee.id_pregunta IN (38107) AND ee.fila = e.fila /*AND ee.visible in ('t','true')*/) edad";
 
-        query = "SELECT id_asignacion, correlativo, fila, "+nombre+","+ sexo +","+edad+" \n" +
+        query = "SELECT e.id_asignacion, e.correlativo, e.fila, "+nombre+","+ sexo +","+edad+" \n" +
                 "FROM enc_encuesta e\n" +
-                "WHERE i.estado <> 'ANULADO'\n" +
-                "AND i.estado <> 'INHABILITADO'\n" +
-                "AND i.estado <> 'CONCLUIDO'\n" +
-                "AND id_asignacion = " + idAsignacion + "\n" +
-                "AND i.correlativo = " + correlativo + "\n" +
-                "AND i.id_pregunta = 38105 \n" +
-                "ORDER BY fila";
+                "WHERE e.id_asignacion = " + idAsignacion + " \n" +
+                "AND e.correlativo = " + correlativo + " \n" +
+                "AND e.id_pregunta = 38105 \n" +
+                "ORDER BY e.fila";
 
         try {
             cursor = conn.rawQuery(query, null);
@@ -2343,9 +2402,9 @@ public static boolean fueRespondida(IdInformante idInformante) {
                 row.put("id_asignacion", cursor.getInt(0));
                 row.put("correlativo", cursor.getInt(1));
                 row.put("fila", cursor.getInt(2));
-                row.put("nombre", cursor.getInt(3));
-                row.put("sexo", cursor.getInt(4));
-                row.put("edad", cursor.getString(5));
+                row.put("nombre", cursor.getString(3)==null?"":cursor.getString(3));
+                row.put("sexo", cursor.getString(4)==null?"":cursor.getString(4));
+                row.put("edad", cursor.getString(5)==null?"":cursor.getString(5));
                 res.add(row);
             } while (cursor.moveToNext());
         }

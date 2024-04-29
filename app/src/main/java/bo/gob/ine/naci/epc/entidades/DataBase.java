@@ -303,8 +303,8 @@ public class DataBase extends SQLiteOpenHelper {
                 "feccre long NOT NULL DEFAULT (strftime('%s', 'now', 'localtime')),\n" +
                 "usumod nvarchar(60),\n" +
                 "fecmod long,\n" +
-                "fila integer NOT NULL DEFAULT 0,\n" +
-                "PRIMARY KEY (id_asignacion, correlativo, id_pregunta))");
+                "fila integer NOT NULL DEFAULT 1,\n" +
+                "PRIMARY KEY (id_asignacion, correlativo, id_pregunta, fila))");
         db.execSQL("CREATE INDEX index_encuesta_visible ON enc_encuesta(visible ASC)");
         db.execSQL("CREATE INDEX index_encuesta_codigo_respuesta ON enc_encuesta(codigo_respuesta ASC)");
         db.execSQL("CREATE INDEX index_encuesta_estado ON enc_encuesta(estado ASC)");

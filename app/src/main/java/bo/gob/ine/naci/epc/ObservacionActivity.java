@@ -156,7 +156,7 @@ public class ObservacionActivity extends ActionBarActivityProcess implements Ada
 //                    String a = valores.get(list.getChildAdapterPosition(v)).get("id_asignacion").toString();
                     try {
                         Map<String, Object> val = valores.get(list.getChildAdapterPosition(v));
-                        irEncuesta(new IdInformante((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo")), new IdEncuesta(0,0,0), 1, 2, 0, new IdInformante((Integer) val.get("id_asignacion_padre"), (Integer) val.get("correlativo_padre")),1,idUpmHijo);
+                        irEncuesta(new IdInformante((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo")), new IdEncuesta(0,0,0,1), 1, 2, 0, new IdInformante((Integer) val.get("id_asignacion_padre"), (Integer) val.get("correlativo_padre")),1,idUpmHijo);
                     } catch (Exception exp) {
                         exp.printStackTrace();
                     }

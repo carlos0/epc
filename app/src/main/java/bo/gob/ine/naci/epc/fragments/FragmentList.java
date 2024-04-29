@@ -270,7 +270,7 @@ public class FragmentList extends Fragment {
         cardDatosViv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iComunicaFragments.enviarDatos(new IdEncuesta(idEncuesta.id_asignacion, idEncuesta.correlativo,Parametros.ID_PREG_DATOS_VIVIENDA), 1, false);
+                iComunicaFragments.enviarDatos(new IdEncuesta(idEncuesta.id_asignacion, idEncuesta.correlativo,Parametros.ID_PREG_DATOS_VIVIENDA, 1), 1, false);
 //                iComunicaFragments.enviarDatos(idInformante, new IdEncuesta(0,0,0), 2, 3, Parametros.ID_SECCION_RESERVADA, idPadre, 1);
 //                irEncuesta(new IdInformante((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo")), new IdEncuesta(0,0,0), 2, 3, Parametros.ID_SECCION_RESERVADA, new IdInformante((Integer) val.get("id_asignacion_padre"), (Integer) val.get("correlativo_padre")),1,idUpmHijo);
             }
@@ -300,21 +300,21 @@ public class FragmentList extends Fragment {
         cardHogar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iComunicaFragments.enviarDatos(new IdEncuesta(idEncuesta.id_asignacion, idEncuesta.correlativo,Parametros.ID_PREG_HOGAR), 3, false);
+                iComunicaFragments.enviarDatos(new IdEncuesta(idEncuesta.id_asignacion, idEncuesta.correlativo,Parametros.ID_PREG_HOGAR, 1), 3, false);
 //                iComunicaFragments.enviarDatos(idInformante, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, 18504), 2, 3, 2, idPadre, 3);
             }
         });
         cardIncidencia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iComunicaFragments.enviarDatos(new IdEncuesta(idEncuesta.id_asignacion, idEncuesta.correlativo,Parametros.ID_PREG_INCIDENCIA), 4, false);
+                iComunicaFragments.enviarDatos(new IdEncuesta(idEncuesta.id_asignacion, idEncuesta.correlativo,Parametros.ID_PREG_INCIDENCIA, 1), 4, false);
 //                iComunicaFragments.enviarDatos(idInformante, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, Parametros.ID_INCIDENCIA_FINAL), 2, 3, 180, idPadre, 3);
             }
         });
         cardMortalidad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iComunicaFragments.enviarDatos(new IdEncuesta(idEncuesta.id_asignacion, idEncuesta.correlativo,Parametros.ID_PREG_MORTALIDAD), 3, false);
+                iComunicaFragments.enviarDatos(new IdEncuesta(idEncuesta.id_asignacion, idEncuesta.correlativo,Parametros.ID_PREG_MORTALIDAD, 1), 3, false);
 //                iComunicaFragments.enviarDatos(idInformante, new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, Parametros.ID_INCIDENCIA_FINAL), 2, 3, 180, idPadre, 3);
             }
         });
@@ -844,7 +844,7 @@ public class FragmentList extends Fragment {
 //                        Siguiente idSiguiente = flujo.siguiente(new IdInformante((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo")), (Integer) val.get("ultima_preg"));
                        //obtiene la primera pregunta del nivel 4 miembro del hogar
 
-                        iComunicaFragments.enviarDatos(new IdEncuesta((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo"),Parametros.ID_PREG_PERSONAS), 2, false);
+                        iComunicaFragments.enviarDatos(new IdEncuesta((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo"),Parametros.ID_PREG_PERSONAS, 1), 2, false);
 //                        accionInicioBoleta(new IdInformante((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo")), new IdEncuesta((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo"), 18581),4, 4, 5, new IdInformante((Integer) val.get("id_asignacion_padre"), (Integer) val.get("correlativo_padre")));
                     } catch (Exception exp) {
                         exp.printStackTrace();
@@ -995,7 +995,7 @@ public class FragmentList extends Fragment {
                         } else {
                             encuesta.nuevo();
                         }
-                        encuesta.set_id_encuesta(new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preg.getId()));
+                        encuesta.set_id_encuesta(new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preg.getId(), 1));
                         encuesta.set_codigo_respuesta(preg.getCodResp());
                         encuesta.set_respuesta(preg.getResp());
                         encuesta.set_observacion(preg.getObservacion());

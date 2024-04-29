@@ -175,7 +175,7 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
         } else {
             Asignacion asignacion = new Asignacion();
             if (asignacion.abrir(id)) {
-                irEncuesta2(new IdEncuesta(id, 0, 0), 0, false);
+                irEncuesta2(new IdEncuesta(id, 0, 0, 1), 0, false);
                 finish();
             } else {
                 errorMessage(this, null, "Error!", Html.fromHtml("No se pudo abrir la asignación."), Parametros.FONT_OBS);
@@ -281,7 +281,7 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
                     try {
                         Map<String, Object> val = valores.get(list.getChildAdapterPosition(v));
 //                        irEncuesta2(new IdInformante((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo")), new IdEncuesta(0,0,0), 2, 3, Parametros.ID_SECCION_RESERVADA, new IdInformante((Integer) val.get("id_asignacion_padre"), (Integer) val.get("correlativo_padre")),1,idUpmHijo);
-                        irEncuesta2(new IdEncuesta((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo"), 0), 0, false);
+                        irEncuesta2(new IdEncuesta((Integer) val.get("id_asignacion"), (Integer) val.get("correlativo"), 0, 1), 0, false);
                         finish();
                     } catch (Exception exp) {
                         exp.printStackTrace();
@@ -465,7 +465,7 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
                             for (Map<String, Object> r : encuestaAnteriorPadre) {
                                 if (encuestaPadre.nuevo()) {
                                     if (idInformantePadreNuevo != null)
-                                        encuestaPadre.set_id_encuesta(new IdEncuesta(idInformantePadreNuevo.id_asignacion, idInformantePadreNuevo.correlativo, (Integer) r.get("id_pregunta")));
+                                        encuestaPadre.set_id_encuesta(new IdEncuesta(idInformantePadreNuevo.id_asignacion, idInformantePadreNuevo.correlativo, (Integer) r.get("id_pregunta"), 1));
                                     encuestaPadre.set_codigo_respuesta((String) r.get("codigo_respuesta"));
                                     encuestaPadre.set_respuesta((String) r.get("respuesta"));
                                     encuestaPadre.set_observacion((String) r.get("observacion"));
@@ -531,7 +531,7 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
                                     for (Map<String, Object> r : encuestaAnterior) {
                                         if (encuesta.nuevo()) {
                                             if (idInformanteNuevo != null)
-                                                encuesta.set_id_encuesta(new IdEncuesta(idInformanteNuevo.id_asignacion, idInformanteNuevo.correlativo, (Integer) r.get("id_pregunta")));
+                                                encuesta.set_id_encuesta(new IdEncuesta(idInformanteNuevo.id_asignacion, idInformanteNuevo.correlativo, (Integer) r.get("id_pregunta"), 1));
                                             encuesta.set_codigo_respuesta((String) r.get("codigo_respuesta"));
                                             encuesta.set_respuesta((String) r.get("respuesta"));
                                             encuesta.set_observacion((String) r.get("observacion"));

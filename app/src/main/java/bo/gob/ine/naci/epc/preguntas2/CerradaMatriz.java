@@ -249,7 +249,7 @@ public class CerradaMatriz extends PreguntaView {
     }
 
     private void guardar() {
-        IdEncuesta idEncuesta = new IdEncuesta(idAsignacion, correlativo, id);
+        IdEncuesta idEncuesta = new IdEncuesta(idAsignacion, correlativo, id, 1);
         int i = 1;
         String c;
         String r;

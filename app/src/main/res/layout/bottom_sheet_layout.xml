@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/bottomSheetLayout"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FFFFFF"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <!-- Agrega aquí tus elementos de diseño para el BottomSheet -->
-    <View
+    <!-- Asegúrate de que tu vista esté directamente aquí dentro del CoordinatorLayout -->
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <!-- Aquí puedes agregar los elementos que quieras mostrar en tu BottomSheet -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contenido del BottomSheet"
+        android:textSize="24sp"
+        android:padding="16dp" />
+        <Button
+            android:id="@+id/bottomSheetButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Haz clic"
+            android:padding="16dp"/>
 
 </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
