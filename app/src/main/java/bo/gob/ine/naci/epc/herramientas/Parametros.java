@@ -95,7 +95,7 @@ public class Parametros {
     public static int ID_EDAD_PERSONAS  = 18173;
     public static int ID_PREGUNTA_INCIDENCIA_LV  = 14328;
     //varialbles id_pregunta
-    public static int ID_MANZANA_COMUNIDAD= 18600;
+    public static int ID_MANZANA_COMUNIDAD= 20486;
     public static int ID_PREGUNTA_AVENIDA_CALLE= 18603;
     public static int ID_PREGUNTA_COMUNIDAD_MANZANA= 2177;
 

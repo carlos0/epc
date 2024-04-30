@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.text.Html;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -182,6 +183,10 @@ public abstract class PreguntaView extends LinearLayout {
 
     public String getPreg() {
         return preg;
+    }
+
+    public void setPreg(String txtPregunta) {
+        pregTextView.setText(Html.fromHtml(txtPregunta));
     }
 
 //    public long getIdResp() {

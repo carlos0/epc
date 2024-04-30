@@ -91,7 +91,17 @@
                         android:scaleType="fitXY"
                         android:src="@drawable/action_cartografia"
                         android:tint="@color/color_list"/>
-
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/ver_mapa_segmento"-->
+<!--                        android:layout_width="45dp"-->
+<!--                        android:layout_height="45dp"-->
+<!--                        android:padding="5dp"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:background="@drawable/ic_circle"-->
+<!--                        android:tooltipText="Eliminar"-->
+<!--                        android:scaleType="fitXY"-->
+<!--                        android:src="@drawable/action_cartografia"-->
+<!--                        android:tint="@color/color_list"/>-->
                     <ImageButton
                         android:id="@+id/list_observacion"
                         android:layout_width="wrap_content"

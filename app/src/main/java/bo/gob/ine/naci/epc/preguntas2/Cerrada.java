@@ -115,9 +115,9 @@ public class Cerrada extends PreguntaView  implements View.OnClickListener {
 //            }
         }
 
-        if (opciones.size() == 1) {
-            ((RadioButton) radioGroup.getChildAt(0)).setChecked(true);
-        }
+//        if (opciones.size() == 1) {
+//            ((RadioButton) radioGroup.getChildAt(0)).setChecked(true);
+//        }
 
         if (idSeccion == 166) {
 //            LinearLayout respuesta = new LinearLayout(context);
@@ -285,6 +285,7 @@ public class Cerrada extends PreguntaView  implements View.OnClickListener {
                 seleccionText = "";
                 botonActive.setChecked(false);
                 botonActive.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
+                radioGroup.clearCheck();
                 setEnabledRB(true);
                 boton = null;
                 if(evaluar) {
@@ -307,6 +308,7 @@ public class Cerrada extends PreguntaView  implements View.OnClickListener {
                 seleccionText = a[1];
                 botonActive.setChecked(true);
                 botonActive.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
+                radioGroup.clearCheck();
                 setEnabledRB(false);
                 boton = botonActive;
                 if(evaluar) {

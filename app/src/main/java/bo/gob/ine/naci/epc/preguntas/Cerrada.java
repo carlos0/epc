@@ -288,6 +288,7 @@ public class Cerrada extends PreguntaView  implements View.OnClickListener {
                 seleccion = "";
                 seleccionText = "";
                 v.setBackgroundColor(getResources().getColor(R.color.colorBackgroundInactive));
+                radioGroup.clearCheck();
                 setEnabledRB(true);
                 boton = null;
             } else if (idOpciones.contains(seleccion)) {
@@ -301,6 +302,7 @@ public class Cerrada extends PreguntaView  implements View.OnClickListener {
                 seleccion = a[0];
                 seleccionText = a[1];
                 v.setBackgroundColor(getResources().getColor(R.color.colorBackgroundActive));
+                radioGroup.clearCheck();
                 setEnabledRB(false);
                 boton = v;
             }

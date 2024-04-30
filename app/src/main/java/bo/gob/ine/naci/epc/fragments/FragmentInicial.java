@@ -481,6 +481,7 @@ public class FragmentInicial extends Fragment implements View.OnTouchListener {
                         } else {
                             catalogo = pregunta.get_catalogo();
                         }
+
                         if (pregunta.get_id_pregunta() == Parametros.ID_MANZANA_COMUNIDAD)
                             pregs[i] = new Autocompletar(getContext(), i, pregunta.get_id_pregunta(), pregunta.get_id_seccion(), codigoPregunta, p, pregunta.get_longitud(), catalogo, omision, pregunta.get_ayuda(), true, false, true);
                         else if (pregunta.get_id_pregunta() == Parametros.ID_PREGUNTA_AVENIDA_CALLE) {

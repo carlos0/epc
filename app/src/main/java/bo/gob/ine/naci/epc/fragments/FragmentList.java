@@ -790,6 +790,10 @@ public class FragmentList extends Fragment {
                 }
                 // ABRE LA RESPUESTA EN CASO DE QUE HAYA SIDO ALMACENADA
 
+                String prueba = pregs[i].getPreg();
+                Log.d("PRUEBA", "**********************************");
+                Log.d("PRUEBA", prueba);
+
                 pregs[i].startAnimation(animation);
 
 //                layout.addView(pregs[i]);
@@ -818,6 +822,17 @@ public class FragmentList extends Fragment {
             mensaje.errorMessage(getContext(), null, "Error!", Html.fromHtml("No se encontró la pregunta."), Parametros.FONT_OBS);
         }
         pregunta.free();
+    }
+
+
+    public static void ejecucion(String cambio) {
+        for (PreguntaView preguntaView : pregs){
+            String textPregunta = preguntaView.getPreg();
+            if(textPregunta.contains("ERROR")){
+                textPregunta = textPregunta.replace("ERROR", cambio);
+                preguntaView.setPreg(textPregunta);
+            }
+        }
     }
 
     private void agregarEncuesta() {
@@ -1157,6 +1172,10 @@ public class FragmentList extends Fragment {
             } else {
                 nuevoValor = nuevoValor.replace("SORTEADO", "0");
             }
+        }
+        if (nuevoValor.contains("CODIGO")) {
+            String val = String.valueOf(Informante.getPreCodigo(idPadre));
+            nuevoValor = nuevoValor.replace("CODIGO", val);
         }
         //FALTA EVALUAR LOS DATOS DE PREGUNTAS MULTIPLES Y PREGUNTAS DE ORDEN
         BigDecimal eval = null;

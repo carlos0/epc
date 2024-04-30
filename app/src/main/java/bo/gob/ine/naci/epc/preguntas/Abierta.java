@@ -9,6 +9,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import bo.gob.ine.naci.epc.entidades.Pregunta;
 import bo.gob.ine.naci.epc.entidades.TipoPregunta;
 import bo.gob.ine.naci.epc.fragments.FragmentEncuesta;
 import bo.gob.ine.naci.epc.fragments.FragmentInicial;
+import bo.gob.ine.naci.epc.fragments.FragmentList;
 import bo.gob.ine.naci.epc.herramientas.Parametros;
 
 
@@ -143,6 +145,11 @@ import bo.gob.ine.naci.epc.herramientas.Parametros;
                 public void afterTextChanged(Editable s) {
                     if(id== Pregunta.getIDpregunta(idSeccion, TipoPregunta.UsoVivienda)) {
                         FragmentInicial.ejecucion(id, s.toString());
+                    }
+
+                    if(id== 18581) {
+                        Log.d("ERROR2", "aqui");
+                        FragmentList.ejecucion(s.toString());
                     }
 
                 }

@@ -363,6 +363,25 @@ public class Informante extends EntidadCorr {
         cursor.close();
         return res;
     }
+    public static int getPreCodigo(IdInformante id) {
+        int res = 0;
+        String query = "SELECT codigo \n" +
+                "FROM enc_informante \n" +
+                "WHERE estado <> 'ANULADO' \n" +
+                "AND id_asignacion_padre = " + id.id_asignacion + " \n" +
+                "AND correlativo_padre = " + id.correlativo + " \n" +
+                "ORDER BY codigo DESC LIMIT 1";
+        Cursor cursor = conn.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                res = cursor.getInt(0) + 1;
+            } while (cursor.moveToNext());
+        } else {
+            res = 1;
+        }
+        cursor.close();
+        return res;
+    }
     public static String getCodigoString(IdInformante id) {
         String res = "";
         String query = "SELECT codigo\n" +

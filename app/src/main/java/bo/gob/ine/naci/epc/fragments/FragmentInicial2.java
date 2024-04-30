@@ -440,8 +440,18 @@ public class FragmentInicial2 extends Fragment implements View.OnTouchListener {
                     }
                     case Incidencia:
                     case Cerrada: {
+                        Map<Integer, String> respuestas;
+                        if (pregunta.get_catalogo().equals("cat_manzanos")) {
+                            Upm upm = new Upm();
+                            String codigoUpm = upm.getCodigo(idInformante.id_asignacion);
+                            upm.free();
+                            Catalogo c = new Catalogo("cat_manzanos");
+                            respuestas = c.obtenerCatalogoManzanaDispersa(codigoUpm);
+                            c.free();
+                        } else {
+                            respuestas = Pregunta.getRespuestas(pregunta.get_respuesta());
+                        }
                         ArrayList<Integer> filtro = null;
-                        Map<Integer, String> respuestas = Pregunta.getRespuestas(pregunta.get_respuesta());
                         pregs[i] = new Cerrada(getContext(), i, pregunta.get_id_pregunta(), pregunta.get_id_seccion(), codigoPregunta, p, respuestas, pregunta.get_codigo_especifique(), omision, filtro, pregunta.get_ayuda(), false);
                         break;
                     }
@@ -536,10 +546,13 @@ public class FragmentInicial2 extends Fragment implements View.OnTouchListener {
                             Upm upm = new Upm();
                             String codigoUpm = upm.getCodigo(idInformante.id_asignacion);
                             upm.free();
+                            Log.d("TEST", codigoUpm);
                             catalogo = pregunta.get_catalogo() + ";" + Catalogo.getCatUpmManzana(codigoUpm);
+
                         } else {
                             catalogo = pregunta.get_catalogo();
                         }
+
                         if (pregunta.get_id_pregunta() == Parametros.ID_MANZANA_COMUNIDAD)
                             pregs[i] = new Autocompletar(getContext(), i, pregunta.get_id_pregunta(), pregunta.get_id_seccion(), codigoPregunta, p, pregunta.get_longitud(), catalogo, omision, pregunta.get_ayuda(), true, false, true);
                         else if (pregunta.get_id_pregunta() == Parametros.ID_PREGUNTA_AVENIDA_CALLE) {

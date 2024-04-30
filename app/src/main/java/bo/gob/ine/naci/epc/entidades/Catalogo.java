@@ -1,10 +1,12 @@
 package bo.gob.ine.naci.epc.entidades;
 
 import android.database.Cursor;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  * Created by INE.
@@ -26,11 +28,11 @@ public class Catalogo extends EntidadId {
 
     public static String getCatUpmManzana(String codigoUpm) {
         String res = null;
-        String query = "SELECT num_upm, manzano\n" +
-                "FROM cat_manzanas_comunidad cuc\n" +
-                "WHERE cuc.num_upm = '" + codigoUpm+"'";
+        String query = "SELECT seg_unico, orden_manz\n" +
+                "FROM a_epc_manzana m\n" +
+                "WHERE m.seg_unico = '" + codigoUpm+"'";
+        Log.d("TEST", query);
         Cursor cursor = conn.rawQuery(query, null);
-
         if (cursor.moveToFirst()) {
             do {
                 res = cursor.getString(0);
@@ -55,7 +57,6 @@ public class Catalogo extends EntidadId {
         return res;
     }
 
-
     public ArrayList<Map<String, Object>> obtenerCatalogoUpmManzana(String numUpm) {
         ArrayList<Map<String, Object>> res = new ArrayList<>();
         try {
@@ -75,7 +76,7 @@ public class Catalogo extends EntidadId {
                     Map<String, Object> row = new LinkedHashMap<>();
                     row.put("codigo", cursor.getString(0));
                     row.put("descripcion", cursor.getString(1));
-                     res.add(row);
+                    res.add(row);
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -84,6 +85,7 @@ public class Catalogo extends EntidadId {
         }
         return res;
     }
+
 
 //    public ArrayList<Map<String, Object>> obtenerCatalogoUpmManzana(String numUpm,String descartar) {
 //        ArrayList<Map<String, Object>> res = new ArrayList<>();
@@ -113,6 +115,7 @@ public class Catalogo extends EntidadId {
 //        }
 //        return res;
 //    }
+
     public ArrayList<Map<String, Object>> obtenerCatalogoUpmManzanaDinamico(String numUpm) {
         ArrayList<Map<String, Object>> res = new ArrayList<>();
         try {
@@ -127,6 +130,29 @@ public class Catalogo extends EntidadId {
                     row.put("codigo", cursor.getString(0));
                     row.put("descripcion", cursor.getString(1));
                     res.add(row);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public Map<Integer, String> obtenerCatalogoManzanaDispersa(String numUpm) {
+        Map<Integer, String> res = new LinkedHashMap<>();
+        int j = 0;
+        try {
+            String query = "SELECT orden_manz codigo, orden_manz descripcion\n" +
+                    "FROM a_epc_manzana m\n" +
+                    "WHERE m.seg_unico = '" + numUpm+"'";
+
+            Cursor cursor = conn.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+//                    res.put(j+1, cursor.getString(0) + "|" + cursor.getString(1) + "|" + 1);
+                    res.put(j+1, j+1 + "|" + cursor.getString(1) + "|" + 1);
+                    j++;
                 } while (cursor.moveToNext());
             }
             cursor.close();

@@ -139,7 +139,7 @@ public class EncLog extends EntidadCorr {
                 Log.d("consulta 3.2", pquery);
                 Cursor pcursor = conn.rawQuery(pquery, null);
                 if (pcursor.moveToFirst()) {
-                    Log.d("consulta4", pcursor.getInt(0) + "|" + pcursor.getString(1));
+                    Log.d("consulta4", pcursor.getString(0) + "|" + pcursor.getString(1));
                     res.put(cont +1, pcursor.getInt(0) + "|" + pcursor.getString(1));
                 }
                 pcursor.close();
