@@ -9,9 +9,8 @@ import java.util.Map;
 public class Numero extends Abierta {
     public Numero(Context context, final int posicion, int id, int idSeccion, String cod, String preg, int maxLength, final Map<Integer, String> buttonsActive, String ayuda, final Boolean evaluar) {
         super(context, posicion, id, idSeccion, cod, preg, maxLength, buttonsActive, ayuda, false, evaluar);
-
         textbox.setInputType(InputType.TYPE_CLASS_NUMBER);
-        contenedor.setHint(ayuda==null || ayuda.equals("")?"respuesta":ayuda);
+        contenedor.setHint(ayuda == null || ayuda.equals("") ? "respuesta" : ayuda);
     }
 
     @Override

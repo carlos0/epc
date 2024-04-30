@@ -27,7 +27,7 @@ public class Parametros {
     public static final String SERVICIO_PROYECTO = "postcensal";
 
     public static final String SIGLA_PROYECTO = "epc";
-    public static final String VERSION = "1.00";
+    public static final String VERSION = "1.01";
 
     public static final String BLOCK_CHARACTER_SET = "~^|$'´¨[]{}°%*!";
     public static boolean FORZAR_ACTIVACION_GPS = true;
@@ -96,7 +96,7 @@ public class Parametros {
     public static int ID_PREGUNTA_INCIDENCIA_LV  = 14328;
     //varialbles id_pregunta
     public static int ID_MANZANA_COMUNIDAD= 20486;
-    public static int ID_PREGUNTA_AVENIDA_CALLE= 18603;
+    public static int ID_PREGUNTA_AVENIDA_CALLE= 20488;
     public static int ID_PREGUNTA_COMUNIDAD_MANZANA= 2177;
 
     //VARIABLES RESERVADAS

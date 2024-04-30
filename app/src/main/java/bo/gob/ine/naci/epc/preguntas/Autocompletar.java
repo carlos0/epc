@@ -117,7 +117,8 @@ public class Autocompletar extends PreguntaView implements View.OnClickListener 
                 } else if (!items.contains(s.toString())) {
                     valor = "";
                     codigo = "1";
-                    contenedor.setError("Debe seleccionar una opcion correcta");
+                    contenedor.setErrorEnabled(false);
+//                    contenedor.setError("Debe seleccionar una opcion correcta");
                 }else if(!btnOpciones.contains(s.toString())){
                     valor = "";
                     codigo = "-1";

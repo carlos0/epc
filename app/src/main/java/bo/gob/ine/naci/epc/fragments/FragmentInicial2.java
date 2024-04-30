@@ -469,6 +469,7 @@ public class FragmentInicial2 extends Fragment implements View.OnTouchListener {
                     case NumeroVivienda:
                     case Numero: {
                         if(!pregunta.get_catalogo().equals("--")){
+//                            Log.d("BSQcat",String.valueOf(pregunta.get_catalogo()));
                             pregs[i] = new Autocompletar2(getContext(), i, pregunta.get_id_pregunta(), pregunta.get_id_seccion(), codigoPregunta, p, pregunta.get_longitud(), pregunta.get_catalogo(), omision, pregunta.get_ayuda(), true, false, false);
                         }else {
                             pregs[i] = new Numero(getContext(), i, pregunta.get_id_pregunta(), pregunta.get_id_seccion(), codigoPregunta, p, pregunta.get_longitud(), omision, pregunta.get_ayuda(), false);
@@ -773,6 +774,7 @@ public class FragmentInicial2 extends Fragment implements View.OnTouchListener {
             } while (pregunta.siguiente());
 //            ocultaPreguntas();
 //            inhabilitaPreguntas();
+            llenaPreguntas();
 //            PreguntaView.obtenerPosicionDeLaVista(pregs[pregunta.count()-1]);
             ///salto de preguntas iniciales
             if (idNivel == 2) {
@@ -1124,6 +1126,19 @@ try{
 //            PreguntaView.setViewAndChildrenEnabled(pregs[i], false);
         }
         layout.addView(pregs[6]);
+    }
+
+    public void llenaPreguntas() {
+        Upm upm = new Upm();
+        String codigoUpm = upm.getCodigo(idInformante.id_asignacion);
+        try {
+            pregs[0].setCodResp(String.valueOf(codigoUpm.length()));
+            pregs[0].setResp(codigoUpm);
+            PreguntaView.setViewAndChildrenEnabled(pregs[0], false);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void inhabilitaPreguntas() {
