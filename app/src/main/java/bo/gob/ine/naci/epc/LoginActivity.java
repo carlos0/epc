@@ -27,10 +27,13 @@ import androidx.annotation.RequiresApi;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Timer;
 
 import bo.gob.ine.naci.epc.entidades.DataBase;
+import bo.gob.ine.naci.epc.entidades.Upm;
 import bo.gob.ine.naci.epc.entidades.Usuario;
 import bo.gob.ine.naci.epc.herramientas.ActionBarActivityProcess;
 import bo.gob.ine.naci.epc.herramientas.Movil;
@@ -239,6 +242,7 @@ public class LoginActivity extends ActionBarActivityProcess {
 //        new Flujo().updateRegla();
 //        new Pregunta().updateRegla();
 //        new Regla().updateRegla();
+
         if ((Usuario.autenticar(userInput, passInput)).equals("Ok")) {
             userInput="";
             passInput="";
@@ -246,6 +250,29 @@ public class LoginActivity extends ActionBarActivityProcess {
             finish();
         } else {
             errorMessage(LoginActivity.this, "finish", "Error!", Html.fromHtml("Base desactualizada"), Parametros.FONT_OBS);
+        }
+    }
+
+    public void syncDescargaCartografia() {
+        Log.d("ALERTA: ","------------------syncDescargaCartografia---------------------");
+        try {
+            startThree();
+            successMethod = "irPrincipal";
+            errorMethod = "irPrincipal";
+            ArrayList<String> pathFileList = Upm.getCodigosUpm(Usuario.getUsuario());
+            if(pathFileList.size() == 0){
+                errorMessage(LoginActivity.this, "irPrincipal", "Error!", Html.fromHtml("No tiene información de mapas. Descargue su carga de trabajo con la opción: 'Descargar asignación'"), Parametros.FONT_OBS);
+            } else {
+                File directory = new File(Parametros.DIR_CARTO);
+                if (!directory.exists()) {
+                    if (!directory.mkdirs()) {
+                        errorMessage(LoginActivity.this,"irPrincipal", "Error!", Html.fromHtml("No se pudo crear el directorio."), Parametros.FONT_OBS);
+                    }
+                }
+                new DownloadFtp().execute(pathFileList);
+            }
+        } catch (Exception ex) {
+            errorMessage(LoginActivity.this, "irPrincipal", "Error!", Html.fromHtml(ex.getMessage()), Parametros.FONT_OBS);
         }
     }
 

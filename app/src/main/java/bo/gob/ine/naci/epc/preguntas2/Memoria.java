@@ -26,7 +26,7 @@ import bo.gob.ine.naci.epc.herramientas.Movil;
 import bo.gob.ine.naci.epc.herramientas.Parametros;
 
 /**
- * Created by ainch on 11/03/2016.
+ * Created by INE.
  */
 public class Memoria extends PreguntaView implements View.OnClickListener {
 

@@ -300,7 +300,7 @@ public class Upm extends EntidadId {
     }
     public static String getCodUpm(int idUpm) {
         String res = null;
-        String query = "SELECT codigo\n" +
+        String query = "SELECT nombre\n" +
                 "FROM cat_upm \n" +
                 "WHERE id_upm = " + idUpm + " \n" +
                 "UNION\n" +
@@ -312,6 +312,7 @@ public class Upm extends EntidadId {
         if (cursor.moveToFirst()) {
             do {
                 res = cursor.getString(0);
+                res = res.contains("SEG:")?"2":"1";
             } while (cursor.moveToNext());
         }
         cursor.close();

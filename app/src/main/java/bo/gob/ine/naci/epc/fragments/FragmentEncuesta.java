@@ -832,6 +832,11 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
                     iComunicaFragments.mensaje(3, activity, "terminar", null, titleMsj, Html.fromHtml("Terminaste la vivienda"), new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preguntaActual.getId(), fila));
                     progressDialog.dismiss();
                     break;
+                case "FIN_SECCION":
+                    preguntaActual.setFocus();
+                    iComunicaFragments.mensaje(3, activity, "volverInicio", null, titleMsj, Html.fromHtml("¿Continuar con el llenado del cuestionario?"), new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, preguntaActual.getId(), fila));
+                    progressDialog.dismiss();
+                    break;
                 case "FIN_HOGAR":
                     preguntaActual.setFocus();
 //                    scrollView.smoothScrollTo(0, preguntaActual.getTop());
@@ -974,7 +979,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
     }
 
     public void guardar(boolean nuevo, IdEncuesta idEncuesta, String tCodResp, String tResp, String tObs, Estado estado, String tipo, String secciones, String codPreg, int fila) {
-        Log.d("REVISION50", nuevo + "-" + idEncuesta.id_asignacion + "-" + idEncuesta.correlativo + "-" + idEncuesta.id_pregunta + "-" + tCodResp + "-" + tResp + "-" + tObs + "-" + estado);
+        Log.d("REVISION50", nuevo + "-" + idEncuesta.id_asignacion + "-" + idEncuesta.correlativo + "-" + idEncuesta.id_pregunta + "-" + idEncuesta.fila + "-" + tCodResp + "-" + tResp + "-" + tObs + "-" + estado);
         Log.d("REVISION50", Usuario.getLogin());
 
         if (nuevo) {
@@ -998,7 +1003,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
         encuesta.set_longitud(Movil.getGPS().split(";")[1].toString());
         encuesta.set_visible("t");
 
-        encuesta.set_fila(fila);
+//        encuesta.set_fila(fila);
 
         encuesta.guardar();
 
@@ -1038,7 +1043,12 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
                 msj = Html.fromHtml("");
 
                 resp = false;
-            } else {
+            } else if(idSiguiente.idSiguiente == -5){
+                titleMsj = "FIN_SECCION";
+                msj = Html.fromHtml("");
+
+                resp = false;
+            }else{
                 if (idNivel == 3) {
                     String message = informante.concluir(tCodPreg);
                     Log.d("message", "message: " + message);

@@ -143,16 +143,6 @@
 				app:iconSize="30dp" />
 
 			<com.google.android.material.button.MaterialButton
-				android:id="@+id/fabGoogle"
-				style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="Google"
-				app:icon="@drawable/googleg_standard_color_18"
-				android:backgroundTint="@color/color_blanco_button"
-				app:iconSize="30dp" />
-
-			<com.google.android.material.button.MaterialButton
 				android:id="@+id/fabMap"
 				style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 				android:layout_width="match_parent"
@@ -162,6 +152,15 @@
 				android:backgroundTint="@color/color_blanco_button"
 				app:iconSize="30dp" />
 
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/fabGoogle"
+				style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="Google"
+				app:icon="@drawable/googleg_standard_color_18"
+				android:backgroundTint="@color/color_blanco_button"
+				app:iconSize="30dp" />
 
 		</com.google.android.material.button.MaterialButtonToggleGroup>
 

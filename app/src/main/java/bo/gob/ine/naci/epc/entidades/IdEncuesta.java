@@ -3,7 +3,7 @@ package bo.gob.ine.naci.epc.entidades;
 import java.io.Serializable;
 
 /**
- * Created by alberto on 09/01/2016.
+ * Created by INE.
  */
 //EN DB
 public class IdEncuesta extends Identificador implements Serializable {

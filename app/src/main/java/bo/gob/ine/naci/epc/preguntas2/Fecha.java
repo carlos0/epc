@@ -27,8 +27,7 @@ import bo.gob.ine.naci.epc.herramientas.Parametros;
 
 
 /**
- * Created by Alberto Daniel Inch Sáinz on 20/09/2015.
- * albertoinch@gmail.com
+ * Created by INE.
  */
 public class Fecha extends PreguntaView implements View.OnClickListener {
     DatePickerDialog recogerFecha;

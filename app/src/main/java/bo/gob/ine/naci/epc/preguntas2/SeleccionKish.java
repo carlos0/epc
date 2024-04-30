@@ -20,7 +20,7 @@ import bo.gob.ine.naci.epc.fragments.FragmentEncuesta;
 import bo.gob.ine.naci.epc.herramientas.Parametros;
 
 /**
- * Created by Rodrigo on 15/07/2016.
+ * Created by INE.
  */
 public class SeleccionKish extends PreguntaView {
     protected IdInformante idInformante;

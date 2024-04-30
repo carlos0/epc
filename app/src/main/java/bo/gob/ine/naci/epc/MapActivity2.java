@@ -17,11 +17,13 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -74,7 +76,8 @@ import bo.gob.ine.naci.epc.herramientas.Parametros;
 import bo.gob.ine.naci.epc.herramientas.ToolMaps;
 
 public final class MapActivity2 extends ActionBarActivityNavigator implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnCameraIdleListener,
-        GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnPolygonClickListener {
+        GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnPolygonClickListener,
+        GoogleMap.OnPolylineClickListener {
     private GoogleMap mMap;
 
     private int idUpm;
@@ -170,29 +173,6 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
         tipoMapa = bundle.getInt("tipo");
         idAsignacion = bundle.getInt("idAsignacion");
         correlativo = bundle.getInt("correlativo");
-        switch (tipoMapa) {
-            case 1:
-                todo = true;
-                break;
-            case 2:
-                todo = false;
-                break;
-            case 3:
-                todo = false;
-                datos = Encuesta.getPunto(idAsignacion, correlativo);
-                punto = new LatLng(Double.parseDouble(datos.get("latitud")), Double.parseDouble(datos.get("longitud")));
-                break;
-        }
-
-        Upm upm = new Upm();
-
-//        codUpm = Upm.getCodUpm(idUpm);
-
-        valoresComunidad = upm.obtenerComunidad(idUpm, todo);
-        valoresPredio = upm.obtenerPredio(idUpm, todo);
-        valoresManzana = upm.obtenerManzana(idUpm, todo);
-        valoresSegmento = upm.obtenerSegmento(idUpm, todo);
-        valoresSegmentoD = upm.obtenerSegmentoD(idUpm, todo);
 
         toogleButtons = findViewById(R.id.fabMenuMain2);
 
@@ -209,6 +189,52 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
         mensaje = findViewById(R.id.mensaje);
         content_mensaje = findViewById(R.id.content_mensaje);
 
+        switch (tipoMapa) {
+            case 1:
+                segmento.setText("SEGMENTO_AMANZ");
+                segmentoD.setText("SEGMENTO_DISP");
+                todo = true;
+                break;
+            case 2:
+                codUpm = Upm.getCodUpm(idUpm);
+                switch (codUpm){
+                    case "1":
+                        segmentoD.setVisibility(View.GONE);
+                        comunidad.setVisibility(View.GONE);
+                        break;
+                    case "2":
+                        segmento.setVisibility(View.GONE);
+                        manzana.setVisibility(View.GONE);
+                        break;
+                }
+                todo = false;
+                break;
+            case 3:
+                codUpm = Upm.getCodUpm(idUpm);
+                switch (codUpm){
+                    case "1":
+                        segmentoD.setVisibility(View.GONE);
+                        comunidad.setVisibility(View.GONE);
+                        break;
+                    case "2":
+                        segmento.setVisibility(View.GONE);
+                        manzana.setVisibility(View.GONE);
+                        break;
+                }
+                todo = false;
+                datos = Encuesta.getPunto(idAsignacion, correlativo);
+                punto = new LatLng(Double.parseDouble(datos.get("latitud")), Double.parseDouble(datos.get("longitud")));
+                break;
+        }
+
+        Upm upm = new Upm();
+
+        valoresComunidad = upm.obtenerComunidad(idUpm, todo);
+        valoresPredio = upm.obtenerPredio(idUpm, todo);
+        valoresManzana = upm.obtenerManzana(idUpm, todo);
+        valoresSegmento = upm.obtenerSegmento(idUpm, todo);
+        valoresSegmentoD = upm.obtenerSegmentoD(idUpm, todo);
+
 //        if (codUpm.endsWith("D")) {
 //            tipo = 2;
 //            disperso.setVisibility(View.VISIBLE);
@@ -220,21 +246,36 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
 ////            map.setVisibility(View.VISIBLE);
 //        }
 
+
         comunidad.setChecked(true);
+        comunidad.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+        comunidad.setTextColor(getResources().getColor(R.color.color_list));
         predio.setChecked(true);
+        predio.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+        predio.setTextColor(getResources().getColor(R.color.color_list));
         manzana.setChecked(true);
+        manzana.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+        manzana.setTextColor(getResources().getColor(R.color.color_list));
         segmento.setChecked(true);
+        segmento.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+        segmento.setTextColor(getResources().getColor(R.color.color_list));
         segmentoD.setChecked(true);
-        map.setChecked(true);
+        segmentoD.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+        segmentoD.setTextColor(getResources().getColor(R.color.color_list));
+        map.setChecked(false);
         google.setChecked(false);
-        ubicacion.setChecked(true);
+        ubicacion.setChecked(false);
 
         comunidad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (comunidad.isChecked()) {
+                    comunidad.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+                    comunidad.setTextColor(getResources().getColor(R.color.color_list));
                     marcadorComunidad(1);
                 } else {
+                    comunidad.setBackgroundColor(getResources().getColor(R.color.color_blanco_button));
+                    comunidad.setTextColor(getResources().getColor(R.color.colorPrimary));
                     marcadorComunidad(2);
                 }
             }
@@ -244,8 +285,12 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
             @Override
             public void onClick(View v) {
                 if (predio.isChecked()) {
+                    predio.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+                    predio.setTextColor(getResources().getColor(R.color.color_list));
                     marcadorPredio(1);
                 } else {
+                    predio.setBackgroundColor(getResources().getColor(R.color.color_blanco_button));
+                    predio.setTextColor(getResources().getColor(R.color.colorPrimary));
                     marcadorPredio(2);
                 }
             }
@@ -255,9 +300,13 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
             @Override
             public void onClick(View v) {
                 if (manzana.isChecked()) {
+                    manzana.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+                    manzana.setTextColor(getResources().getColor(R.color.color_list));
                     marcadorManzana(1);
                     polygonManzana(1);
                 } else {
+                    manzana.setBackgroundColor(getResources().getColor(R.color.color_blanco_button));
+                    manzana.setTextColor(getResources().getColor(R.color.colorPrimary));
                     marcadorManzana(2);
                     polygonManzana(2);
                 }
@@ -268,8 +317,12 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
             @Override
             public void onClick(View v) {
                 if (segmento.isChecked()) {
+                    segmento.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+                    segmento.setTextColor(getResources().getColor(R.color.color_list));
                     polilineaSegmento(1);
                 } else {
+                    segmento.setBackgroundColor(getResources().getColor(R.color.color_blanco_button));
+                    segmento.setTextColor(getResources().getColor(R.color.colorPrimary));
                     polilineaSegmento(2);
                 }
             }
@@ -279,9 +332,13 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
             @Override
             public void onClick(View v) {
                 if (segmentoD.isChecked()) {
+                    segmentoD.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+                    segmentoD.setTextColor(getResources().getColor(R.color.color_list));
                     marcadorSegmentoD(1);
                     polygonSegmentoD(1);
                 } else {
+                    segmentoD.setBackgroundColor(getResources().getColor(R.color.color_blanco_button));
+                    segmentoD.setTextColor(getResources().getColor(R.color.colorPrimary));
                     marcadorSegmentoD(2);
                     polygonSegmentoD(2);
                 }
@@ -292,8 +349,14 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
             @Override
             public void onClick(View v) {
                 if (google.isChecked()) {
+                    google.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+                    google.setTextColor(getResources().getColor(R.color.color_list));
+                    google.setIconTintResource(R.color.color_list);
                     mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                 } else {
+                    google.setBackgroundColor(getResources().getColor(R.color.color_blanco_button));
+                    google.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    google.setIconTintResource(R.color.colorPrimary);
                     mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
                 }
             }
@@ -306,6 +369,21 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
                 areaZoom(puntosZoom);
             }
         });
+        map.setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    map.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+                    map.setTextColor(getResources().getColor(R.color.color_list));
+                    map.setIconTintResource(R.color.color_list);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    map.setBackgroundColor(getResources().getColor(R.color.color_blanco_button));
+                    map.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    map.setIconTintResource(R.color.colorPrimary);
+                    break;
+            }
+            return false;
+        });
 
         ubicacion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -313,6 +391,21 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
                 ubicacion.setChecked(true);
                 obtenerUbicacionActual();
             }
+        });
+        ubicacion.setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    ubicacion.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+                    ubicacion.setTextColor(getResources().getColor(R.color.color_list));
+                    ubicacion.setIconTintResource(R.color.color_list);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    ubicacion.setBackgroundColor(getResources().getColor(R.color.color_blanco_button));
+                    ubicacion.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    ubicacion.setIconTintResource(R.color.colorPrimary);
+                    break;
+            }
+            return false;
         });
 
         startThree();
@@ -414,7 +507,7 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
                 @Override
                 public void onMapLoaded() {
                     areaZoom(puntosZoom);
-                    mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+//                    mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                     cargarCapaIne();
                 }
             });
@@ -1506,5 +1599,10 @@ public final class MapActivity2 extends ActionBarActivityNavigator implements On
             mensaje.setText("");
         }
 
+    }
+
+    @Override
+    public void onPolylineClick(@NonNull Polyline polyline) {
+        Toast.makeText(this, polyline.getTag().toString(), Toast.LENGTH_LONG).show();
     }
 }
