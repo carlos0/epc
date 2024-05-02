@@ -1412,34 +1412,26 @@ try{
                 informante.set_id_nivel(idNivel);
                 // GENERA EL CODIGO (EL CODIGO SOLAMENTE SE GENERA PARA LAS BOLETAS DE NIVEL 1)
                 String codigo;
+                String predio;
+                String vivienda;
 //                if (nuevo) {
                 if (idNivel == 3) {
-                    codigo = pregs[2].getCodResp();
+                    codigo = pregs[0].getCodResp();
                     if (codigo == null) {
                         mensaje.errorMessage(getContext(), null, "Error!", Html.fromHtml("No se encontró la UPM. Error al generar el código."), Parametros.FONT_OBS);
                         botonGuardar.setEnabled(true);
                         return;
                     } else {
-                        // EH-17
-                        switch (pregs[0].getCodResp().length()) {
-                            case 1:
-                                codigo = codigo + "-00" + pregs[0].getCodResp();
-                                break;
-                            case 2:
-                                codigo = codigo + "-0" + pregs[0].getCodResp();
-                                break;
-                            default:
-                                codigo = codigo + "-" + pregs[0].getCodResp();
-                                break;
-                        }
-                        codigo = codigo + pregs[1].getCodResp();
+                        predio = pregs[2].getCodResp();
+                        vivienda = pregs[4].getCodResp();
+                        codigo = codigo + "-" + predio + "-" + vivienda;
                     }
-                    if (Informante.exists(codigo, idInformante)) {
-                        informante.free();
-                        mensaje.errorMessage(getContext(), null, "Error!", Html.fromHtml("El folio ya existe."), Parametros.FONT_OBS);
-                        botonGuardar.setEnabled(true);
-                        return;
-                    }
+//                    if (Informante.exists(codigo, idInformante)) {
+//                        informante.free();
+//                        mensaje.errorMessage(getContext(), null, "Error!", Html.fromHtml("El folio ya existe."), Parametros.FONT_OBS);
+//                        botonGuardar.setEnabled(true);
+//                        return;
+//                    }
                 } else { // CODIGO PARA NIVEL 2
                     if (flag) {
                         if (idNivel == 1) {

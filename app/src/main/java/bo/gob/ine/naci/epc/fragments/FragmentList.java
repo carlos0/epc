@@ -154,6 +154,8 @@ public class FragmentList extends Fragment {
     private ScrollView scrollPersona;
 //    private boolean personaActiva = false;
     private ImageButton buttonPersonas;
+    private TextView textView;
+    private boolean condicion = false;
 
     public FragmentList() {
         // Required empty public constructor
@@ -266,6 +268,17 @@ public class FragmentList extends Fragment {
         cardMortalidad = vista.findViewById(R.id.cardMortalidad);
         scrollPersona = vista.findViewById(R.id.scrollPersona);
         buttonPersonas = vista.findViewById(R.id.buttonPersonas);
+        textView = vista.findViewById(R.id.iconIncidencia);
+
+        condicion = Informante.tieneFlujo(idInformante, 18597);
+        if(condicion){
+            cardDatosViv.setVisibility(View.GONE);
+            cardPersonas.setVisibility(View.GONE);
+            buttonPersonas.setVisibility(View.GONE);
+            cardHogar.setVisibility(View.GONE);
+            cardMortalidad.setVisibility(View.GONE);
+            textView.setText("2");
+        }
 
         cardDatosViv.setOnClickListener(new View.OnClickListener() {
             @Override

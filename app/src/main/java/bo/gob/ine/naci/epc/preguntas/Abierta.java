@@ -69,7 +69,7 @@ import bo.gob.ine.naci.epc.herramientas.Parametros;
 
             contenedor = new TextInputLayout(context);
             contenedor.setHint(ayuda==null || ayuda.equals("")?"respuesta":ayuda);
-            contenedor.setBoxBackgroundColor(getResources().getColor(R.color.colorPrimaryOpaco));
+            contenedor.setBoxBackgroundColor(getResources().getColor(R.color.colorPrimaryFondo));
             contenedor.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_FILLED);
             contenedor.setBoxStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
             contenedor.setErrorEnabled(true);

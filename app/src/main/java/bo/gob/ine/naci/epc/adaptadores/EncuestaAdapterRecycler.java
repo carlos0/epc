@@ -65,7 +65,7 @@ public class EncuestaAdapterRecycler extends RecyclerView.Adapter<EncuestaAdapte
         holder.main_mensaje.setVisibility(View.VISIBLE);
         switch (Integer.parseInt(String.valueOf(objView.get("genero")==null?"3":objView.get("genero")).equals("--")?"3":objView.get("genero").toString())){
 
-            case 1:
+            case 2:
                 if(!objView.get("edadPersona").toString().equals("--")) {
                     if (Integer.parseInt(objView.get("edadPersona").toString()) < 12) {
                         holder.imagenPersona.setImageResource(R.drawable.i_nino);
@@ -77,7 +77,7 @@ public class EncuestaAdapterRecycler extends RecyclerView.Adapter<EncuestaAdapte
                     holder.imagenPersona.setImageResource(R.drawable.ic_add_lv);
                 }
                 break;
-            case 2:
+            case 1:
                 if(!objView.get("edadPersona").toString().equals("--")) {
                     if (Integer.parseInt(objView.get("edadPersona").toString()) < 12) {
                         holder.imagenPersona.setImageResource(R.drawable.i_nina);

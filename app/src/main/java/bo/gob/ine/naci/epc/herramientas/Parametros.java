@@ -118,7 +118,7 @@ public class Parametros {
 
     public static int ID_PREG_BUCLE  = 38105;
 
-    public static int ID_PREG_INCIDENCIA  = 99999;
+    public static int ID_PREG_INCIDENCIA  = 36321;
 
     public static Fragment FRAGMENTO_ACTUAL = null;
 
@@ -199,4 +199,5 @@ public class Parametros {
     ////tablas de resultado de la encuesta
     public static final String TABLA_INFORMANTE="enc_informante";
     public static  final String TABLA_ENCUESTA="enc_encuesta";
+
 }

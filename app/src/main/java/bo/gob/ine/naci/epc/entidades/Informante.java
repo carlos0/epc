@@ -3385,4 +3385,22 @@ public static  Map<String, Object> obtenerCabaceraListadoViviendas(int idAsignac
         return res;
     }
 
+
+    public static boolean tieneFlujo(IdInformante idInformante, int idPregunta) {
+        boolean res = false;
+        String query = "SELECT codigo_respuesta\n" +
+                "FROM enc_encuesta\n" +
+                "WHERE id_asignacion = " + idInformante.id_asignacion + "\n" +
+                "AND correlativo = " + idInformante.correlativo + "\n" +
+                "AND id_pregunta = " + idPregunta;
+        Cursor cursor = conn.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                res = cursor.getInt(0)>1;
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return res;
+    }
+
 }

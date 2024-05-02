@@ -36,6 +36,10 @@ import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.KeyStore;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,14 +54,10 @@ import java.security.cert.CertificateException;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 import java.security.cert.X509Certificate;
 import java.security.SecureRandom;
-
-
-
-
-
 
 import bo.gob.ine.naci.epc.BuildConfig;
 import bo.gob.ine.naci.epc.R;
@@ -177,9 +177,34 @@ public class ActionBarActivityProcess extends ActionBarActivityNavigator {
                     Log.d("","-------------------url----------------------");
                     Log.d("",preUrl);
 
+                    SSLContext sslContext = SSLContext.getInstance("TLS");
+                    sslContext.init(null, new TrustManager[]{new X509TrustManager() {
+                        @Override
+                        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                        }
+
+                        @Override
+                        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                            // Validación básica del certificado del servidor
+                            if (chain == null || chain.length == 0) {
+                                throw new CertificateException("No se encontraron certificados de servidor");
+                            }
+
+                            X509Certificate serverCert = chain[0];
+                            // Aquí puedes implementar lógica para validar el certificado del servidor
+                            // Por ejemplo, verificar el nombre del host, la cadena de certificación, etc.
+                        }
+
+                        @Override
+                        public X509Certificate[] getAcceptedIssuers() {
+                            return new X509Certificate[0];
+                        }
+                    }}, new SecureRandom());
+
                     url = new URL(preUrl);
 
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+//                    connection.setSSLSocketFactory(sslContext.getSocketFactory());
 //                    connection.setRequestProperty("Accept", "application/json");
                     connection.setRequestProperty("Authorization", "Bearer " + plainText);
                     int responseCode = connection.getResponseCode();
@@ -193,7 +218,7 @@ public class ActionBarActivityProcess extends ActionBarActivityNavigator {
                     }
 
                     BufferedReader reader;
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                    if (responseCode == HttpsURLConnection.HTTP_OK) {
                         reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     } else {
                         reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
@@ -608,11 +633,7 @@ public class ActionBarActivityProcess extends ActionBarActivityNavigator {
                         return new X509Certificate[0];
                     }
                 };
-                Log.d("ALERTA", "-------------CONSOLIDA-------------");
-                Log.d("ALERTA", Parametros.URL_UPLOAD);
-                Log.d("ALERTA", datodato);
-                Log.d("ALERTA", Movil.getImei());
-                Log.d("ALERTA", Parametros.VERSION);
+
                 OkHttpClient client = new OkHttpClient.Builder()
                         .sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager) trustManager)
                         .build();

@@ -7,6 +7,7 @@
     <color name="colorAccent">#E64949</color>
 
     <color name="colorPrimaryOpaco">#C9B87513</color>
+    <color name="colorPrimaryFondo">#99B87513</color>
 
     <color name="colorPrimary_text">#212121</color>
     <color name="colorSecondary_text">#595858</color>
