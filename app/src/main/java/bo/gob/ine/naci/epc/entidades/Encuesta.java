@@ -631,7 +631,30 @@ public class Encuesta extends EntidadCorr {
         cursor.close();
         return res;
     }
+    public static  ArrayList<Map<String, Object>> obtenerListadoUltimosmunici(String filtro){
+        ArrayList<Map<String, Object>> list = new ArrayList<>();
+        try {
+            String query="SELECT DISTINCT(respuesta) FROM enc_encuesta\n"+
+                    "WHERE id_pregunta="+Parametros.ID_PREGUNTA_MUNICIPIO+" AND UPPER(respuesta) LIKE '%"+ filtro+"%'\n"+
+                    "ORDER by feccre desc,id_asignacion DESC, correlativo DESC\n"+
+                    "LIMIT 3";
+            Cursor cursor = conn.rawQuery(query, null);
 
+            if (cursor.moveToFirst()) {
+                do {
+                    Map<String, Object> map = new LinkedHashMap<>();
+                    map.put("id_catalogo",Movil.getMd5Hash(cursor.getString(0)));
+                    map.put("descripcion",cursor.getString(0));
+                    list.add(map);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
     public static String[] getRespuesta(int idUpm, String variable) {
         ArrayList<String> res = new ArrayList<>();
         String query = "SELECT DISTINCT e.respuesta\n" +
@@ -1188,11 +1211,10 @@ public static boolean fueRespondida(IdInformante idInformante) {
         return res;
     }
 
-    public static void borrarFilaBucle(int idAsignacion, int correlativo, int fila) {
-        String query = "DELETE FROM enc_encuesta WHERE id_asignacion = " + idAsignacion + " \n" +
-                "AND correlativo = " + correlativo + " AND id_pregunta in (38105,38109,38107,38137,38138) AND fila = " + fila ;
+    public static void borrarFilaBucle(IdEncuesta idEncuesta) {
+        String query = "DELETE FROM enc_encuesta WHERE id_asignacion = " + idEncuesta.id_asignacion + " \n" +
+                "AND correlativo = " + idEncuesta.correlativo + " AND id_pregunta in (38105,38109,38107,38137,38138) AND fila = " + idEncuesta.fila ;
         conn.execSQL(query);
-
     }
 
 

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -54,6 +55,7 @@ import bo.gob.ine.naci.epc.entidades.DataBase;
 import bo.gob.ine.naci.epc.entidades.Informante;
 import bo.gob.ine.naci.epc.entidades.Upm;
 import bo.gob.ine.naci.epc.entidades.Usuario;
+import bo.gob.ine.naci.epc.herramientas.ActionBarActivityMessage;
 import bo.gob.ine.naci.epc.herramientas.ActionBarActivityProcess;
 import bo.gob.ine.naci.epc.herramientas.Movil;
 import bo.gob.ine.naci.epc.herramientas.Parametros;
@@ -82,6 +84,8 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
     private GuideView mGuideView;
     private GuideView.Builder builder;
     View view4;
+
+    private static final int REQUEST_CODE_SECOND_ACTIVITY = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +140,6 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
         Drawable iconoNavegacion = toogle.getDrawerArrowDrawable();
         iconoNavegacion.setColorFilter(getResources().getColor(R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
         toolbar.setNavigationIcon(iconoNavegacion);
-
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        actionBar = getSupportActionBar();
@@ -234,7 +237,7 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
 //                    String a = valores.get(list.getChildAdapterPosition(v)).get("id_asignacion").toString();
                     try {
                         Map<String, Object> val = valores.get(list.getChildAdapterPosition(v));
-                        irInformante((Integer) val.get("id_upm"),0);
+                        irInformante((Integer) val.get("id_upm"),0, REQUEST_CODE_SECOND_ACTIVITY);
                     } catch (Exception exp) {
                         exp.printStackTrace();
                     }
@@ -659,7 +662,7 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
 //                    if (Usuario.getRol() != Parametros.SUPERVISOR) {
                         try {
                             Map<String, Object> val = valores.get(list.getChildAdapterPosition(v));
-                            irInformante((Integer) val.get("id_upm"), 0);
+                            irInformante((Integer) val.get("id_upm"), 0, REQUEST_CODE_SECOND_ACTIVITY);
                         } catch (Exception exp) {
                             exp.printStackTrace();
                         }
@@ -781,7 +784,7 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
 
     @SuppressWarnings("unused")
     public void ocultaConcluido() {
-        Informante.inhabilitaBoletas();
+//        Informante.inhabilitaBoletas();
         cargarListado();
     }
 
@@ -846,6 +849,16 @@ public class MainActivity extends ActionBarActivityProcess implements AdapterEve
 
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SECOND_ACTIVITY) {
+            // Actualizar el RecyclerView aquí
+            cargarListado();
+//            adapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public void onBackPressed() {

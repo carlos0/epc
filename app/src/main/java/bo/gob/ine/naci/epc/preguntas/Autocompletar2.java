@@ -103,7 +103,9 @@ public class Autocompletar2 extends PreguntaView implements AdapterEvents, View.
 //        adapter=new CatalogoAdapter(context,this,valores);
 //        textbox.setAdapter(adapter);
         if(!catalogo.equals("catalogo_direcciones")){
-            textbox.setInputType(InputType.TYPE_CLASS_NUMBER);
+            if (!catalogo.equals("catalogo_municipios")) {
+                textbox.setInputType(InputType.TYPE_CLASS_NUMBER);
+            }
         }
 
         textbox.setOnTouchListener(new OnTouchListener() {
@@ -129,27 +131,31 @@ public class Autocompletar2 extends PreguntaView implements AdapterEvents, View.
 //                    Movil.vibrate();
                 }else if(textbox.getText().toString().trim().length()>0&&catalogo.equals("catalogo_direcciones")){
                     cargarListado(textbox.getText().toString().trim());
-                }else {
+                }else if(textbox.getText().toString().trim().length()>0&&catalogo.equals("catalogo_municipios")){
+                    cargarListado(textbox.getText().toString().trim());
+                } else{
                     contenedor.setErrorEnabled(false);
                 }
             }
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length()>0&&catalogo.equals("catalogo_direcciones")) {
+                if (s.toString().length() > 0 && catalogo.equals("catalogo_direcciones")) {
 
                     valor = s.toString();
                     codigo = String.valueOf(Movil.getMd5Hash(s.toString()));
                     contenedor.setErrorEnabled(false);
-
-
 //                        cargarListado(s.toString());
 
 //                    autoCompleteTextView.setBackgroundColor(getResources().getColor(R.color.colorWaterSucess));
-                } else if(s.toString().length()>0&&buscar(s.toString())){
+                } else if (s.toString().length()>0 && catalogo.equals("catalogo_municipios")) {
                     valor = s.toString();
                     codigo = String.valueOf(Movil.getMd5Hash(s.toString()));
                     contenedor.setErrorEnabled(false);
-                   clearList();
+                }else if (s.toString().length()>0&&buscar(s.toString())){
+                    valor = s.toString();
+                    codigo = String.valueOf(Movil.getMd5Hash(s.toString()));
+                    contenedor.setErrorEnabled(false);
+                    clearList();
                 }else {
                     cargarListado(s.toString());
                 }
@@ -298,14 +304,15 @@ public class Autocompletar2 extends PreguntaView implements AdapterEvents, View.
             Catalogo c = new Catalogo(catalogo);
             if(catalogo.equals("catalogo_direcciones")){
                 valores=  Encuesta.obtenerListadoUltimasDirecciones(clave);
-            }else{
+            } else if (catalogo.equals("catalogo_municipios")) {
+                valores=  Encuesta.obtenerListadoUltimosmunici(clave);
+            } else {
                 if(valor.equals(clave)){
                     valores = c.obtenerListado(" AND UPPER(descripcion) LIKE '%" + clave.toUpperCase() + "%' LIMIT 3");
                     valoresInicial=c.obtenerListado(" AND UPPER(descripcion) LIKE '%" + clave.toUpperCase() + "%' LIMIT 3");
                 }else {
                     valores.clear();
                 }
-
             }
 
 
@@ -360,11 +367,15 @@ public class Autocompletar2 extends PreguntaView implements AdapterEvents, View.
         if (idOpciones.contains(seleccion)) {
             return seleccion;
         } else if(textbox.getText().toString().trim().length()>0&&catalogo.equals("catalogo_direcciones")){
+            //Log.d("BSQCAT ", String.valueOf(Movil.getMd5Hash(textbox.getText().toString())));
             return String.valueOf(Movil.getMd5Hash(textbox.getText().toString()));
-        }else if(buscar(valor.trim())){
+        } else if (textbox.getText().toString().trim().length()>0&&catalogo.equals("catalogo_municipios")) {
+            //Log.d("BSQCATM ", String.valueOf(Movil.getMd5Hash(textbox.getText().toString())));
+            return String.valueOf(Movil.getMd5Hash(textbox.getText().toString()));
+        } else if(buscar(valor.trim())){
+
             return String.valueOf(valor.trim());
         }
-
         return "-1";
     }
 

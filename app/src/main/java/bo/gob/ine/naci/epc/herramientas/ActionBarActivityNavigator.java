@@ -21,14 +21,14 @@ public class ActionBarActivityNavigator extends ActionBarActivityMessage {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
-    protected void irInformante(int idUpm,int idUpmHijo) {
+    protected void irInformante(int idUpm,int idUpmHijo, int cod) {
         Bundle bundle = new Bundle();
         bundle.putInt("IdUpm", idUpm);
         bundle.putInt("idUpmHijo", idUpmHijo);
 
         Intent informante = new Intent(getApplicationContext(), BoletaActivity.class);
         informante.putExtras(bundle);
-        startActivity(informante);
+        startActivityForResult(informante, cod);
 //        overridePendingTransition(R.anim.left_in, R.anim.left_out);
     }
 

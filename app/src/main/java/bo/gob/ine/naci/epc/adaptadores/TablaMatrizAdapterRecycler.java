@@ -4,6 +4,7 @@ import static bo.gob.ine.naci.epc.MyApplication.getContext;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.text.Html;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.ListPopupWindow;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,10 +57,20 @@ public class TablaMatrizAdapterRecycler extends RecyclerView.Adapter<TablaMatriz
     private static long button2_pressed;
     private Activity activity = null;
 
+    private OnItemDeleteListener itemDeleteListener;
+
     public TablaMatrizAdapterRecycler(Context context, ArrayList<Map<String, Object>> dataView) {
         this.dataView = dataView;
         this.context = context;
 
+    }
+
+    public interface OnItemDeleteListener {
+        void onDeleteItem(int position, int idAsignacion, int correlativo, int fila);
+    }
+
+    public void setOnItemDeleteListener(OnItemDeleteListener listener) {
+        this.itemDeleteListener = listener;
     }
 
     @NonNull
@@ -78,24 +90,17 @@ public class TablaMatrizAdapterRecycler extends RecyclerView.Adapter<TablaMatriz
 
         final Map<String, Object> objView = dataView.get(position);
 
-//        String fila = objView.get("fila") != null ? objView.get("fila").toString() : "";
-//        String nombre = objView.get("nombre") != null ? objView.get("nombre").toString() : "";
-//        String sexo = objView.get("sexo") != null ? objView.get("sexo").toString() : "";
-//        String edad = objView.get("edad") != null ? objView.get("edad").toString() : "";
-//
-//        holder.tnombre.setText(fila + "Nombre: " + nombre);
-//        holder.tsexo.setText("Sexo: " + sexo);
-//        holder.tedad.setText("Edad: " + edad);
-
         holder.tnombre.setText(objView.get("fila").toString()+ " Nombre: " + objView.get("nombre").toString());
         holder.tsexo.setText("Sexo: " + objView.get("sexo").toString());
         holder.tedad.setText("Edad: " + objView.get("edad").toString());
-        holder.btnEliminar.setVisibility(View.GONE);
+//        holder.btnEliminar.setVisibility(View.GONE);
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Encuesta.borrarFilaBucle(Integer.parseInt(objView.get("id_asignacion").toString()),Integer.parseInt(objView.get("correlativo").toString()),Integer.parseInt(objView.get("fila").toString()));
-//                context.decisionMessageDelete(activity, null, null, "Confirmar", Html.fromHtml("Se perdera la información de la vivienda"), Integer.valueOf(objView.get("id_asignacion").toString()), Integer.valueOf(objView.get("correlativo").toString()), Integer.valueOf(objView.get("id_upm").toString()), "hogar");
+
+                itemDeleteListener.onDeleteItem(holder.getAdapterPosition(), Integer.parseInt(objView.get("id_asignacion").toString()),Integer.parseInt(objView.get("correlativo").toString()),Integer.parseInt(objView.get("fila").toString()));
+                //((EncuestaActivity2) activity).decisionMessageDelete(activity, null, null, "Confirmar", Html.fromHtml("Se perdera la información de este registro"), Integer.valueOf(objView.get("id_asignacion").toString()), Integer.valueOf(objView.get("correlativo").toString()), 0, "bucle", Integer.parseInt(objView.get("fila").toString()));
+//                Encuesta.borrarFilaBucle(Integer.parseInt(objView.get("id_asignacion").toString()),Integer.parseInt(objView.get("correlativo").toString()),Integer.parseInt(objView.get("fila").toString()));
             }
         });
 

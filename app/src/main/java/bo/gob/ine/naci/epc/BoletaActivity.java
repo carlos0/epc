@@ -1,7 +1,9 @@
 package bo.gob.ine.naci.epc;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +13,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -22,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -101,6 +106,7 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
         imagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_OK);
                 onBackPressed();
             }
         });
@@ -118,7 +124,17 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
         list = findViewById(R.id.list_Boleta);
         mapa_lv= findViewById(R.id.mapa_lv);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back); // Establecer un icono personalizado
+            // Cambiar el color del icono de navegación
+            Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arrow_back, null);
+            if (drawable != null) {
+                drawable.setColorFilter(getResources().getColor(R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+                actionBar.setHomeAsUpIndicator(drawable);
+            }
+        }
     }
     public void verificaBoletas(){
         int flag = 0;
@@ -162,6 +178,7 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                setResult(RESULT_OK);
                 onBackPressed();
                 return true;
         }
@@ -654,5 +671,10 @@ public class BoletaActivity extends ActionBarActivityProcess implements AdapterE
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        this.finish();
+        super.onBackPressed();
+    }
 }

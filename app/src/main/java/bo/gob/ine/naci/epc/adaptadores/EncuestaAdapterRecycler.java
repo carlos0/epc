@@ -96,7 +96,7 @@ public class EncuestaAdapterRecycler extends RecyclerView.Adapter<EncuestaAdapte
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((EncuestaActivity2)activity).decisionMessageDelete(activity, null, null, "Confirmar", Html.fromHtml("Se perdera la información de la persona"), Integer.valueOf(objView.get("id_asignacion").toString()), Integer.valueOf(objView.get("correlativo").toString()), 0,"persona");
+                ((EncuestaActivity2)activity).decisionMessageDelete(activity, null, null, "Confirmar", Html.fromHtml("Se perdera la información de la persona"), Integer.valueOf(objView.get("id_asignacion").toString()), Integer.valueOf(objView.get("correlativo").toString()), 0,"persona", 1);
             }
         });
 //        holder.porcentaje_avance.setText((Float) objView.get("porcentaje_avance")+"%");

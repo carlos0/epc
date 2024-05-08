@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,10 +15,13 @@ import android.widget.ToggleButton;
 
 import com.ibotta.android.support.pickerdialogs.SupportedDatePickerDialog;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import bo.gob.ine.naci.epc.R;
@@ -40,6 +44,8 @@ public class Fecha extends PreguntaView implements View.OnClickListener {
     protected TextView fecha;
     protected Button sfecha;
     protected Calendar calendar;
+
+    protected Button fechaButton;
 
     protected int mes;
     protected int dia;
@@ -89,6 +95,8 @@ public class Fecha extends PreguntaView implements View.OnClickListener {
         fecha.setTextSize(30f);
         fecha.setTextColor(context.getResources().getColor(R.color.color_texto));
         fecha.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+
+        addView(fecha);
 //        fecha.setOnClickListener(new OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -107,16 +115,21 @@ public class Fecha extends PreguntaView implements View.OnClickListener {
 //                }
 //            }
 //        });
-        sfecha = new Button(context);
-        sfecha.setText("Elegir fecha");
-        sfecha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        context, android.R.style.Theme_Holo_Dialog_MinWidth,
-                        setListener, anio, mes, dia);
-                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                datePickerDialog.show();
+        if(id != 36321) {
+            sfecha = new Button(context);
+            sfecha.setFocusable(true);
+            sfecha.setText("Elegir fecha");
+            sfecha.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(
+                            context, android.R.style.Theme_Holo_Dialog_MinWidth,
+                            setListener, anio, mes, dia);
+                    Calendar minCalendar = Calendar.getInstance();
+                    minCalendar.set(1894, 0, 1);
+                    datePickerDialog.getDatePicker().setMinDate(minCalendar.getTimeInMillis());
+                    datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    datePickerDialog.show();
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //                    obtenerFecha21();
 //                } else {
@@ -125,8 +138,38 @@ public class Fecha extends PreguntaView implements View.OnClickListener {
 //                if(evaluar) {
 //                    FragmentEncuesta.actualiza(id);
 //                }
-            }
-        });
+                }
+            });
+
+            addView(sfecha);
+        } else {
+            fecha.setText("Presione el boton para marcar la fecha");
+            fechaButton = new Button(context);
+            fechaButton.setFocusable(true);
+            fechaButton.setText("FECHA ACTUAL");
+            fechaButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Calendar calendar = Calendar.getInstance();
+                    Date date = calendar.getTime();
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yy/mm/dd", Locale.getDefault());
+                    String fechaActual = dateFormat.format(date);
+                    fecha.setText(fechaActual);
+
+                    anio = calendar.get(Calendar.YEAR);
+                    mes = calendar.get(Calendar.MONTH) + 1;
+                    dia = calendar.get(Calendar.DAY_OF_MONTH);
+
+                    Log.d("FECHA", anio + "/" + mes + "/" + dia);
+
+                    if (evaluar) {
+                        FragmentEncuesta.actualiza(id);
+                    }
+                }
+            });
+            addView(fechaButton);
+        }
 
 //        setListener = new DatePicker.OnDateChangedListener() {
 //            @Override
@@ -155,7 +198,6 @@ public class Fecha extends PreguntaView implements View.OnClickListener {
             }
         };
 
-
 //        valor.setOnTouchListener(new OnTouchListener() {
 //            @Override
 //            public boolean onTouch(View v, MotionEvent event) {
@@ -167,8 +209,6 @@ public class Fecha extends PreguntaView implements View.OnClickListener {
 //        });
 
 //        addView(datePicker);
-        addView(fecha);
-        addView(sfecha);
 
         buttons = new LinearLayout(context);
         buttons.setFocusable(true);
@@ -278,11 +318,13 @@ public class Fecha extends PreguntaView implements View.OnClickListener {
             boton = botonActive;
 
             fecha.setEnabled(false);
-            sfecha.setEnabled(false);
+            if(sfecha != null)
+                sfecha.setEnabled(false);
 
         } else {
             fecha.setEnabled(true);
-            sfecha.setEnabled(true);
+            if(sfecha != null)
+                sfecha.setEnabled(true);
             for(String opc : idOpciones) {
                 botonActive = (ToggleButton) guardaBotones.get(opc);
                 botonActive.setChecked(false);
@@ -304,7 +346,13 @@ public class Fecha extends PreguntaView implements View.OnClickListener {
 
     @Override
     public void setFocus() {
-        sfecha.requestFocus();
+        if(sfecha != null){
+            sfecha.requestFocus();
+        } else {
+            fechaButton.requestFocus();
+        }
+
+
     }
 
     @Override
@@ -330,7 +378,11 @@ public class Fecha extends PreguntaView implements View.OnClickListener {
 
         if(seleccion.equals(a[0])){
             fecha.setEnabled(true);
-            sfecha.setEnabled(true);
+            if(sfecha != null){
+                sfecha.setEnabled(true);
+            } else {
+                fechaButton.setEnabled(true);
+            }
             fecha.setText("Presione para seleccionar la fecha");
             seleccion = "";
             seleccionText = "";
@@ -347,7 +399,11 @@ public class Fecha extends PreguntaView implements View.OnClickListener {
             seleccion = a[0];
             seleccionText = a[1];
             fecha.setEnabled(false);
-            sfecha.setEnabled(false);
+            if(sfecha != null){
+                sfecha.setEnabled(false);
+            } else {
+                fechaButton.setEnabled(false);
+            }
             botonActive.setChecked(true);
             botonActive.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
             boton = botonActive;
@@ -359,7 +415,11 @@ public class Fecha extends PreguntaView implements View.OnClickListener {
             seleccion = a[0];
             seleccionText = a[1];
             fecha.setEnabled(false);
-            sfecha.setEnabled(false);
+            if(sfecha != null){
+                sfecha.setEnabled(false);
+            } else {
+                fechaButton.setEnabled(false);
+            }
             botonActive.setChecked(true);
             botonActive.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
             boton = botonActive;

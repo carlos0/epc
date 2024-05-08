@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,7 +39,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Map;
+import java.util.TimeZone;
 
 import bo.gob.ine.naci.epc.ListadoViviendasActivity;
 import bo.gob.ine.naci.epc.MainActivity;
@@ -49,6 +52,7 @@ import bo.gob.ine.naci.epc.entidades.RolPermiso;
 import bo.gob.ine.naci.epc.entidades.Usuario;
 import bo.gob.ine.naci.epc.herramientas.Circle;
 import bo.gob.ine.naci.epc.herramientas.IntegerFormatter;
+import bo.gob.ine.naci.epc.herramientas.Movil;
 import bo.gob.ine.naci.epc.herramientas.Parametros;
 
 import static bo.gob.ine.naci.epc.MyApplication.getContext;
@@ -86,8 +90,13 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
         final Map<String, Object> objView = dataView.get(position);
 //        vi.setId((int) objView.get("id_upm"));
 
+//        if(comparaFechas((Long) objView.get("fecinicio"))) {
+//            holder.contenedor_adapter_main.setBackground(getContext().getResources().getDrawable(R.drawable.list_encuesta_activity_bg3));
+//        }
+
         holder.main_codigo.setTextSize(Parametros.FONT_LIST_BIG);
-        holder.main_codigo.setText((String) objView.get("codigo"));
+        holder.main_codigo.setText(objView.get("codigo").toString());
+
         holder.main_codigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,10 +111,13 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
             }
         });
 
+        holder.main_fecha.setTextSize(Parametros.FONT_LIST_BIG);
+        holder.main_fecha.setText(Movil.dateExtractor((Long) objView.get("fecinicio")).split(",")[0]);
+
         final int numConcluidas = Integer.parseInt(objView.get("qBoletasConcluidas").toString());
         Log.d("numConcluidas", String.valueOf(numConcluidas));
-        holder.numConlcuidas.setText(numConcluidas+"/6");
-        if(numConcluidas>=6){
+        holder.numConlcuidas.setText(numConcluidas+"/"+objView.get("url_pdf").toString());
+        if(numConcluidas>= Integer.parseInt(objView.get("url_pdf").toString())){
             holder.numConlcuidas.setTextColor(getContext().getResources().getColor(R.color.color_concluido));
             holder.textConcluidas.setTextColor(getContext().getResources().getColor(R.color.color_concluido));
         } else {
@@ -306,8 +318,11 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        public LinearLayout contenedor_adapter_main;
+
         public TextView main_map_view;
         public TextView main_codigo;
+        public TextView main_fecha;
         public TextView main_descripcion;
         public TextView main_mensaje;
         public ImageButton info_boleta;
@@ -336,8 +351,11 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            contenedor_adapter_main = itemView.findViewById(R.id.contenedor_adapter_main);
+
             main_map_view = itemView.findViewById(R.id.main_map_view);
             main_codigo = itemView.findViewById(R.id.main_codigo);
+            main_fecha = itemView.findViewById(R.id.main_fecha);
             main_descripcion = itemView.findViewById(R.id.main_descripcion);
             main_mensaje = itemView.findViewById(R.id.main_mensaje);
             info_boleta = itemView.findViewById(R.id.info_boleta);
@@ -394,5 +412,27 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+    private boolean comparaFechas(long tiempo1){
+        boolean res;
+
+        long tiempo2 = System.currentTimeMillis();
+
+        Calendar cal1 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        cal1.setTimeInMillis(tiempo1 * 1000 + 14400000);
+        Calendar cal2 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        cal2.setTimeInMillis(tiempo2 * 1000 + 14400000);
+
+// Verificar si ambos tiempos tienen el mismo día, mes y año
+        if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)) {
+            System.out.println("Ambos tiempos tienen el mismo día.");
+            res = true;
+        } else {
+            System.out.println("Los tiempos tienen días diferentes.");
+            res = false;
+        }
+        return res;
     }
 }

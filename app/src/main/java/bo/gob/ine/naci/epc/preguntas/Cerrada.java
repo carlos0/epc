@@ -82,11 +82,11 @@ public class Cerrada extends PreguntaView  implements View.OnClickListener {
                 editText.setTextSize(Parametros.FONT_RESP);
                 editText.setTextSize(Parametros.FONT_RESP);
             }
-            if (filtro != null) {
-                if (!filtro.contains(Integer.parseInt(a[0]))) {
-                    rb.setEnabled(false);
-                }
-            }
+//            if (filtro != null) {
+//                if (!filtro.contains(Integer.parseInt(a[0]))) {
+//                    rb.setEnabled(false);
+//                }
+//            }
             rb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -119,28 +119,36 @@ public class Cerrada extends PreguntaView  implements View.OnClickListener {
             addView(editText);
         }
 
-        LinearLayout buttons = new LinearLayout(context);
-        buttons.setOrientation(LinearLayout.HORIZONTAL);
-        buttons.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutParams.weight = 1;
-        if (buttonsActive != null) {
-            for (Integer key : buttonsActive.keySet()) {
-                resp = new Button(context);
-                resp.setLayoutParams(layoutParams);
-                buttons.addView(resp);
-                String opcion = buttonsActive.get(key);
-                String[] a = opcion.split("\\|");
-                resp.setText(a[1]);
-                resp.setTextSize(Parametros.FONT_RESP);
-                resp.setId(key);
-                resp.setOnClickListener(this);
-                btnOpciones.add(a[1]);
-                idOpciones.add(a[0]);
-                guardaBotones.put(a[0],resp);
+
+            LinearLayout buttons = new LinearLayout(context);
+            buttons.setOrientation(LinearLayout.HORIZONTAL);
+            buttons.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams.weight = 1;
+            if (buttonsActive != null) {
+                for (Integer key : buttonsActive.keySet()) {
+                    resp = new Button(context);
+                    resp.setLayoutParams(layoutParams);
+                    buttons.addView(resp);
+                    String opcion = buttonsActive.get(key);
+                    String[] a = opcion.split("\\|");
+                    resp.setText(a[1]);
+                    resp.setTextSize(Parametros.FONT_RESP);
+                    resp.setId(key);
+                    resp.setOnClickListener(this);
+                    btnOpciones.add(a[1]);
+                    idOpciones.add(a[0]);
+                    guardaBotones.put(a[0], resp);
+                }
+                if(id==20486){
+                    if (filtro != null && filtro.get(0)==2) {
+                        addView(buttons);
+                    }
+                } else {
+                    addView(buttons);
+                }
             }
-            addView(buttons);
-        }
+
     }
 
 

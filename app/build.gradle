@@ -13,7 +13,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 20
-        versionName "1.01"
+        versionName "1.03"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         // Create BuildConfig variables

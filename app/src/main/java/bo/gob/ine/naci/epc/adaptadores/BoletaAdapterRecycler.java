@@ -96,19 +96,16 @@ public class BoletaAdapterRecycler extends RecyclerView.Adapter<BoletaAdapterRec
                 incidencia = "ENTREVISTA INCOMPLETA";
                 break;
             case 3:
-                incidencia = "TEMPORALMENTE AUSENTE";
-                break;
-            case 4:
                 incidencia = "INFORMANTE NO CALIFICADO";
                 break;
-            case 5:
+            case 4:
                 incidencia = "FALTA DE CONTACTO";
+                break;
+            case 5:
+                incidencia = "VIVIENDA DESOCUPADA";
                 break;
             case 6:
                 incidencia = "RECHAZO";
-                break;
-            case 7:
-                incidencia = "VIVIENDA DESOCUPADA";
                 break;
             default:
                 incidencia = "SIN INCIDENCIA";
@@ -152,7 +149,7 @@ public class BoletaAdapterRecycler extends RecyclerView.Adapter<BoletaAdapterRec
                     }
                 }
                 holder.btnObservacionSuper.setVisibility(View.GONE);
-                holder.list_item.setBackgroundColor(getContext().getResources().getColor(R.color.color_list));
+                holder.list_item.setBackgroundColor(getContext().getResources().getColor(R.color.color_concluido));
 //                    holder.list_it.setEnabled(false);
 //                    holder.btnEliminar.setEnabled(false);
                 break;
@@ -188,7 +185,7 @@ public class BoletaAdapterRecycler extends RecyclerView.Adapter<BoletaAdapterRec
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((BoletaActivity) activity).decisionMessageDelete(activity, null, null, "Confirmar", Html.fromHtml("Se perdera la información de la vivienda"), Integer.valueOf(objView.get("id_asignacion").toString()), Integer.valueOf(objView.get("correlativo").toString()), Integer.valueOf(objView.get("id_upm").toString()), "hogar");
+                ((BoletaActivity) activity).decisionMessageDelete(activity, null, null, "Confirmar", Html.fromHtml("Se perdera la información de la vivienda"), Integer.valueOf(objView.get("id_asignacion").toString()), Integer.valueOf(objView.get("correlativo").toString()), Integer.valueOf(objView.get("id_upm").toString()), "hogar", 1);
             }
         });
 

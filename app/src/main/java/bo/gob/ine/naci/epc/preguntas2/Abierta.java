@@ -87,12 +87,38 @@ public class Abierta extends PreguntaView implements View.OnClickListener {
 
         contenedor = new TextInputLayout(context);
         contenedor.setHint("Respuesta");
+
+
+        TextView textView = new TextView(context);
+        textView.setText(observacion);
+
+        TextInputLayout.LayoutParams params = new TextInputLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.gravity = Gravity.BOTTOM;
+        textView.setLayoutParams(params);
+
+        contenedor.addView(textView);
+
         contenedor.setBoxBackgroundColor(getResources().getColor(R.color.color_list));
         contenedor.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
         contenedor.setBoxStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
         contenedor.setErrorEnabled(true);
         contenedor.setEndIconMode(TextInputLayout.END_ICON_CLEAR_TEXT);
         contenedor.setPadding(5, 0,5,0);
+
+
+
+
+//        contenedor = new TextInputLayout(context);
+//        contenedor.setHint("Respuesta");
+//        contenedor.setBoxBackgroundColor(getResources().getColor(R.color.color_list));
+//        contenedor.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+//        contenedor.setBoxStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
+//        contenedor.setErrorEnabled(true);
+//        contenedor.setEndIconMode(TextInputLayout.END_ICON_CLEAR_TEXT);
+//        contenedor.setPadding(5, 0,5,0);
 
 
         textbox = new TextInputEditText(contenedor.getContext());

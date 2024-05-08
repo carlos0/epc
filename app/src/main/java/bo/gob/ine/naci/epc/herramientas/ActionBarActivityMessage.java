@@ -50,6 +50,7 @@ import bo.gob.ine.naci.epc.BoletaActivity;
 import bo.gob.ine.naci.epc.MyApplication;
 import bo.gob.ine.naci.epc.R;
 import bo.gob.ine.naci.epc.entidades.Brigada;
+import bo.gob.ine.naci.epc.entidades.IdEncuesta;
 import bo.gob.ine.naci.epc.entidades.IdInformante;
 import bo.gob.ine.naci.epc.entidades.Informante;
 import bo.gob.ine.naci.epc.entidades.Observacion;
@@ -251,7 +252,7 @@ public class ActionBarActivityMessage extends AppCompatActivity implements Dialo
     }
 
 
-    public void decisionMessageDelete(final Activity activity, String methodAceptar, String methodCancelar, String titulo, Spanned mensaje, final int idAsignacion, final int correlativo, final int idUpm, final String tipo) {
+    public void decisionMessageDelete(final Activity activity, String methodAceptar, String methodCancelar, String titulo, Spanned mensaje, final int idAsignacion, final int correlativo, final int idUpm, final String tipo, final int fila) {
         this.methodAceptar = null;
         this.methodCancelar = null;
         layoutParamsButton2.setMargins(5,5,5,5);

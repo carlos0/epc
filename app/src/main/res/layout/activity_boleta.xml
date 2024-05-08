@@ -5,29 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/degradado_ine"
+    android:fitsSystemWindows="true"
     tools:context=".BoletaActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical">-->
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/status_bar_kitkat_height"
-            android:background="?colorPrimary"/>
+<!--        <FrameLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/status_bar_kitkat_height"-->
+<!--            android:background="?colorPrimary"/>-->
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/status_bar_lollipop_height"
-            android:background="@color/postcensal_dorado"/>
+<!--        <FrameLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/status_bar_lollipop_height"-->
+<!--            android:background="@color/postcensal_dorado"/>-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/status_bar_margin_top"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar

@@ -28,6 +28,7 @@ import com.udojava.evalex.Expression;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -452,6 +453,11 @@ public class FragmentInicial2 extends Fragment implements View.OnTouchListener {
                             respuestas = Pregunta.getRespuestas(pregunta.get_respuesta());
                         }
                         ArrayList<Integer> filtro = null;
+                        if(pregunta.get_id_pregunta() == 20486) {
+                            String codUpm = Upm.getCodUpm(Upm.getIdUpm(idInformante.id_asignacion));
+                            filtro = new ArrayList<>();
+                            filtro.add(Integer.parseInt(codUpm));
+                        }
                         pregs[i] = new Cerrada(getContext(), i, pregunta.get_id_pregunta(), pregunta.get_id_seccion(), codigoPregunta, p, respuestas, pregunta.get_codigo_especifique(), omision, filtro, pregunta.get_ayuda(), false);
                         break;
                     }

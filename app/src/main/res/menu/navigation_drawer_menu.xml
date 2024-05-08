@@ -28,6 +28,7 @@
             android:title="@string/action_descargar_observaciones"
             android:orderInCategory="500"
             app:showAsAction="collapseActionView"
+            android:visible="false"
             android:icon="@drawable/action_descarga_observacion"/>
         <item android:id="@+id/action_backup"
             android:title="@string/action_backup"

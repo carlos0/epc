@@ -2,6 +2,8 @@ package bo.gob.ine.naci.epc;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Spanned;
@@ -17,7 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -54,7 +59,9 @@ import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 public class EncuestaActivity2 extends ActionBarActivityProcess implements View.OnClickListener, IComunicaFragments2, FragmentInicial2.OnFragmentInteractionListener, FragmentEncuesta.OnFragmentInteractionListener
         ,FragmentList.OnFragmentInteractionListener {
 
-    private DrawerLayout drawerLayout;
+//    private DrawerLayout drawerLayout;
+
+    private Toolbar toolbar;
 
     private IdEncuesta idEncuesta;
 
@@ -91,7 +98,7 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
 
     private FragmentTransaction transaction;
 
-    private ExpandableListView expandableListView;
+//    private ExpandableListView expandableListView;
     private ExpandableListAdapter adapter;
     private List<String> lstTitle;
     private Map<String, List<String>> lstChild;
@@ -110,6 +117,7 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
 
     public int idAsignacionMsj;
     public int correlativoMsj;
+    public int idPreguntaMsj;
 
 
     @Override
@@ -117,12 +125,13 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encuesta2);
 
-        drawerLayout = findViewById(R.id.encuesta_navigation_drawer);
-        expandableListView = (ExpandableListView) findViewById(R.id.navigation_view_encuesta);
+        cargarOpciones();
+//        drawerLayout = findViewById(R.id.encuesta_navigation_drawer);
+//        expandableListView = (ExpandableListView) findViewById(R.id.navigation_view_encuesta);
 
-        toogle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
-        drawerLayout.addDrawerListener(toogle);
-        toogle.syncState();
+//        toogle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+//        drawerLayout.addDrawerListener(toogle);
+//        toogle.syncState();
 
         fragmentInicial = new FragmentInicial2();
         fragmentList = new FragmentList();
@@ -140,12 +149,31 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
         textViewEncuesta.setSingleLine(true);
         textViewEncuesta.setSelected(true);
 
+//        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
         startThree();
 
         if (checkPermission()) {
             evaluador(bundle);
         } else {
             requestPermissions();
+        }
+    }
+
+    public void cargarOpciones(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back); // Establecer un icono personalizado
+            // Cambiar el color del icono de navegación
+            Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arrow_back, null);
+            if (drawable != null) {
+                drawable.setColorFilter(getResources().getColor(R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+                actionBar.setHomeAsUpIndicator(drawable);
+            }
         }
     }
 
@@ -244,8 +272,11 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
                         nIdEncuesta = new IdEncuesta(idAsignacion, correlativo, Parametros.ID_PREG_PERSONAS, 1);
                         nBundle = new Bundle();
                         nBundle.putIntArray("IdEncuesta", nIdEncuesta.toArray());
+
+                        transaction = getSupportFragmentManager().beginTransaction();
                         fragmentList.setArguments(nBundle);
-                        getSupportFragmentManager().beginTransaction().add(R.id.contenedor_fragments, fragmentList).commit();
+                        transaction.add(R.id.contenedor_fragments, fragmentList).commit();
+//                        transaction.replace(R.id.contenedor_fragments, fragmentList, TAG_FRAGMET_ENCUESTA).addToBackStack(null).commit();
                         break;
                     case 1:
                         textViewEncuesta.setText(String.valueOf(Informante.getCodigoString(idE.getIdInformante())));
@@ -373,6 +404,7 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
         bundle.putString("mensaje", mensaje.toString());
         idAsignacionMsj = idEncuestaMsj.id_asignacion;
         correlativoMsj = idEncuestaMsj.correlativo;
+        idPreguntaMsj = idEncuestaMsj.id_pregunta;
 
         switch (tipo) {
             case 1:
@@ -417,8 +449,8 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
     }
 
     public void finBucle(){
-        Log.d("FINBUCLE", idInformante.id_asignacion +" - "+idInformante.correlativo +" - "+ Parametros.ID_PREG_MORTALIDAD);
-        enviarDatos(new IdEncuesta(idInformante.id_asignacion,idInformante.correlativo, Parametros.ID_PREG_MORTALIDAD, 1), 3, false);
+        Log.d("FINBUCLE", idAsignacionMsj +" - "+correlativoMsj +" - "+ idPreguntaMsj);
+        enviarDatos(new IdEncuesta(idAsignacionMsj,correlativoMsj, idPreguntaMsj, 1), 3, false);
     }
 
     @Override
@@ -440,75 +472,75 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
 //    }
     }
 
-    private void setupDrawer() {
-        toogle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                //getSupportActionBar().setTitle("EDMTDev");
-                invalidateOptionsMenu();
-            }
+//    private void setupDrawer() {
+//        toogle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close) {
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//                //getSupportActionBar().setTitle("EDMTDev");
+//                invalidateOptionsMenu();
+//            }
+//
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                super.onDrawerClosed(drawerView);
+//                //getSupportActionBar().setTitle(mActivityTitle);
+//                invalidateOptionsMenu();
+//            }
+//        };
+//        toogle.setDrawerIndicatorEnabled(true);
+//        drawerLayout.setDrawerListener(toogle);
+//
+//    }
 
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                //getSupportActionBar().setTitle(mActivityTitle);
-                invalidateOptionsMenu();
-            }
-        };
-        toogle.setDrawerIndicatorEnabled(true);
-        drawerLayout.setDrawerListener(toogle);
-
-    }
-
-    private void addDrawersItem() {
-        adapter = new CustomExpandableListAdapter(this, lstTitle, lstChild);
-        expandableListView.setAdapter(adapter);
-        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-                Toast.makeText(EncuestaActivity2.this, items[i], Toast.LENGTH_LONG).show();
-                return false;
-            }
-        });
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                getSupportActionBar().setTitle(lstTitle.get(groupPosition).toString());
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }
-
-        });
-        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                getSupportActionBar().setTitle("EDMTDev");
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }
-        });
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//            getSupportActionBar().setHomeButtonEnabled(false);
-        }
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                String selectedItem = ((List) (lstChild.get(lstTitle.get(groupPosition))))
-                        .get(childPosition).toString();
-                getSupportActionBar().setTitle(selectedItem);
-                Toast.makeText(getApplicationContext(), (CharSequence) lstTitle,Toast.LENGTH_LONG).show();
-
-//                if(items[0].equals((lstTitle.get(groupPosition))))
-//                    navigationManager.showFragment(selectedItem);
-//                else
-//                    throw new IllegalArgumentException("Fragmento no soportado");
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return false;
-
-
-            }
-        });
-    }
+//    private void addDrawersItem() {
+//        adapter = new CustomExpandableListAdapter(this, lstTitle, lstChild);
+//        expandableListView.setAdapter(adapter);
+//        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+//            @Override
+//            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+//                Toast.makeText(EncuestaActivity2.this, items[i], Toast.LENGTH_LONG).show();
+//                return false;
+//            }
+//        });
+//        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+//            @Override
+//            public void onGroupExpand(int groupPosition) {
+//                getSupportActionBar().setTitle(lstTitle.get(groupPosition).toString());
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//            }
+//
+//        });
+//        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+//            @Override
+//            public void onGroupCollapse(int groupPosition) {
+//                getSupportActionBar().setTitle("EDMTDev");
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//            }
+//        });
+//        if (getSupportActionBar() != null) {
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+////            getSupportActionBar().setHomeButtonEnabled(false);
+//        }
+//        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+//            @Override
+//            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+//                String selectedItem = ((List) (lstChild.get(lstTitle.get(groupPosition))))
+//                        .get(childPosition).toString();
+//                getSupportActionBar().setTitle(selectedItem);
+//                Toast.makeText(getApplicationContext(), (CharSequence) lstTitle,Toast.LENGTH_LONG).show();
+//
+////                if(items[0].equals((lstTitle.get(groupPosition))))
+////                    navigationManager.showFragment(selectedItem);
+////                else
+////                    throw new IllegalArgumentException("Fragmento no soportado");
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//                return false;
+//
+//
+//            }
+//        });
+//    }
 
     @Override
     protected void onStop() {
@@ -563,7 +595,6 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
 
     @Override
     public void onBackPressed() {
-
         Log.d("onbackM", String.valueOf(getSupportFragmentManager().getFragments()));
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             try {
@@ -585,7 +616,7 @@ public class EncuestaActivity2 extends ActionBarActivityProcess implements View.
 ////            irListadoViviendas(Upm.getIdUpm(idInformante.id_asignacion));
 ////                }else{
             Log.d("REVISION_VIP2", String.valueOf(Upm.getIdUpm(idEncuesta.id_asignacion)));
-            irInformante(Upm.getIdUpm(idEncuesta.id_asignacion), 0);
+            irInformante(Upm.getIdUpm(idEncuesta.id_asignacion), 0, 1000);
 ////
 ////                }
             finish();

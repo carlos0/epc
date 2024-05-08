@@ -65,22 +65,19 @@
             android:name="bo.gob.ine.naci.epc.MainActivity"
             android:hardwareAccelerated="true"
             android:label="@string/app_name"
-            android:screenOrientation="sensorPortrait"
-            android:fitsSystemWindows="true"/>
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name="bo.gob.ine.naci.epc.EncuestaInicialActivity"
             android:label="@string/title_activity_encuesta_inicial_nivel_1"
             android:screenOrientation="sensorPortrait" />
         <activity
             android:name="bo.gob.ine.naci.epc.EncuestaActivity"
-            android:fitsSystemWindows="true"
             android:label="@string/title_activity_encuesta"
             android:screenOrientation="portrait"
             android:hardwareAccelerated="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="bo.gob.ine.naci.epc.EncuestaActivity2"
-            android:fitsSystemWindows="true"
             android:label="@string/title_activity_encuesta"
             android:screenOrientation="sensorPortrait"
             android:hardwareAccelerated="true"

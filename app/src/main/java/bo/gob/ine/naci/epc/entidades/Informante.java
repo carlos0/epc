@@ -118,7 +118,7 @@ public class Informante extends EntidadCorr {
 //            if (flag) {
 //                query = "UPDATE enc_informante SET estado = 'CONCLUIDO' WHERE id_asignacion = " + get_id_informante().id_asignacion + " AND correlativo = " + get_id_informante().correlativo;
 //            } else {
-            query = "UPDATE enc_informante SET estado = 'PRECONCLUIDO' WHERE id_asignacion = " + get_id_informante().id_asignacion + " AND correlativo = " + get_id_informante().correlativo +" AND id_nivel=3";
+            query = "UPDATE enc_informante SET estado = 'CONCLUIDO' WHERE id_asignacion = " + get_id_informante().id_asignacion + " AND correlativo = " + get_id_informante().correlativo +" AND id_nivel=3";
 //            }
             conn.execSQL(query);
             conn.setTransactionSuccessful();
@@ -934,7 +934,7 @@ public class Informante extends EntidadCorr {
                 "FROM enc_informante i\n" +
                 "WHERE i.estado <> 'ANULADO'\n" +
                 "AND i.estado <> 'INHABILITADO'\n" +
-                "AND i.estado <> 'CONCLUIDO'\n" +
+//                "AND i.estado <> 'CONCLUIDO'\n" +
                 "AND i.id_nivel = " + idNivel + "\n" +
                 "AND i.id_upm = " + idUpm + "\n" +
                 condicionUpm.toString()+
@@ -983,7 +983,7 @@ public class Informante extends EntidadCorr {
         Cursor cursor = null;
 
         String nombre = "(SELECT e.respuesta FROM enc_encuesta e WHERE e.id_asignacion = i.id_asignacion AND e.correlativo = i.correlativo AND id_pregunta IN (18581) AND e.visible in ('t','true'))";
-        String edad = "(SELECT e.respuesta FROM enc_encuesta e WHERE e.id_asignacion = i.id_asignacion AND e.correlativo = i.correlativo AND id_pregunta IN (18173) AND e.visible in ('t','true'))";
+        String edad = "(SELECT e.codigo_respuesta FROM enc_encuesta e WHERE e.id_asignacion = i.id_asignacion AND e.correlativo = i.correlativo AND id_pregunta IN (18173) AND e.visible in ('t','true'))";
         String genero = "(SELECT e.codigo_respuesta FROM enc_encuesta e WHERE e.id_asignacion = i.id_asignacion AND e.correlativo = i.correlativo AND id_pregunta IN (18172) AND e.visible in ('t','true'))";
 //        String nombre = "(SELECT e.respuesta FROM enc_encuesta e WHERE e.id_asignacion = i.id_asignacion AND e.correlativo = i.correlativo AND id_pregunta IN (18581))";
 //        String edad = "(SELECT e.respuesta FROM enc_encuesta e WHERE e.id_asignacion = i.id_asignacion AND e.correlativo = i.correlativo AND id_pregunta IN (18173))";

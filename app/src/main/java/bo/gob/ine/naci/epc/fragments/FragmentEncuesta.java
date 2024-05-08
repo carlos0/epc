@@ -70,6 +70,7 @@ import bo.gob.ine.naci.epc.BoletaActivity;
 import bo.gob.ine.naci.epc.MyApplication;
 import bo.gob.ine.naci.epc.R;
 import bo.gob.ine.naci.epc.adaptadores.IComunicaFragments2;
+import bo.gob.ine.naci.epc.adaptadores.TablaMatrizAdapterRecycler;
 import bo.gob.ine.naci.epc.entidades.Asignacion;
 import bo.gob.ine.naci.epc.entidades.EncLog;
 import bo.gob.ine.naci.epc.entidades.Encuesta;
@@ -822,8 +823,8 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
                     break;
                 case "FIN_BUCLE":
                     preguntaActual.setFocus();
-//                    iComunicaFragments.mensaje(3, activity, "finBucle", null, titleMsj, Html.fromHtml("Terminaste los datos de la persona"), new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, Parametros.ID_PREG_MORTALIDAD, fila));
-                    iComunicaFragments.enviarDatos(new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo,Parametros.ID_PREG_MORTALIDAD, fila), 3, false);
+                    iComunicaFragments.mensaje(3, activity, "finBucle", null, "FIN_REGISTRO", Html.fromHtml("¿Finalizar el registro?'"), new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo, Parametros.ID_PREG_MORTALIDAD, fila));
+//                    iComunicaFragments.enviarDatos(new IdEncuesta(idInformante.id_asignacion, idInformante.correlativo,Parametros.ID_PREG_MORTALIDAD, fila), 3, false);
                     progressDialog.dismiss();
                     break;
                 case "FIN_BOLETA":
@@ -1226,6 +1227,17 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
                         mostrarSeccion = false;
                     }
 
+                    Map<String, String> thisRespuesta1 = preguntaRespuesta.get(pregunta.get_id_pregunta());
+                    if (thisRespuesta1 != null) {
+                        String respuesta = thisRespuesta1.get("observacion");
+                        if(respuesta != null && respuesta.length() > 4){
+                            Log.d("observacion", thisRespuesta1.get("observacion"));
+                            obs=thisRespuesta1.get("observacion");
+                        }else{
+                            obs="";
+                        }
+                    }
+
                     Map<Integer, String> omision;
                     String preOmision = pregunta.get_omision();
                     if (preOmision != null && !preOmision.equals("null") && !preOmision.equals("")) {
@@ -1545,7 +1557,12 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
 //                    botones.setLayoutParams(layoutParams);
 
                     ImageButton button = new ImageButton(getContext());
-                    button.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_note));
+                    if(obs!= null && obs.length()>4){
+                        button.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_note_select));
+                    }else {
+                        button.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_note));
+                    }
+//                    button.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_note));
                     button.setBackground(null);
                     button.setTag(pregunti.getId());
                     button.setOnClickListener(new View.OnClickListener() {
@@ -2017,6 +2034,16 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
         }
     }
 
+    public static void descartar(IdEncuesta idEncuesta) {
+        Encuesta.borrarFilaBucle(idEncuesta);
+//        try{
+//            informante.reordenar(idInformante);
+//        }catch (Exception ee){
+//            ee.printStackTrace();
+//        }
+//        iComunicaFragments.enviarDatos(new IdEncuesta(idEncuesta.id_asignacion, idEncuesta.correlativo,Parametros.ID_PREG_MORTALIDAD, 1), 3, false);
+    }
+
     public void observationMessageEnc(final Activity activity, final Context context, final String method, String titulo, Spanned mensaje, String obsText, int idObs) {
 //        LayoutInflater inflater = (LayoutInflater)activity.getLayoutInflater();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -2122,7 +2149,5 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
 
 //        iComunicaFragments.enviarDatos(idPadre, new IdEncuesta(idPadre.id_asignacion,idPadre.correlativo,18581), 2, idNivel, idSeccion, idPadre, 2);
     }
-
-
 
 }

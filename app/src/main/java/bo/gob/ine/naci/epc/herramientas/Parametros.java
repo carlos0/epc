@@ -27,7 +27,7 @@ public class Parametros {
     public static final String SERVICIO_PROYECTO = "postcensal";
 
     public static final String SIGLA_PROYECTO = "epc";
-    public static final String VERSION = "1.01";
+    public static final String VERSION = "1.03";
 
     public static final String BLOCK_CHARACTER_SET = "~^|$'´¨[]{}°%*!";
     public static boolean FORZAR_ACTIVACION_GPS = true;
@@ -90,7 +90,7 @@ public class Parametros {
 //    public static int ID_INCIDENCIA_FINAL = 2173;
 
 
-    public static int ID_INCIDENCIA_FINAL = 99999;
+    public static int ID_INCIDENCIA_FINAL = 18721;
     public static int ID_NOMBRE_PERSONAS  = 18581;
     public static int ID_EDAD_PERSONAS  = 18173;
     public static int ID_PREGUNTA_INCIDENCIA_LV  = 14328;
@@ -98,6 +98,8 @@ public class Parametros {
     public static int ID_MANZANA_COMUNIDAD= 20486;
     public static int ID_PREGUNTA_AVENIDA_CALLE= 20488;
     public static int ID_PREGUNTA_COMUNIDAD_MANZANA= 2177;
+
+    public static int ID_PREGUNTA_MUNICIPIO = 36256;
 
     //VARIABLES RESERVADAS
     public static final int ID_SECCION_RESERVADA = 0;
@@ -117,6 +119,7 @@ public class Parametros {
     public static int ID_PREG_MORTALIDAD  = 38202;
 
     public static int ID_PREG_BUCLE  = 38105;
+    public static int ID_PREG_COUNT_BUCLE  = 38104;
 
     public static int ID_PREG_INCIDENCIA  = 36321;
 

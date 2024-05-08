@@ -272,7 +272,6 @@ public class FragmentList extends Fragment {
 
         condicion = Informante.tieneFlujo(idInformante, 18597);
         if(condicion){
-            cardDatosViv.setVisibility(View.GONE);
             cardPersonas.setVisibility(View.GONE);
             buttonPersonas.setVisibility(View.GONE);
             cardHogar.setVisibility(View.GONE);
@@ -1095,7 +1094,6 @@ public class FragmentList extends Fragment {
         }
         cargarListado(activity);
         informante.free();
-
     }
 
     private Map<String,String> cargar() {

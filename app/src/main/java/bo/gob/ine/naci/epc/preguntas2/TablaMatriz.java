@@ -4,6 +4,7 @@ import static com.google.android.material.textfield.TextInputLayout.BOX_BACKGROU
 import static com.google.android.material.textfield.TextInputLayout.END_ICON_NONE;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.text.Editable;
@@ -18,11 +19,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,8 +51,9 @@ import bo.gob.ine.naci.epc.entidades.Informante;
 import bo.gob.ine.naci.epc.fragments.FragmentEncuesta;
 import bo.gob.ine.naci.epc.herramientas.Movil;
 import bo.gob.ine.naci.epc.herramientas.Parametros;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class TablaMatriz extends PreguntaView implements View.OnClickListener {
+public class TablaMatriz extends PreguntaView implements View.OnClickListener, TablaMatrizAdapterRecycler.OnItemDeleteListener  {
 //    protected TextInputLayout contenedor;
 //    protected TextInputEditText textbox;
     protected ImageButton btnNext;
@@ -135,6 +139,7 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
         cargarListado();
 
         btnAdd = new ImageButton(getContext());
+        btnAdd.setFocusable(true);
         btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_person));
         btnAdd.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         btnAdd.setBackground(null);
@@ -142,9 +147,28 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
             @Override
             public void onClick(View view) {
 //                FragmentEncuesta fragmentEncuesta = new FragmentEncuesta();
-                fila = Encuesta.ultimaFilaBucle(new IdInformante(idAsignacion,correlativo), Parametros.ID_PREG_BUCLE);
-                Log.d("FILA", String.valueOf(fila));
-                FragmentEncuesta.dibujaTablaMatriz(fila + 1);
+                int contador = Integer.parseInt(Encuesta.obtenerValorId(new IdInformante(idAsignacion, correlativo), String.valueOf(Parametros.ID_PREG_COUNT_BUCLE)));
+                int countFila = Encuesta.cuentaFilaBucle(new IdInformante(idAsignacion,correlativo), Parametros.ID_PREG_BUCLE);
+                if(countFila < contador) {
+                    fila = Encuesta.ultimaFilaBucle(new IdInformante(idAsignacion, correlativo), Parametros.ID_PREG_BUCLE);
+                    Log.d("FILA", String.valueOf(fila));
+                    FragmentEncuesta.dibujaTablaMatriz(fila + 1);
+                } else {
+                    SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE);
+                    sweetAlertDialog.setTitleText("Error");
+                    sweetAlertDialog.setContentText("No puedo crear mas personas que el número declarado en la pregunta anterior");
+                    sweetAlertDialog.setCancelable(false);
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+                    sweetAlertDialog.show();
+
+                    Button buttonConfirm = sweetAlertDialog.findViewById(R.id.confirm_button);
+                    buttonConfirm.setLayoutParams(layoutParamsButton);
+                }
             }
         });
 
@@ -205,7 +229,7 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
             valores = encuesta.obtenerListadoTablaMatriz(idAsignacion, correlativo, id);
 
             adapter = new TablaMatrizAdapterRecycler(context, valores);
-
+            adapter.setOnItemDeleteListener(this);
             adapter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -271,6 +295,7 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
         if (buttonsActive != null) {
             buttons.requestFocus();
         } else {
+            btnAdd.requestFocus();
         }
     }
 
@@ -339,4 +364,30 @@ public class TablaMatriz extends PreguntaView implements View.OnClickListener {
     }
 
 
+    @Override
+    public void onDeleteItem(int position, int idAsig, int corr, int fil) {
+        showDeleteConfirmationDialog(position, idAsig, corr, fil);
+
+    }
+
+    private void showDeleteConfirmationDialog(final int position, final int idAsig, final int corr,final int fil) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Confirmación de Eliminación")
+                .setMessage("¿Estás seguro de eliminar este elemento?")
+                .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FragmentEncuesta.descartar(new IdEncuesta(idAsig, corr, 0, fil));
+                        valores.remove(position);
+                        adapter.notifyItemRemoved(position);
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
 }

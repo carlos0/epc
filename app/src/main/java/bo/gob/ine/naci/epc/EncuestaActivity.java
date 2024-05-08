@@ -136,8 +136,6 @@ public class EncuestaActivity extends ActionBarActivityProcess implements View.O
         drawerLayout.addDrawerListener(toogle);
         toogle.syncState();
 
-        ringProgressBar=(RingProgressBar)findViewById(R.id.progress_bar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fragmentInicial = new FragmentInicial();
@@ -244,7 +242,7 @@ public class EncuestaActivity extends ActionBarActivityProcess implements View.O
                     break;
                 default:
                     textViewEncuesta.setText("Boleta");
-                    irInformante(Asignacion.getUpm(informante.id_asignacion),idUpmHijo);
+                    irInformante(Asignacion.getUpm(informante.id_asignacion),idUpmHijo, 909);
                     break;
             }
         }
@@ -518,7 +516,7 @@ public void onBackPressed() {
                 if (idNivel == Parametros.LV_VIVIENDAS || idNivel == Parametros.LV_CABECERA) {
             irListadoViviendas(Upm.getIdUpm(idInformante.id_asignacion));
                 }else{
-                    irInformante(Upm.getIdUpm(idInformante.id_asignacion),idUpmHijo);
+                    irInformante(Upm.getIdUpm(idInformante.id_asignacion),idUpmHijo, 909);
 
                 }
         finish();

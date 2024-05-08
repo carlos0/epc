@@ -5,19 +5,24 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import bo.gob.ine.naci.epc.entidades.Estado;
 import bo.gob.ine.naci.epc.fragments.FragmentEncuesta;
 
 
 /**
- * Created by INE.
+ * Created by Alberto Daniel Inch Sáinz on 20/09/2015.
+ * albertoinch@gmail.com
  */
 public class HoraMinuto extends PreguntaView {
     DatePickerDialog recogerFecha;
@@ -50,7 +55,6 @@ public class HoraMinuto extends PreguntaView {
         this.posicion = posicion;
         this.idSeccion = idSeccion;
         this.evaluar = evaluar;
-
         calendar = Calendar.getInstance();
 
         hora = calendar.get(Calendar.HOUR_OF_DAY);
@@ -59,7 +63,7 @@ public class HoraMinuto extends PreguntaView {
         tiempo = new TextView(context);
         tiempo.setText("Presione para seleccionar la hora");
         tiempo.setTextAlignment(TEXT_ALIGNMENT_CENTER);
-        tiempo.setOnClickListener(new OnClickListener() {
+        tiempo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -74,7 +78,7 @@ public class HoraMinuto extends PreguntaView {
 //                    obtenerFecha();
 //                }
                 if(evaluar) {
-                    FragmentEncuesta.ejecucion(context, id, posicion, "");
+                    FragmentEncuesta.actualiza(id);
                 }
             }
         });
