@@ -1428,16 +1428,17 @@ try{
                         botonGuardar.setEnabled(true);
                         return;
                     } else {
-                        predio = pregs[2].getCodResp();
+                        predio = pregs[2].getResp();
                         vivienda = pregs[4].getCodResp();
                         codigo = codigo + "-" + predio + "-" + vivienda;
                     }
-//                    if (Informante.exists(codigo, idInformante)) {
-//                        informante.free();
-//                        mensaje.errorMessage(getContext(), null, "Error!", Html.fromHtml("El folio ya existe."), Parametros.FONT_OBS);
-//                        botonGuardar.setEnabled(true);
-//                        return;
-//                    }
+                    Log.d("FOLIO", codigo);
+                    if (Informante.exists(codigo, idInformante)) {
+                        informante.free();
+                        mensaje.errorMessage(getContext(), null, "Error!", Html.fromHtml("El folio ya existe."), Parametros.FONT_OBS);
+                        botonGuardar.setEnabled(true);
+                        return;
+                    }
                 } else { // CODIGO PARA NIVEL 2
                     if (flag) {
                         if (idNivel == 1) {

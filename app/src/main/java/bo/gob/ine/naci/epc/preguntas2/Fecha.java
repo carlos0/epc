@@ -153,7 +153,7 @@ public class Fecha extends PreguntaView implements View.OnClickListener {
                     Calendar calendar = Calendar.getInstance();
                     Date date = calendar.getTime();
 
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yy/mm/dd", Locale.getDefault());
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                     String fechaActual = dateFormat.format(date);
                     fecha.setText(fechaActual);
 

@@ -1033,7 +1033,7 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
             }
         } else {
             if (idSiguiente.idSiguiente == -2) {
-                if (Integer.valueOf(idEncuesta.id_pregunta) == 99999) {
+                if (Integer.valueOf(idEncuesta.id_pregunta) == 36417) {
                     String message = informante.concluir(tCodPreg);
                     titleMsj = "FIN_BOLETA";
                     msj = Html.fromHtml("");
@@ -1801,7 +1801,11 @@ public class FragmentEncuesta extends Fragment implements View.OnTouchListener {
                 nuevoValor = nuevoValor.replace("PERSONA15", "0");
             }
         }
-
+        //CUANDO EVALUAMOS DE QUE EXISTA RESPUESTA
+        if(nuevoValor.contains("null==null")) {
+            nuevoValor = nuevoValor.replace("null==null", "1==0");
+        }
+        nuevoValor = nuevoValor.replace("==null", ">=0");
         //EXPRESIONES GENERALES
         nuevoValor = nuevoValor.replace("~", "==");
         nuevoValor = nuevoValor.replace("!(", "NOT(");

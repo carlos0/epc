@@ -272,6 +272,7 @@ public class FragmentList extends Fragment {
 
         condicion = Informante.tieneFlujo(idInformante, 18597);
         if(condicion){
+            scrollPersona.setVisibility(View.GONE);
             cardPersonas.setVisibility(View.GONE);
             buttonPersonas.setVisibility(View.GONE);
             cardHogar.setVisibility(View.GONE);

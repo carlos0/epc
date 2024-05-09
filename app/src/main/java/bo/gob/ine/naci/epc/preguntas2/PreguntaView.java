@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.text.Html;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -158,7 +159,7 @@ public abstract class PreguntaView extends LinearLayout {
             this.idSeccion = idSeccion;
             this.cod = cod;
             this.preg = preg;
-            this.ayuda = (ayuda == "") ? null : ayuda;
+            this.ayuda = ayuda == null ? ayuda : ((ayuda == "" || ayuda.equals("null")) ? null : ayuda);
             this.obsPreg = obs;
             observacion = "";
             estado = Estado.INSERTADO;
@@ -197,7 +198,8 @@ public abstract class PreguntaView extends LinearLayout {
             botones.setOrientation(LinearLayout.HORIZONTAL);
             botones.setLayoutParams(layoutParams_btn);
 
-            if (ayuda != null) {
+            if (this.ayuda != null) {
+                Log.d("INFO3", ayuda);
                 btnAyuda = new ImageButton(context);
                 btnAyuda.setImageDrawable(getResources().getDrawable(R.drawable.ic_info_outline_black_24dp));
                 btnAyuda.setBackground(null);

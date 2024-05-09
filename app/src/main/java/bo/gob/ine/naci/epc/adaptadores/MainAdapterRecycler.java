@@ -38,8 +38,11 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -88,11 +91,10 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         final Map<String, Object> objView = dataView.get(position);
-//        vi.setId((int) objView.get("id_upm"));
 
-//        if(comparaFechas((Long) objView.get("fecinicio"))) {
-//            holder.contenedor_adapter_main.setBackground(getContext().getResources().getDrawable(R.drawable.list_encuesta_activity_bg3));
-//        }
+        if(comparaFechas((Long) objView.get("fecinicio"))) {
+            holder.contenedor_adapter_main.setBackground(getContext().getResources().getDrawable(R.drawable.list_encuesta_activity_bg3));
+        }
 
         holder.main_codigo.setTextSize(Parametros.FONT_LIST_BIG);
         holder.main_codigo.setText(objView.get("codigo").toString());
@@ -414,25 +416,27 @@ public class MainAdapterRecycler extends RecyclerView.Adapter<MainAdapterRecycle
         listView.requestLayout();
     }
 
-    private boolean comparaFechas(long tiempo1){
-        boolean res;
+    private boolean comparaFechas(long fecha){
+        boolean res = false;
+        String fechaAsignacion = Movil.dateExtractor(fecha).split(",")[0];
+        String fechaActual = Movil.dateExtractor(System.currentTimeMillis() / 1000).split(",")[0];
 
-        long tiempo2 = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-        Calendar cal1 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal1.setTimeInMillis(tiempo1 * 1000 + 14400000);
-        Calendar cal2 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal2.setTimeInMillis(tiempo2 * 1000 + 14400000);
+        try {
+            Log.d("COMPARAFECHA", fechaAsignacion);
+            Log.d("COMPARAFECHA2", fechaActual);
+            Date fecha1 = sdf.parse(fechaAsignacion);
+            Date fecha2 = sdf.parse(fechaActual);
+            Log.d("COMPARAFECHA3", String.valueOf(fecha1));
+            Log.d("COMPARAFECHA4", String.valueOf(fecha2));
+            if (fecha1.equals(fecha2))
+                res = true;
 
-// Verificar si ambos tiempos tienen el mismo día, mes y año
-        if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
-                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)) {
-            System.out.println("Ambos tiempos tienen el mismo día.");
-            res = true;
-        } else {
-            System.out.println("Los tiempos tienen días diferentes.");
-            res = false;
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
+
         return res;
     }
 }
